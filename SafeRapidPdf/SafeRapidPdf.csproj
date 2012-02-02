@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F001A884-07F4-4C8D-B014-D958376B79AC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SafeRapidPdf</RootNamespace>
+    <AssemblyName>SafeRapidPdf</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Chars\Test.cs" />
+    <Compile Include="IPdfParser.cs" />
+    <Compile Include="Pdf\Page.cs" />
+    <Compile Include="Primitives\PdfArray.cs" />
+    <Compile Include="Primitives\PdfBoolean.cs" />
+    <Compile Include="Primitives\PdfComment.cs" />
+    <Compile Include="Primitives\PdfDictionary.cs" />
+    <Compile Include="Pdf\Document.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Primitives\PdfHexadecimalString.cs" />
+    <Compile Include="Primitives\PdfIndirectObject.cs" />
+    <Compile Include="Primitives\PdfIndirectReference.cs" />
+    <Compile Include="Primitives\PdfLiteralString.cs" />
+    <Compile Include="Primitives\PdfName.cs" />
+    <Compile Include="Primitives\PdfNumeric.cs" />
+    <Compile Include="Primitives\PdfObject.cs" />
+    <Compile Include="Primitives\PdfStream.cs" />
+    <Compile Include="Primitives\PdfString.cs" />
+    <Compile Include="Primitives\PdfTrailer.cs" />
+    <Compile Include="Primitives\PdfXRef.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
