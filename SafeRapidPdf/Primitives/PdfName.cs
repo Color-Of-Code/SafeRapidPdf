@@ -7,7 +7,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfName : PdfObject
 	{
-		public PdfName(IPdfParser parser)
+		public PdfName(IFileStructureParser parser)
 		{
 			Object = parser.ReadToken();
 		}

@@ -41,14 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chars\Test.cs" />
-    <Compile Include="IPdfParser.cs" />
+    <Compile Include="IFileStructureParser.cs" />
+    <Compile Include="Pdf\Catalog.cs" />
+    <Compile Include="Pdf\Document.cs" />
     <Compile Include="Pdf\Page.cs" />
+    <Compile Include="Pdf\Trailer.cs" />
     <Compile Include="Primitives\PdfArray.cs" />
     <Compile Include="Primitives\PdfBoolean.cs" />
     <Compile Include="Primitives\PdfComment.cs" />
     <Compile Include="Primitives\PdfDictionary.cs" />
-    <Compile Include="Pdf\Document.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="Pdf\FileStructure.cs" />
+    <Compile Include="FileStructureParser.cs" />
     <Compile Include="Primitives\PdfHexadecimalString.cs" />
     <Compile Include="Primitives\PdfIndirectObject.cs" />
     <Compile Include="Primitives\PdfIndirectReference.cs" />

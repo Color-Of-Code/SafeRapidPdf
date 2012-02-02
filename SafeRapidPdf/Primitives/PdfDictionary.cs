@@ -11,7 +11,7 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfDictionary : PdfObject
     {
-        public PdfDictionary(IPdfParser parser)
+        public PdfDictionary(IFileStructureParser parser)
         {
 			IsContainer = true;
 			Object = new Dictionary<string, PdfObject>();

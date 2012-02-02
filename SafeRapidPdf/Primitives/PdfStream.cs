@@ -7,7 +7,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfStream : PdfObject
 	{
-		public PdfStream(PdfDictionary dictionary, IPdfParser parser)
+		public PdfStream(PdfDictionary dictionary, IFileStructureParser parser)
 		{
 			if (dictionary == null)
 				throw new Exception("Parser error: stream needs a dictionary");

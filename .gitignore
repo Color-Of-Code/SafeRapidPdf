@@ -1,0 +1,6 @@
+
+*.suo
+/PdfStructureViewer/bin
+/PdfStructureViewer/obj
+/SafeRapidPdf/obj
+/SafeRapidPdf/bin

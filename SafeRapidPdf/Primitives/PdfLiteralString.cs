@@ -13,7 +13,7 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfLiteralString : PdfString
 	{
-		public PdfLiteralString(IPdfParser parser)
+		public PdfLiteralString(IFileStructureParser parser)
 		{
 			int parenthesisCount = 0;
 			StringBuilder sb = new StringBuilder();

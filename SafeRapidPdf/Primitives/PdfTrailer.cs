@@ -7,7 +7,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfTrailer : PdfObject
 	{
-		public PdfTrailer(IPdfParser parser)
+		public PdfTrailer(IFileStructureParser parser)
 		{
 			Object = parser.ReadPdfObject();
 		}

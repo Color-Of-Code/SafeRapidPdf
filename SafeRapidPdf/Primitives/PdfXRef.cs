@@ -7,7 +7,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfXRef : PdfObject
 	{
-		public PdfXRef(IPdfParser parser)
+		public PdfXRef(IFileStructureParser parser)
 		{
 			int firstid = int.Parse(parser.ReadToken());
 			int size = int.Parse(parser.ReadToken());

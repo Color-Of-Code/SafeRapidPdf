@@ -9,9 +9,9 @@ namespace SafeRapidPdf
 {
 	using SafeRapidPdf.Primitives;
 
-	public class Parser : IPdfParser
+	public class FileStructureParser : IFileStructureParser
 	{
-		public Parser(String path)
+		public FileStructureParser(String path)
 		{
 			_path = path;
 		}
@@ -20,7 +20,7 @@ namespace SafeRapidPdf
 		private String _path;
 		private PdfXRef _xref;
 
-		public Pdf.Document Parse()
+		public Pdf.FileStructure Parse()
 		{
 			using (_reader = File.Open(_path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
@@ -61,7 +61,7 @@ namespace SafeRapidPdf
 						}
 					}
 				}
-				return new Pdf.Document(comment.Text, objects.AsReadOnly()); ;
+				return new Pdf.FileStructure(objects.AsReadOnly()); ;
 			}
 		}
 

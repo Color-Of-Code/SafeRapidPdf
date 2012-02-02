@@ -5,13 +5,13 @@ using System.Text;
 
 namespace SafeRapidPdf
 {
-	public interface IPdfParser
+	public interface IFileStructureParser
 	{
 		/// <summary>
 		/// Parse the document
 		/// </summary>
 		/// <returns></returns>
-		Pdf.Document Parse();
+		Pdf.FileStructure Parse();
 
 		/// <summary>
 		/// Read next PDF object in the stream

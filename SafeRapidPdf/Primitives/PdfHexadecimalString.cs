@@ -7,7 +7,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfHexadecimalString : PdfString
 	{
-		public PdfHexadecimalString(IPdfParser parser)
+		public PdfHexadecimalString(IFileStructureParser parser)
 		{
 			String token = parser.ReadToken();
 			Object = token;

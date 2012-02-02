@@ -8,7 +8,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfArray : PdfObject
 	{
-		public PdfArray(IPdfParser parser)
+		public PdfArray(IFileStructureParser parser)
 		{
 			IsContainer = true;
 			var list = new List<PdfObject>();
