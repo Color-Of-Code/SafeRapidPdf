@@ -24,36 +24,38 @@ This library is not intended for following purposes:
 This library attempts to provide a quick and yet reliable parser for PDF files. It focusses
 on an integral parsing of the whole PDF into its primitive objects.
 
- - Strings
- - Numeric values
- - Booleans
- - Streams
- - Arrays
- - Dictionaries
- - Indirect Objects
- - Indirect References
- - Cross Reference sections
+* Strings
+* Numeric values
+* Booleans
+* Streams
+* Arrays
+* Dictionaries
+* Indirect Objects
+* Indirect References
+* Cross Reference sections
 
 ## Document structure
 
 The interpretation layer allows then a decomposition into pages and images among other
 high level objects.
 
- - Cross reference table
- - Root
- - Pages
- - Graphics
- - Text
- - Fonts
+* Cross reference table
+* Root
+* Pages
+* Graphics
+* Text
+* Fonts
  
 The library is not interested in rendering the PDF only the informative parts will be
 extracted such as the position and size of text and graphics for example.
 
 ## Online resources
 
- - [The PDF format](http://en.wikipedia.org/wiki/Portable_Document_Format)
- - [pdf-parser] (http://blog.didierstevens.com/programs/pdf-tools/)
+ - Wikipedia explanations on [the PDF format](http://en.wikipedia.org/wiki/Portable_Document_Format)
+ - A python library with similar goals:[pdf-parser] (http://blog.didierstevens.com/programs/pdf-tools/)
 
+It is recommended to read the specification of the PDF language 1.7 for a deeper insight.
+ 
 ## Authors
 
 The SafeRapidPdf contributors:
@@ -62,4 +64,4 @@ The SafeRapidPdf contributors:
 
 ## License
 
-The MIT license (Refer to the [LICENSE.md](https://github.com/jdehaan/SafeRapidPdf/LICENSE.md) file)
+The MIT license (Refer to the [LICENSE.md](https://github.com/jdehaan/SafeRapidPdf/blob/master/LICENSE.md) file)
