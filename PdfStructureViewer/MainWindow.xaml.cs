@@ -30,8 +30,7 @@ namespace PdfStructureViewer {
 			// Hack for testing purposes...
 			if (fileView.FileStructure == null)
 			{
-				var parser = new FileStructureParser("test.pdf");
-				FileStructure file = parser.Parse();
+				var file = FileStructure.Parse("test.pdf");
 				fileView.FileStructure = file;
 			}
 		}

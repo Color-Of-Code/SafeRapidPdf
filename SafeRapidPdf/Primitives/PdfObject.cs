@@ -35,7 +35,7 @@ namespace SafeRapidPdf.Primitives
 					obj = new PdfIndirectObject(lexer);
 					break;
 				case "R":
-					obj = new PdfIndirectReference(lexer);
+					obj = new PdfIndirectReference(lexer, lexer.IndirectReferenceResolver);
 					break;
 				case "<<":
 					obj = new PdfDictionary(lexer);

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SafeRapidPdf.Lexical
 {
-	public interface ILexer : IIndirectReferenceResolver
+	public interface ILexer
 	{
 		/// <summary>
 		/// Read next token
@@ -48,5 +48,14 @@ namespace SafeRapidPdf.Lexical
 		/// </summary>
 		/// <returns></returns>
 		char ReadChar();
+
+		/// <summary>
+		/// Retrieve objects directly using this interface
+		/// </summary>
+		IIndirectReferenceResolver IndirectReferenceResolver { get; }
+
+		void PushPosition(long newPosition);
+
+		void PopPosition();
 	}
 }

@@ -26,7 +26,10 @@ namespace SafeRapidPdf.Primitives
 			if (lengthObject is PdfIndirectReference)
 			{
 				PdfIndirectReference reference = lengthObject as PdfIndirectReference;
-				PdfIndirectObject lenobj = lexer.GetObject(reference.ObjectNumber, reference.GenerationNumber);
+				
+				PdfIndirectObject lenobj = lexer.IndirectReferenceResolver
+					.GetObject(reference.ObjectNumber, reference.GenerationNumber);
+
 				PdfNumeric len = lenobj.PdfObject as PdfNumeric;
 				length = int.Parse(len.ToString());
 			}

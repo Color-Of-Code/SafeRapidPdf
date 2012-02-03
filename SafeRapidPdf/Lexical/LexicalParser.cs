@@ -11,12 +11,12 @@ namespace SafeRapidPdf.Lexical
 	/// <summary>
 	/// The lexer
 	/// </summary>
-	public class LexicalParser : ILexer
+	internal class LexicalParser : ILexer
 	{
-		public LexicalParser(Stream stream, IIndirectReferenceResolver resolver)
+		public LexicalParser(Stream stream)
 		{
 			_reader = stream;
-			_resolver = resolver;
+			IndirectReferenceResolver = new ObjectResolver.IndirectReferenceResolver(this);
 		}
 
 		public void Expects(String expectedToken)
@@ -225,12 +225,22 @@ namespace SafeRapidPdf.Lexical
 			Putc();
 		}
 
-		private IIndirectReferenceResolver _resolver;
+		public IIndirectReferenceResolver IndirectReferenceResolver { get; private set; }
 
-		public PdfIndirectObject GetObject(int objectNumber, int generationNumber)
+		private Stack<long> _positions = new Stack<long>();
+
+		public void PushPosition(long newPosition)
 		{
-			return _resolver.GetObject(objectNumber, generationNumber);
+			_positions.Push(_reader.Position);
+			if (newPosition < 0)
+				_reader.Seek(newPosition, SeekOrigin.End);
+			else
+				_reader.Seek(newPosition, SeekOrigin.Begin);
 		}
 
+		public void PopPosition()
+		{
+			_reader.Seek(_positions.Pop(), SeekOrigin.Begin);
+		}
 	}
 }
