@@ -29,7 +29,7 @@ namespace SafeRapidPdf.Primitives
 
 		public override string ToString()
 		{
-			return String.Format("startxref {0}", Numeric);
+			return "startxref";
 		}
 	}
 }
