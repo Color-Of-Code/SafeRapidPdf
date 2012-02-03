@@ -25,10 +25,43 @@ namespace SafeRapidPdf.Primitives
 					parenthesisCount++;
 				else if (c == ')')
 					parenthesisCount--;
-				sb.Append(c);
 				if (c == '\\')
 				{
 					c = lexer.ReadChar();
+					switch (c)
+					{
+						case 'n':
+							sb.Append("\n");
+							break;
+						case 'r':
+							sb.Append("\r");
+							break;
+						case 't':
+							sb.Append("\t");
+							break;
+						case 'f':
+							sb.Append("\f");
+							break;
+						// \b Backspace (BS)
+						case 'b':
+							throw new NotImplementedException("Backspace char parsing");
+
+						case '\\':
+						case ')':
+						case '(':
+							sb.Append(c);
+							break;
+
+						case '\r':
+							break;
+
+						default:
+							// \ddd Character code ddd (octal)
+							throw new NotImplementedException("Octal encoded char parsing");
+					}
+				}
+				else
+				{
 					sb.Append(c);
 				}
 				c = lexer.ReadChar();
@@ -36,11 +69,5 @@ namespace SafeRapidPdf.Primitives
 			_text = sb.ToString();
 		}
 
-		private String _text;
-
-		public override string ToString()
-		{
-			return _text;
-		}
 	}
 }

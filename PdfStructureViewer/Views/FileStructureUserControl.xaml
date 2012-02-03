@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TreeView VirtualizingStackPanel.IsVirtualizing="True" Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}">
+        <TreeView VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
+                  Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type srpp:IPdfObject}">
                     <StackPanel Orientation="Horizontal">
