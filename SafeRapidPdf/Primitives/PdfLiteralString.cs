@@ -13,11 +13,12 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfLiteralString : PdfString
 	{
-		public PdfLiteralString(IFileStructureParser parser)
+		public PdfLiteralString(Lexical.ILexer lexer)
 		{
+			lexer.Expects("(");
 			int parenthesisCount = 0;
 			StringBuilder sb = new StringBuilder();
-			char c = parser.ReadChar();
+			char c = lexer.ReadChar();
 			while (parenthesisCount != 0 || c != ')')
 			{
 				if (c == '(')
@@ -25,9 +26,16 @@ namespace SafeRapidPdf.Primitives
 				else if (c == ')')
 					parenthesisCount--;
 				sb.Append(c);
-				c = parser.ReadChar();
+				if (c == '\\')
+				{
+					c = lexer.ReadChar();
+					sb.Append(c);
+				}
+				c = lexer.ReadChar();
 			}
-			Object = sb.ToString();
+			Text = sb.ToString();
 		}
+
+		public String Text { get; private set; }
 	}
 }

@@ -7,9 +7,13 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfTrailer : PdfObject
 	{
-		public PdfTrailer(IFileStructureParser parser)
+		public PdfTrailer(Lexical.ILexer lexer)
 		{
-			Object = parser.ReadPdfObject();
+			lexer.Expects("trailer");
+			Content = new PdfDictionary(lexer);
 		}
+
+		public PdfDictionary Content { get; private set; }
+
 	}
 }

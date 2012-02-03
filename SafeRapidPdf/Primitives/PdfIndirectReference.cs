@@ -11,11 +11,12 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
     public class PdfIndirectReference : PdfObject
     {
-        public PdfIndirectReference(int objectNumber, int generationNumber)
+        public PdfIndirectReference(Lexical.ILexer lexer)
         {
-            ObjectNumber = objectNumber;
-            GenerationNumber = generationNumber;
-        }
+			ObjectNumber = int.Parse(lexer.ReadToken());
+			GenerationNumber = int.Parse(lexer.ReadToken());
+			lexer.Expects("R");
+		}
 
 		public int ObjectNumber { get; private set; }
 

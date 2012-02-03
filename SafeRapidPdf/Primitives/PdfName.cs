@@ -7,12 +7,13 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfName : PdfObject
 	{
-		public PdfName(IFileStructureParser parser)
+		public PdfName(Lexical.ILexer lexer)
 		{
-			Object = parser.ReadToken();
+			lexer.Expects("/");
+			Text = lexer.ReadToken();
 		}
 
-		public string Text { get { return (string)Object; } }
+		public string Text { get; private set; }
 
 		public override string ToString()
 		{

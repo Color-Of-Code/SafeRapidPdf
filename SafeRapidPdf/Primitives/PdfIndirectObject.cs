@@ -9,27 +9,27 @@ namespace SafeRapidPdf.Primitives
 
     public class PdfIndirectObject : PdfObject
     {
-        public PdfIndirectObject(int objectNumber, int generationNumber, IFileStructureParser parser)
+        public PdfIndirectObject(Lexical.ILexer lexer)
         {
 			IsContainer = true;
 
-			ObjectNumber = objectNumber;
-			GenerationNumber = generationNumber;
+			ObjectNumber = int.Parse(lexer.ReadToken());
+			GenerationNumber = int.Parse(lexer.ReadToken());
 
-			PdfObject refobj = parser.ReadPdfObject();
-			string token = parser.ReadToken();
+			lexer.Expects("obj");
+
+			PdfObject refobj = PdfObject.Parse(lexer);
+			string token = lexer.ReadToken();
 			if (token != "endobj")
 			{
 				if (token != "stream")
 					throw new Exception("Only streams supported here");
-				PdfObject obj2 = parser.ReadPdfObject(token);
-				Object = obj2;
-				token = parser.ReadToken();
-				if (token != "endobj")
-					throw new Exception("Parser error: expected endobj tag");
+				PdfObject obj2 = PdfObject.Parse(lexer);
+				PdfObject = obj2;
+				lexer.Expects("endobj");
 			}
 			else
-				Object = refobj;
+				PdfObject = refobj;
 		}
 
 		public int ObjectNumber { get; private set; }
@@ -37,9 +37,10 @@ namespace SafeRapidPdf.Primitives
 		public int GenerationNumber { get; private set; }
 
 		public PdfObject PdfObject
-        {
-            get { return Object as PdfObject; }
-        }
+		{
+			get;
+			private set;
+		}
 
 		public override string ToString()
 		{

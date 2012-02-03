@@ -7,10 +7,15 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfStream : PdfObject
 	{
-		public PdfStream(PdfDictionary dictionary, IFileStructureParser parser)
+		public PdfStream(PdfDictionary dictionary, Lexical.ILexer lexer)
 		{
+			IsContainer = true;
+
 			if (dictionary == null)
 				throw new Exception("Parser error: stream needs a dictionary");
+
+			lexer.Expects("stream");
+			lexer.SkipEol(); // position to begin of stream data
 
 			PdfObject lengthObject = dictionary["Length"];
 			if (lengthObject == null)
@@ -20,8 +25,8 @@ namespace SafeRapidPdf.Primitives
 			if (lengthObject is PdfIndirectReference)
 			{
 				PdfIndirectReference reference = lengthObject as PdfIndirectReference;
-				PdfIndirectObject lenobj = parser.GetObject(reference.ObjectNumber, reference.GenerationNumber);
-				PdfNumeric len = lenobj.Object as PdfNumeric;
+				PdfIndirectObject lenobj = lexer.GetObject(reference.ObjectNumber, reference.GenerationNumber);
+				PdfNumeric len = lenobj.PdfObject as PdfNumeric;
 				length = int.Parse(len.ToString());
 			}
 			else
@@ -29,15 +34,19 @@ namespace SafeRapidPdf.Primitives
 				length = int.Parse(lengthObject.ToString());
 			}
 
-			Object = parser.ReadBytes(length);
-			String token = parser.ReadToken();
-			if (token != "endstream")
-				throw new Exception("Parser error: endstream tag expected");
+			Data = lexer.ReadBytes(length);
+			lexer.Expects("endstream");
 
 			StreamDictionary = dictionary;
 		}
 
 		public PdfObject StreamDictionary
+		{
+			get;
+			private set;
+		}
+
+		public byte[] Data
 		{
 			get;
 			private set;

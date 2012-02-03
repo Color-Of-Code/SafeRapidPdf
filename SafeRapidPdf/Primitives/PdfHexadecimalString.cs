@@ -7,18 +7,18 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfHexadecimalString : PdfString
 	{
-		public PdfHexadecimalString(IFileStructureParser parser)
+		public PdfHexadecimalString(Lexical.ILexer lexer)
 		{
-			String token = parser.ReadToken();
-			Object = token;
-			token = parser.ReadToken();
-			if (token != ">")
-				throw new Exception("Parser error: expected > tag");
+			lexer.Expects("<");
+			Text = lexer.ReadToken();
+			lexer.Expects(">");
 		}
+
+		public String Text { get; private set; }
 
 		public override string ToString()
 		{
-			return String.Format("<{0}>", Object);
+			return String.Format("<{0}>", Text);
 		}
 	}
 }

@@ -11,26 +11,13 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfComment : PdfObject
 	{
-		internal PdfComment(Stream s)
+		internal PdfComment(Lexical.ILexer lexer)
 		{
-			StringBuilder sb = new StringBuilder();
-			while (true)
-			{
-				int c = s.ReadByte();
-				if (Chars.Test.IsEol(c))
-					break;
-				sb.Append((char)c);
-			}
-			Object = sb.ToString();
+			lexer.Expects("%");
+			Text = lexer.ReadUntilEol();
 		}
 
-		public String Text
-		{
-			get
-			{
-				return Object as String;
-			}
-		}
+		public String Text { get; private set; }
 
 		public bool IsEOF
 		{

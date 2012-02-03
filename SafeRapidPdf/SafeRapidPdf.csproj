@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chars\Test.cs" />
+    <Compile Include="IIndirectReferenceResolver.cs" />
+    <Compile Include="Lexical\ILexer.cs" />
+    <Compile Include="Lexical\LexicalParser.cs" />
     <Compile Include="IFileStructureParser.cs" />
     <Compile Include="Pdf\Catalog.cs" />
     <Compile Include="Pdf\Document.cs" />
@@ -57,8 +59,10 @@
     <Compile Include="Primitives\PdfIndirectReference.cs" />
     <Compile Include="Primitives\PdfLiteralString.cs" />
     <Compile Include="Primitives\PdfName.cs" />
+    <Compile Include="Primitives\PdfNull.cs" />
     <Compile Include="Primitives\PdfNumeric.cs" />
     <Compile Include="Primitives\PdfObject.cs" />
+    <Compile Include="Primitives\PdfStartXRef.cs" />
     <Compile Include="Primitives\PdfStream.cs" />
     <Compile Include="Primitives\PdfString.cs" />
     <Compile Include="Primitives\PdfTrailer.cs" />

@@ -9,13 +9,14 @@ namespace SafeRapidPdf
 {
 	using SafeRapidPdf.Primitives;
 
-	public class FileStructureParser : IFileStructureParser
+	public class FileStructureParser : IFileStructureParser, IIndirectReferenceResolver
 	{
 		public FileStructureParser(String path)
 		{
 			_path = path;
 		}
 
+		private Lexical.ILexer _lex;
 		private Stream _reader;
 		private String _path;
 		private PdfXRef _xref;
@@ -24,11 +25,13 @@ namespace SafeRapidPdf
 		{
 			using (_reader = File.Open(_path, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
+				_lex = new Lexical.LexicalParser(_reader, this);
+
 				List<PdfObject> objects = new List<PdfObject>();
 				_indirectObjects = new Dictionary<String, PdfIndirectObject>();
 
 				// check that this stuff is really looking like a PDF
-				PdfComment comment = ReadPdfObject() as PdfComment;
+				PdfComment comment = PdfObject.Parse(_lex) as PdfComment;
 				if (comment == null || !comment.Text.StartsWith("PDF-"))
 					throw new Exception("PDF header missing");
 				objects.Add(comment);
@@ -38,7 +41,7 @@ namespace SafeRapidPdf
 				bool lastObjectWasOEF = false;
 				while (true)
 				{
-					var obj = ReadPdfObject();
+					var obj = PdfObject.Parse(_lex);
 
 					if (obj == null)
 					{
@@ -46,6 +49,11 @@ namespace SafeRapidPdf
 							break;
 						else
 							throw new Exception("End of file reached without EOF marker");
+					}
+					
+					if (obj is PdfIndirectObject)
+					{
+						InsertObject(obj as PdfIndirectObject);
 					}
 
 					objects.Add(obj);
@@ -72,7 +80,7 @@ namespace SafeRapidPdf
 			StartXRef = RetrieveStartXRef();
 			// read XRef
 			Position = StartXRef;
-			_xref = ReadPdfObject() as PdfXRef;
+			_xref = PdfObject.Parse(_lex) as PdfXRef;
 
 			Position = position;
 		}
@@ -85,130 +93,17 @@ namespace SafeRapidPdf
 			string t = null;
 			do
 			{
-				t = ReadToken();
+				t = _lex.ReadToken();
 			}
 			while (t != null && t != "startxref");
 			if (t == "startxref")
-				result = long.Parse(ReadToken());
-			_tokens.Clear();
+				result = long.Parse(_lex.ReadToken());
 			return result;
 		}
 
-		public PdfObject ReadPdfObject()
-		{
-			String token = ReadToken();
-			return ReadPdfObject(token);
-		}
-
-		public PdfObject ReadPdfObject(String token)
-		{
-			if (token == null) return null;
-
-			Primitives.PdfObject obj = null;
-			switch (token)
-			{
-				// null object
-				case "null":
-					obj = PdfObject.Null;
-					break;
-
-				// commment
-				case "%":
-					obj = new PdfComment(_reader);
-					break;
-
-				// boolean
-				case "true":
-				case "false":
-					obj = new PdfBoolean(token == "true");
-					break;
-
-				// indirect object
-				case "obj":
-					{
-						if (_tokens.Count != 2)
-							throw new Exception("Expected Object and Generation number");
-						int genN = int.Parse(_tokens.Pop());
-						int objN = int.Parse(_tokens.Pop());
-						obj = new PdfIndirectObject(objN, genN, this);
-						InsertObject(obj as PdfIndirectObject);
-						break;
-					}
-				// indirect reference
-				case "R":
-					{
-						if (_tokens.Count != 2)
-							throw new Exception("Expected Object and Generation number");
-						int genN = int.Parse(_tokens.Pop());
-						int objN = int.Parse(_tokens.Pop());
-						obj = new PdfIndirectReference(objN, genN);
-						break;
-					}
-
-				// dictionary
-				case "<<":
-					obj = new PdfDictionary(this);
-					break;
-
-				// array
-				case "[":
-					obj = new PdfArray(this);
-					break;
-
-				// string
-				case "<":
-					obj = new PdfHexadecimalString(this);
-					break;
-				case "(":
-					obj = new PdfLiteralString(this);
-					break;
-				case "/":
-					obj = new PdfName(this);
-					break;
-
-				case "stream":
-					obj = new PdfStream(_lastObject as PdfDictionary, this);
-					break;
-
-				case "xref":
-					obj = new PdfXRef(this);
-					break;
-				case "trailer":
-					obj = new PdfTrailer(this);
-					break;
-				case "startxref":
-					long result = long.Parse(ReadToken());
-					if (StartXRef != result && result != 0) // 0 is used for linearized pdfs
-						throw new Exception("Parser error: startxref already found with another value");
-					obj = PdfObject.Null;
-					break;
-
-				case ")":
-				case ">":
-				case ">>":
-				case "]":
-				case "}":
-				case "endstream":
-				case "endobj":
-					throw new Exception("Parser error: out of sync");
-
-				default:
-					// must be an integer or double value
-					obj = new PdfNumeric(token);
-					break;
-			}
-
-			if (_tokens.Count != 0)
-				throw new Exception("Parsing error, token stack not empty");
-			if (obj == null)
-				throw new Exception("Parsing error, could not read object");
-			_lastObject = obj;
-			return obj;
-		}
 
 		private long StartXRef;
 
-		private PdfObject _lastObject = null;
 		private IDictionary<String,PdfIndirectObject> _indirectObjects;
 
 		private void InsertObject(PdfIndirectObject obj)
@@ -227,7 +122,7 @@ namespace SafeRapidPdf
 				long lastPosition = Position;
 				// load the object if it was not yet found
 				Position = _xref.GetOffset(objectNumber, generationNumber); // entry from XRef
-				obj = ReadPdfObject() as PdfIndirectObject;
+				obj = new PdfIndirectObject(_lex);
 				Position = lastPosition;
 			}
 			return obj;
@@ -242,148 +137,7 @@ namespace SafeRapidPdf
 			return null;
 		}
 
-		public String ReadToken()
-		{
-			SkipWhitespaces();
-
-			int b = _reader.ReadByte();
-			if (b == -1)
-				return null;
-
-			char c = (char)b;
-			switch (c)
-			{
-				case '%': return "%";
-				case '/': return "/";
-				case '[': return "[";
-				case ']': return "]";
-				case '(': return "(";
-				case ')': return ")";
-				case '<':
-					b = _reader.ReadByte();
-					if ((char)b == '<')
-						return "<<";
-					Putc();
-					return "<";
-				case '>':
-					b = _reader.ReadByte();
-					if ((char)b == '>')
-						return ">>";
-					Putc();
-					return ">";
-			}
-
-			Putc();
-			string token = ParseToken();
-			if (IsInteger(token))
-			{
-				long pos = _reader.Position;
-				string token2 = ParseToken();
-				if (IsInteger(token2))
-				{
-					// should be "obj" or "R"
-					string token3 = ParseToken();
-					if (token3 == "obj" || token3 == "R")
-					{
-						_tokens.Push(token);
-						_tokens.Push(token2);
-						token = token3;
-					}
-					else
-					{
-						// rewind
-						_reader.Seek(pos, SeekOrigin.Begin);
-					}
-				}
-				else
-				{
-					// rewind
-					_reader.Seek(pos, SeekOrigin.Begin);
-				}
-			}
-
-			if (token == String.Empty)
-			{
-				if (_reader.ReadByte() == -1) // end of file
-					return null;
-				throw new Exception("Token may not be empty");
-			}
-
-			// position to start of stream data
-			if (token == "stream")
-			{
-				while (Chars.Test.IsEol(_reader.ReadByte())) ;
-			}
-
-			// one step back because one char has been read too far
-			Putc();
-
-			return token;
-		}
-
-		private void Putc()
-		{
-			_reader.Seek(-1, SeekOrigin.Current);
-		}
-
-		private static bool IsInteger(string token)
-		{
-			int result;
-			if (int.TryParse(token, out result))
-				return true;
-			return false;
-		}
-
-		private String ParseToken()
-		{
-			SkipWhitespaces();
-			int b = _reader.ReadByte();
-			StringBuilder token = new StringBuilder();
-			if (Chars.Test.IsDelimiter(b))
-			{
-				token.Append((char)b);
-				b = _reader.ReadByte();
-			}
-			else
-			{
-				while (Chars.Test.IsRegular(b))
-				{
-					token.Append((char)b);
-					b = _reader.ReadByte();
-				}
-			}
-			return token.ToString();
-		}
-
-		private void SkipWhitespaces()
-		{
-			// skip whitespaces
-			int c = 0;
-			do
-			{
-				c = _reader.ReadByte();
-			} while (Chars.Test.IsWhitespace(c));
-			if (c != -1)
-				Putc();
-		}
-
-		private Stack<string> _tokens = new Stack<string>();
-
-		public byte[] ReadBytes(int length)
-		{
-			byte[] buffer = new byte[length];
-			if (_reader.Read(buffer, 0, length) != length)
-				throw new Exception("Parser error: could not read the full amount of bytes");
-			return buffer;
-		}
-
-		public char ReadChar()
-		{
-			return (char)_reader.ReadByte();
-		}
-
-
-		public long Position
+		private long Position
 		{
 			get
 			{

@@ -11,34 +11,31 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfDictionary : PdfObject
     {
-        public PdfDictionary(IFileStructureParser parser)
+        public PdfDictionary(Lexical.ILexer lexer)
         {
 			IsContainer = true;
-			Object = new Dictionary<string, PdfObject>();
+			lexer.Expects("<<");
+			_dictionary = new Dictionary<string, PdfObject>();
 			String token;
-			while ((token = parser.ReadToken()) != ">>")
+			while ((token = lexer.PeekToken()) != ">>")
 			{
-				if (token != "/")
-					throw new Exception("Parse error: Name excepted!");
-				PdfName name = parser.ReadPdfObject(token) as PdfName;
-				PdfObject value = parser.ReadPdfObject();
-				Dictionary.Add(name.Text, value);
+				PdfName name = new PdfName(lexer);
+				PdfObject value = PdfObject.Parse(lexer);
+				_dictionary.Add(name.Text, value);
 			}
+			lexer.Expects(">>");
         }
 
-		public ReadOnlyCollection<string> Keys { get { return Dictionary.Keys.ToList().AsReadOnly(); } }
+		public ReadOnlyCollection<string> Keys { get { return _dictionary.Keys.ToList().AsReadOnly(); } }
 
 		public PdfObject this[string name]
 		{
 			get
 			{
-				return Dictionary[name];
+				return _dictionary[name];
 			}
 		}
 
-        private IDictionary<string, PdfObject> Dictionary
-        {
-			get { return Object as IDictionary<string, PdfObject>; }
-        }
+        private IDictionary<string, PdfObject> _dictionary;
     }
 }

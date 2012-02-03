@@ -7,18 +7,13 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfNumeric : PdfObject
 	{
-		public PdfNumeric(string token)
+		public PdfNumeric(Lexical.ILexer lexer)
 		{
-			Object = decimal.Parse(token, System.Globalization.CultureInfo.InvariantCulture);
+			String token = lexer.ReadToken();
+			Value = decimal.Parse(token, System.Globalization.CultureInfo.InvariantCulture);
 		}
 
-		public decimal Value
-		{
-			get
-			{
-				return (decimal)Object;
-			}
-		}
+		public Decimal Value { get; private set; }
 
 		public override string ToString()
 		{
