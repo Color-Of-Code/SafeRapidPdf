@@ -18,12 +18,9 @@ namespace SafeRapidPdf.Primitives
 		public PdfName Key { get; private set; }
 		public PdfObject Value { get; private set; }
 
-		public override string Text
+		public override string ToString()
 		{
-			get
-			{
-				return Key.Text;
-			}
+			return Key.Text;
 		}
 
 		public override ReadOnlyCollection<IPdfObject> Items

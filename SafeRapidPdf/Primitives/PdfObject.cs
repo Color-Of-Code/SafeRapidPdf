@@ -89,7 +89,7 @@ namespace SafeRapidPdf.Primitives
 
 		public bool IsContainer { get; protected set; }
 
-		public virtual String Text
+		public String Text
 		{
 			get
 			{
