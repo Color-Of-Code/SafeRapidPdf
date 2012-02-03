@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
 namespace SafeRapidPdf.Primitives
 {
-	public class PdfObject
+	public abstract class PdfObject : IPdfObject
 	{
 		public PdfObject()
 		{
@@ -87,5 +88,23 @@ namespace SafeRapidPdf.Primitives
 		}
 
 		public bool IsContainer { get; protected set; }
+
+		public virtual String Text
+		{
+			get
+			{
+				return ToString();
+			}
+		}
+
+		public virtual ReadOnlyCollection<IPdfObject> Items
+		{
+			get 
+			{
+				if (!IsContainer)
+					return null;
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

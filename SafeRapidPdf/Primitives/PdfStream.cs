@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -17,7 +18,7 @@ namespace SafeRapidPdf.Primitives
 			if (dictionary == null)
 				throw new Exception("Parser error: stream needs a dictionary");
 
-			PdfObject lengthObject = dictionary["Length"];
+			IPdfObject lengthObject = dictionary["Length"];
 			if (lengthObject == null)
 				throw new Exception("Parser error: stream dictionary requires a Length entry");
 
@@ -50,6 +51,21 @@ namespace SafeRapidPdf.Primitives
 		{
 			get;
 			private set;
+		}
+
+		public override ReadOnlyCollection<IPdfObject> Items
+		{
+			get
+			{
+				var list = new List<IPdfObject>();
+				list.Add(StreamDictionary);
+				return list.AsReadOnly();
+			}
+		}
+
+		public override string ToString()
+		{
+			return "stream";
 		}
 	}
 }

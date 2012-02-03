@@ -10,15 +10,15 @@ namespace SafeRapidPdf.Primitives
 		public PdfHexadecimalString(Lexical.ILexer lexer)
 		{
 			lexer.Expects("<");
-			Text = lexer.ReadToken();
+			_text = lexer.ReadToken();
 			lexer.Expects(">");
 		}
 
-		public String Text { get; private set; }
+		private String _text;
 
 		public override string ToString()
 		{
-			return String.Format("<{0}>", Text);
+			return String.Format("<{0}>", _text);
 		}
 	}
 }

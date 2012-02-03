@@ -32,7 +32,7 @@ namespace SafeRapidPdf
 
 				// check that this stuff is really looking like a PDF
 				PdfComment comment = PdfObject.Parse(_lex) as PdfComment;
-				if (comment == null || !comment.Text.StartsWith("PDF-"))
+				if (comment == null || !comment.Text.StartsWith("%PDF-"))
 					throw new Exception("PDF header missing");
 				objects.Add(comment);
 

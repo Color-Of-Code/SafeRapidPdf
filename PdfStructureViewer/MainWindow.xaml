@@ -1,8 +1,8 @@
-﻿<Window x:Class="PdfStructureViewer.MainWindow"
+﻿<Window xmlns:my="clr-namespace:PdfStructureViewer.Views"  x:Class="PdfStructureViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="PDF File and Document Structure Browser" Height="350" Width="525">
     <Grid>
-        
+        <my:FileStructureUserControl x:Name="fileView" Loaded="FileStructureUserControl_Loaded" />
     </Grid>
 </Window>

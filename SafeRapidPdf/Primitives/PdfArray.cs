@@ -12,7 +12,7 @@ namespace SafeRapidPdf.Primitives
 		{
 			IsContainer = true;
 			lexer.Expects("[");
-			var list = new List<PdfObject>();
+			var list = new List<IPdfObject>();
 			String token;
 			while ((token = lexer.PeekToken()) != "]")
 			{
@@ -20,14 +20,15 @@ namespace SafeRapidPdf.Primitives
 				list.Add(value);
 			}
 			lexer.Expects("]");
-			Items = list.AsReadOnly();
+			_items = list.AsReadOnly();
 		}
 
-		public ReadOnlyCollection<PdfObject> Items { get; private set; }
+		private ReadOnlyCollection<IPdfObject> _items;
+		public override ReadOnlyCollection<IPdfObject> Items { get { return _items; } }
 
 		public override string ToString()
 		{
-			return String.Format("[{0}]", String.Join(" ", Items.Select(x => x.ToString())));
+			return "[...]";
 		}
 	}
 }

@@ -47,5 +47,10 @@ namespace SafeRapidPdf.Primitives
 		}
 
 		private Dictionary<String, long> _offsets = new Dictionary<string, long>();
+
+		public override string ToString()
+		{
+			return "xref";
+		}
 	}
 }

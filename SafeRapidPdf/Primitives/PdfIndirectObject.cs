@@ -37,5 +37,15 @@ namespace SafeRapidPdf.Primitives
 		{
 			return String.Format("{0} {1} obj", ObjectNumber, GenerationNumber);
 		}
+
+		public override ReadOnlyCollection<IPdfObject> Items
+		{
+			get
+			{
+				var list = new List<IPdfObject>();
+				list.Add(PdfObject);
+				return list.AsReadOnly();
+			}
+		}
 	}
 }

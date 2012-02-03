@@ -10,14 +10,14 @@ namespace SafeRapidPdf.Primitives
 		public PdfName(Lexical.ILexer lexer)
 		{
 			lexer.Expects("/");
-			Text = lexer.ReadToken();
+			Name = lexer.ReadToken();
 		}
 
-		public string Text { get; private set; }
+		public string Name { get; private set; }
 
 		public override string ToString()
 		{
-			return String.Format("/{0}", Text);
+			return Name;
 		}
 	}
 }

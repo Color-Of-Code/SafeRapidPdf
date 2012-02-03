@@ -48,6 +48,7 @@
     <Compile Include="Pdf\Document.cs" />
     <Compile Include="Pdf\Page.cs" />
     <Compile Include="Pdf\Trailer.cs" />
+    <Compile Include="Primitives\IPdfObject.cs" />
     <Compile Include="Primitives\PdfArray.cs" />
     <Compile Include="Primitives\PdfBoolean.cs" />
     <Compile Include="Primitives\PdfComment.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Primitives\PdfHexadecimalString.cs" />
     <Compile Include="Primitives\PdfIndirectObject.cs" />
     <Compile Include="Primitives\PdfIndirectReference.cs" />
+    <Compile Include="Primitives\PdfKeyValuePair.cs" />
     <Compile Include="Primitives\PdfLiteralString.cs" />
     <Compile Include="Primitives\PdfName.cs" />
     <Compile Include="Primitives\PdfNull.cs" />

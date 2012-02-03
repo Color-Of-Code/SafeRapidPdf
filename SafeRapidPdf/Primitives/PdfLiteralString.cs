@@ -33,9 +33,14 @@ namespace SafeRapidPdf.Primitives
 				}
 				c = lexer.ReadChar();
 			}
-			Text = sb.ToString();
+			_text = sb.ToString();
 		}
 
-		public String Text { get; private set; }
+		private String _text;
+
+		public override string ToString()
+		{
+			return _text;
+		}
 	}
 }

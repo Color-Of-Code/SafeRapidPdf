@@ -15,21 +15,28 @@ using System.Windows.Shapes;
 using SafeRapidPdf;
 using SafeRapidPdf.Pdf;
 
-namespace PdfStructureViewer {
+namespace PdfStructureViewer.Views
+{
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for FileStructureUserControl.xaml
 	/// </summary>
-	public partial class MainWindow : Window {
-		public MainWindow ()
+	public partial class FileStructureUserControl : UserControl
+	{
+		public FileStructureUserControl()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 
-		private void FileStructureUserControl_Loaded(object sender, RoutedEventArgs e)
+		private FileStructure _file;
+		public FileStructure FileStructure 
 		{
-			var parser = new FileStructureParser("test.pdf");
-			FileStructure file = parser.Parse();
-			fileView.FileStructure = file;
+			get { return _file; }
+			set { _file = value; RefreshControl(); }
+		}
+
+		private void RefreshControl()
+		{
+			treeView.ItemsSource = _file.Objects;
 		}
 	}
 }

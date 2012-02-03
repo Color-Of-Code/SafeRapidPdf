@@ -15,5 +15,9 @@ namespace SafeRapidPdf.Primitives
 
 		public PdfDictionary Content { get; private set; }
 
+		public override string ToString()
+		{
+			return "trailer";
+		}
 	}
 }

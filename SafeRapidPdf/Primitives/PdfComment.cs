@@ -14,22 +14,22 @@ namespace SafeRapidPdf.Primitives
 		internal PdfComment(Lexical.ILexer lexer)
 		{
 			lexer.Expects("%");
-			Text = lexer.ReadUntilEol();
+			_text = lexer.ReadUntilEol();
 		}
 
-		public String Text { get; private set; }
+		private String _text;
 
 		public bool IsEOF
 		{
 			get
 			{
-				return Text == "%EOF";
+				return _text == "%EOF";
 			}
 		}
 
 		public override string ToString()
 		{
-			return String.Format("%{0}", Text);
+			return String.Format("%{0}", _text);
 		}
 	}
 }
