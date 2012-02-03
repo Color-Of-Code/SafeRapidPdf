@@ -11,11 +11,11 @@ namespace SafeRapidPdf.Primitives
 		{
 			IsContainer = true;
 
-			if (dictionary == null)
-				throw new Exception("Parser error: stream needs a dictionary");
-
 			lexer.Expects("stream");
 			lexer.SkipEol(); // position to begin of stream data
+
+			if (dictionary == null)
+				throw new Exception("Parser error: stream needs a dictionary");
 
 			PdfObject lengthObject = dictionary["Length"];
 			if (lengthObject == null)

@@ -50,9 +50,7 @@ namespace SafeRapidPdf.Lexical
 
 		public String ReadToken()
 		{
-			SkipWhitespaces();
-
-			int b = _reader.ReadByte();
+			int b = SkipWhitespaces();
 			if (b == -1)
 				return null;
 
@@ -79,8 +77,7 @@ namespace SafeRapidPdf.Lexical
 					return ">";
 			}
 
-			Putc();
-			string token = ParseToken();
+			string token = ParseToken(c);
 
 			if (token == String.Empty)
 			{
@@ -121,10 +118,8 @@ namespace SafeRapidPdf.Lexical
 			return (char)_reader.ReadByte();
 		}
 
-		private String ParseToken()
+		private String ParseToken(int b)
 		{
-			SkipWhitespaces();
-			int b = _reader.ReadByte();
 			StringBuilder token = new StringBuilder();
 			if (IsDelimiter(b))
 			{
@@ -142,16 +137,25 @@ namespace SafeRapidPdf.Lexical
 			return token.ToString();
 		}
 
-		private void SkipWhitespaces()
+		private String ParseToken()
 		{
-			// skip whitespaces
+			int b = SkipWhitespaces();
+			return ParseToken(b);
+		}
+
+		/// <summary>
+		/// Skip whitespaces and return the first non
+		/// whitespace char
+		/// </summary>
+		/// <returns></returns>
+		private int SkipWhitespaces()
+		{
 			int c = 0;
 			do
 			{
 				c = _reader.ReadByte();
 			} while (IsWhitespace(c));
-			if (c != -1)
-				Putc();
+			return c;
 		}
 
 		private void Putc()

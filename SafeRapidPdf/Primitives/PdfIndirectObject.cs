@@ -18,18 +18,9 @@ namespace SafeRapidPdf.Primitives
 
 			lexer.Expects("obj");
 
-			PdfObject refobj = PdfObject.Parse(lexer);
-			string token = lexer.ReadToken();
-			if (token != "endobj")
-			{
-				if (token != "stream")
-					throw new Exception("Only streams supported here");
-				PdfObject obj2 = PdfObject.Parse(lexer);
-				PdfObject = obj2;
-				lexer.Expects("endobj");
-			}
-			else
-				PdfObject = refobj;
+			PdfObject = PdfObject.Parse(lexer);
+
+			lexer.Expects("endobj");
 		}
 
 		public int ObjectNumber { get; private set; }
