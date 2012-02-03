@@ -57,7 +57,23 @@ namespace SafeRapidPdf.Primitives
 
 						default:
 							// \ddd Character code ddd (octal)
-							throw new NotImplementedException("Octal encoded char parsing");
+							StringBuilder octalNumber = new StringBuilder();
+							octalNumber.Append(c);
+							char c2 = lexer.ReadChar();
+							if (!Char.IsDigit(c2))
+								lexer.Putc();
+							else
+							{
+								octalNumber.Append(c2);
+								char c3 = lexer.ReadChar();
+								if (!Char.IsDigit(c3))
+									lexer.Putc();
+								else
+									octalNumber.Append(c2);
+							}
+							int octal = Convert.ToInt32(octalNumber.ToString(), 8);
+							sb.Append((char)octal);
+							break;
 					}
 				}
 				else

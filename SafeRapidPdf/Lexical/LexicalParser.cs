@@ -158,7 +158,7 @@ namespace SafeRapidPdf.Lexical
 			return c;
 		}
 
-		private void Putc()
+		public void Putc()
 		{
 			_reader.Seek(-1, SeekOrigin.Current);
 		}

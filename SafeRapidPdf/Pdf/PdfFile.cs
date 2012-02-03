@@ -9,20 +9,20 @@ using SafeRapidPdf.Primitives;
 
 namespace SafeRapidPdf.Pdf
 {
-	public class FileStructure
+	public class PdfFile : IPdfObject
 	{
-		public FileStructure(ReadOnlyCollection<PdfObject> objects)
+		public PdfFile(ReadOnlyCollection<IPdfObject> objects)
 		{
-			Objects = objects;
+			Items = objects;
 		}
 
-		public static Pdf.FileStructure Parse(String pdfFilePath)
+		public static Pdf.PdfFile Parse(String pdfFilePath)
 		{
 			using (Stream reader = File.Open(pdfFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
 				var lexer = new Lexical.LexicalParser(reader);
 
-				List<PdfObject> objects = new List<PdfObject>();
+				List<IPdfObject> objects = new List<IPdfObject>();
 
 				// check that this stuff is really looking like a PDF
 				PdfComment comment = new PdfComment(lexer);
@@ -59,7 +59,7 @@ namespace SafeRapidPdf.Pdf
 						}
 					}
 				}
-				return new Pdf.FileStructure(objects.AsReadOnly()); ;
+				return new Pdf.PdfFile(objects.AsReadOnly()); ;
 			}
 		}
 
@@ -67,10 +67,20 @@ namespace SafeRapidPdf.Pdf
 		{
 			get
 			{
-				return Objects.First().ToString();
+				return Items.First().ToString();
 			}
 		}
 
-		public ReadOnlyCollection<PdfObject> Objects { get; private set; }
+		public ReadOnlyCollection<IPdfObject> Items { get; private set; }
+
+		public string Text
+		{
+			get { return "File"; }
+		}
+
+		public bool IsContainer
+		{
+			get { return true; }
+		}
 	}
 }

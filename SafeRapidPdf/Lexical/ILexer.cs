@@ -20,6 +20,11 @@ namespace SafeRapidPdf.Lexical
 		String PeekToken();
 
 		/// <summary>
+		/// One step back in the stream
+		/// </summary>
+		void Putc();
+
+		/// <summary>
 		/// Consume and check for the specified token
 		/// </summary>
 		/// <param name="token"></param>

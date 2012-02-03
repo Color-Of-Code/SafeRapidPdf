@@ -4,8 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf
 {
+	/// <summary>
+	/// Interface common to all PDF objects high or low level.
+	/// The presence of this interface eases the implementation
+	/// of code crawling through all objects.
+	/// </summary>
 	public interface IPdfObject
 	{
 		/// <summary>

@@ -27,8 +27,8 @@ namespace PdfStructureViewer.Views
 			InitializeComponent();
 		}
 
-		private FileStructure _file;
-		public FileStructure FileStructure 
+		private PdfFile _file;
+		public PdfFile FileStructure 
 		{
 			get { return _file; }
 			set { _file = value; RefreshControl(); }
@@ -36,7 +36,7 @@ namespace PdfStructureViewer.Views
 
 		private void RefreshControl()
 		{
-			treeView.ItemsSource = _file.Objects;
+			treeView.ItemsSource = _file.Items;
 		}
 	}
 }

@@ -15,11 +15,13 @@ using System.Windows.Shapes;
 using SafeRapidPdf;
 using SafeRapidPdf.Pdf;
 
-namespace PdfStructureViewer {
+namespace PdfStructureViewer
+{
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window {
+	public partial class MainWindow : Window
+	{
 		public MainWindow ()
 		{
 			InitializeComponent ();
@@ -30,7 +32,7 @@ namespace PdfStructureViewer {
 			// Hack for testing purposes...
 			if (fileView.FileStructure == null)
 			{
-				var file = FileStructure.Parse("test.pdf");
+				var file = PdfFile.Parse("test.pdf");
 				fileView.FileStructure = file;
 			}
 		}

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SafeRapidPdf.Pdf
 {
-	public class Page
+	public class PdfPage
 	{
 	}
 }

@@ -5,13 +5,13 @@ using System.Text;
 
 namespace SafeRapidPdf.Pdf
 {
-	public class Document 
+	public class PdfDocument 
 	{
-		public Document(FileStructure structure)
+		public PdfDocument(PdfFile file)
 		{
-			_structure = structure;
+			_file = file;
 		}
 
-		private FileStructure _structure;
+		private PdfFile _file;
 	}
 }
