@@ -27,9 +27,13 @@ namespace PdfStructureViewer {
 
 		private void FileStructureUserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			var parser = new FileStructureParser("test.pdf");
-			FileStructure file = parser.Parse();
-			fileView.FileStructure = file;
+			// Hack for testing purposes...
+			if (fileView.FileStructure == null)
+			{
+				var parser = new FileStructureParser("test.pdf");
+				FileStructure file = parser.Parse();
+				fileView.FileStructure = file;
+			}
 		}
 	}
 }

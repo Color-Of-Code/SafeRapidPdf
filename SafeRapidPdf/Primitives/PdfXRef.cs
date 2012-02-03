@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -9,31 +10,34 @@ namespace SafeRapidPdf.Primitives
 	{
 		public PdfXRef(Lexical.ILexer lexer)
 		{
+			IsContainer = true;
+
 			lexer.Expects("xref");
-			int firstid = int.Parse(lexer.ReadToken());
-			int size = int.Parse(lexer.ReadToken());
-			for (int i = 0; i < size; i++)
+
+			_sections = new List<PdfXRefSection>();
+			String token = lexer.PeekToken();
+			while (Char.IsDigit(token[0]))
 			{
-				string offsetS = lexer.ReadToken();
-				if (offsetS.Length != 10)
-					throw new Exception("Parser error: 10 digits expected for offset in xref");
-				long offset = long.Parse(offsetS);
+				_sections.Add(new PdfXRefSection(lexer));
+				token = lexer.PeekToken();
+			}
 
-				string generationS = lexer.ReadToken();
-				if (generationS.Length != 5)
-					throw new Exception("Parser error: 5 digits expected for generation in xref");
-				int generation = int.Parse(generationS);
-
-				string inuse = lexer.ReadToken();
-				if (inuse != "f" && inuse != "n")
-					throw new Exception("Parser error: only 'f' and 'n' are valid flags in xref");
-				if (inuse == "n")
+			// create the access table
+			foreach (var section in _sections)
+			{
+				foreach (var entryItem in section.Items)
 				{
-					String key = BuildKey(i + firstid, generation);
-					_offsets.Add(key, offset);
+					PdfXRefEntry entry = entryItem as PdfXRefEntry;
+					if (entry.InUse)
+					{
+						String key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
+						_offsets.Add(key, entry.Offset);
+					}
 				}
 			}
 		}
+
+		private List<PdfXRefSection> _sections;
 
 		public long GetOffset(int objectNumber, int generationNumber)
 		{
@@ -47,6 +51,14 @@ namespace SafeRapidPdf.Primitives
 		}
 
 		private Dictionary<String, long> _offsets = new Dictionary<string, long>();
+
+		public override ReadOnlyCollection<IPdfObject> Items
+		{
+			get
+			{
+				return _sections.ConvertAll(x => x as IPdfObject).AsReadOnly();
+			}
+		}
 
 		public override string ToString()
 		{

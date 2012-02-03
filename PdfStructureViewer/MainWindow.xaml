@@ -3,6 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PDF File and Document Structure Browser" Height="350" Width="525">
     <Grid>
-        <my:FileStructureUserControl x:Name="fileView" Loaded="FileStructureUserControl_Loaded" />
+        <TabControl>
+            <TabItem Header="File structure">
+                <my:FileStructureUserControl x:Name="fileView" Loaded="FileStructureUserControl_Loaded" />
+            </TabItem>
+            <TabItem Header="Document structure">
+                <my:DocumentStructureUserControl x:Name="documentView"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

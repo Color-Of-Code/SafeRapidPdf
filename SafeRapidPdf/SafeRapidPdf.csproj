@@ -69,6 +69,8 @@
     <Compile Include="Primitives\PdfString.cs" />
     <Compile Include="Primitives\PdfTrailer.cs" />
     <Compile Include="Primitives\PdfXRef.cs" />
+    <Compile Include="Primitives\PdfXRefEntry.cs" />
+    <Compile Include="Primitives\PdfXRefSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
