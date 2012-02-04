@@ -11,20 +11,26 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfDictionary : PdfObject
     {
-        public PdfDictionary(Lexical.ILexer lexer)
-        {
+        private PdfDictionary(IList<PdfKeyValuePair> dictionary)
+		{
 			IsContainer = true;
+			_dictionary = dictionary;
+		}
+
+        public static PdfDictionary Parse(Lexical.ILexer lexer)
+        {
 			lexer.Expects("<<");
-			_dictionary = new List<PdfKeyValuePair>();
+			var dictionary = new List<PdfKeyValuePair>();
 			String token;
 			while ((token = lexer.PeekToken()) != ">>")
 			{
-				PdfName name = new PdfName(lexer);
-				PdfObject value = PdfObject.Parse(lexer);
+				PdfName name = PdfName.Parse(lexer);
+				PdfObject value = PdfObject.ParseAny(lexer);
 
-				_dictionary.Add(new PdfKeyValuePair(name, value));
+				dictionary.Add(new PdfKeyValuePair(name, value));
 			}
 			lexer.Expects(">>");
+			return new PdfDictionary(dictionary);
         }
 
 		public IPdfObject this[string name]
@@ -35,13 +41,13 @@ namespace SafeRapidPdf.Primitives
 			}
 		}
 
-		private List<PdfKeyValuePair> _dictionary;
+		private IList<PdfKeyValuePair> _dictionary;
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
 			get
 			{
-				return _dictionary.ConvertAll(x => x as IPdfObject).AsReadOnly();
+				return _dictionary.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
 			}
 		}
 

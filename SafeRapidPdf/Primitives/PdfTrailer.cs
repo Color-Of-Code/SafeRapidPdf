@@ -12,7 +12,7 @@ namespace SafeRapidPdf.Primitives
 		{
 			IsContainer = true;
 			lexer.Expects("trailer");
-			Content = new PdfDictionary(lexer);
+			Content = PdfDictionary.Parse(lexer);
 		}
 
 		public PdfDictionary Content { get; private set; }

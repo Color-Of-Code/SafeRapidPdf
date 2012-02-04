@@ -7,24 +7,31 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfXRefEntry : PdfObject
 	{
-		public PdfXRefEntry(int objectNumber, Lexical.ILexer lexer)
+		public PdfXRefEntry(int objectNumber, int generationNumber, long offset, bool inUse)
 		{
 			ObjectNumber = objectNumber;
+			GenerationNumber = generationNumber;
+			Offset = offset;
+			InUse = inUse;
+		}
 
+		public static PdfXRefEntry Parse(int objectNumber, Lexical.ILexer lexer)
+		{
 			string offsetS = lexer.ReadToken();
 			if (offsetS.Length != 10)
 				throw new Exception("Parser error: 10 digits expected for offset in xref");
-			Offset = long.Parse(offsetS);
+			long offset = long.Parse(offsetS);
 
 			string generationS = lexer.ReadToken();
 			if (generationS.Length != 5)
 				throw new Exception("Parser error: 5 digits expected for generation in xref");
-			GenerationNumber = int.Parse(generationS);
+			int generationNumber = int.Parse(generationS);
 
 			string inuse = lexer.ReadToken();
 			if (inuse != "f" && inuse != "n")
 				throw new Exception("Parser error: only 'f' and 'n' are valid flags in xref");
-			InUse = (inuse == "n");
+			bool inUse = (inuse == "n");
+			return new PdfXRefEntry(objectNumber, generationNumber, offset, inUse);
 		}
 
 		public int ObjectNumber { get; private set; }

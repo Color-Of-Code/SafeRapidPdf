@@ -8,23 +8,34 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfArray : PdfObject
 	{
-		public PdfArray(Lexical.ILexer lexer)
+		private PdfArray( ReadOnlyCollection<IPdfObject> items)
 		{
 			IsContainer = true;
+			_items = items;
+		}
+
+		public static PdfArray Parse(Lexical.ILexer lexer)
+		{
 			lexer.Expects("[");
 			var list = new List<IPdfObject>();
 			String token;
 			while ((token = lexer.PeekToken()) != "]")
 			{
-				PdfObject value = PdfObject.Parse(lexer);
+				PdfObject value = PdfObject.ParseAny(lexer);
 				list.Add(value);
 			}
 			lexer.Expects("]");
-			_items = list.AsReadOnly();
+			return new PdfArray(list.AsReadOnly());
 		}
 
 		private ReadOnlyCollection<IPdfObject> _items;
-		public override ReadOnlyCollection<IPdfObject> Items { get { return _items; } }
+		public override ReadOnlyCollection<IPdfObject> Items
+		{
+			get
+			{
+				return _items;
+			}
+		}
 
 		public override string ToString()
 		{

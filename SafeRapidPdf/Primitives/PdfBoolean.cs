@@ -7,12 +7,17 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfBoolean : PdfObject
 	{
-		public PdfBoolean(Lexical.ILexer lexer)
+		private PdfBoolean(Boolean value)
+		{
+			Value = value;
+		}
+
+		public static PdfBoolean Parse(Lexical.ILexer lexer)
 		{
 			String token = lexer.ReadToken();
 			if (token != "true" && token != "false")
 				throw new Exception("Parser error: invalid boolean value");
-			Value = token == "true";
+			return new PdfBoolean(token == "true");
 		}
 
 		public Boolean Value { get; private set; }

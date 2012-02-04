@@ -12,7 +12,7 @@ namespace SafeRapidPdf.Primitives
 		{
 		}
 
-		public static PdfObject Parse(Lexical.ILexer lexer)
+		public static PdfObject ParseAny(Lexical.ILexer lexer)
 		{
 			String token = lexer.PeekToken();
 			if (token == null) return null;
@@ -22,30 +22,30 @@ namespace SafeRapidPdf.Primitives
 			{
 				// null object
 				case "null":
-					obj = new PdfNull(lexer);
+					obj = PdfNull.Parse(lexer);
 					break;
 				case "%":
-					obj = new PdfComment(lexer);
+					obj = PdfComment.Parse(lexer);
 					break;
 				case "true":
 				case "false":
-					obj = new PdfBoolean(lexer);
+					obj = PdfBoolean.Parse(lexer);
 					break;
 				case "obj":
-					obj = new PdfIndirectObject(lexer);
+					obj = PdfIndirectObject.Parse(lexer);
 					break;
 				case "R":
-					obj = new PdfIndirectReference(lexer, lexer.IndirectReferenceResolver);
+					obj = PdfIndirectReference.Parse(lexer, lexer.IndirectReferenceResolver);
 					break;
 				case "<<":
-					obj = new PdfDictionary(lexer);
+					obj = PdfDictionary.Parse(lexer);
 					// check for stream and combine put dictionary into stream object
 					token = lexer.PeekToken();
 					if (token == "stream")
 						obj = new PdfStream(obj as PdfDictionary, lexer);
 					break;
 				case "[":
-					obj = new PdfArray(lexer);
+					obj = PdfArray.Parse(lexer);
 					break;
 				case "<":
 					obj = new PdfHexadecimalString(lexer);
@@ -54,7 +54,7 @@ namespace SafeRapidPdf.Primitives
 					obj = new PdfLiteralString(lexer);
 					break;
 				case "/":
-					obj = new PdfName(lexer);
+					obj = PdfName.Parse(lexer);
 					break;
 				case "xref":
 					obj = new PdfXRef(lexer);
@@ -74,12 +74,12 @@ namespace SafeRapidPdf.Primitives
 					throw new Exception("Parser error: out of sync");
 
 				case "startxref":
-					obj = new PdfStartXRef(lexer);
+					obj = PdfStartXRef.Parse(lexer);
 					break;
 
 				default:
 					// must be an integer or double value
-					obj = new PdfNumeric(lexer);
+					obj = PdfNumeric.Parse(lexer);
 					break;
 			}
 			if (obj == null)

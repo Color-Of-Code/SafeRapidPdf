@@ -38,7 +38,7 @@ namespace SafeRapidPdf.ObjectResolver
 				// entry from XRef
 				_lexer.PushPosition(_xref.GetOffset(objectNumber, generationNumber));
 				// load the object if it was not yet found
-				obj = new PdfIndirectObject(_lexer);
+				obj = PdfIndirectObject.Parse(_lexer);
 				_lexer.PopPosition();
 			}
 			return obj;

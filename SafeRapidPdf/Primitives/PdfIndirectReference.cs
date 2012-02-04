@@ -12,14 +12,21 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
     public class PdfIndirectReference : PdfObject
     {
-        public PdfIndirectReference(Lexical.ILexer lexer, IIndirectReferenceResolver resolver)
+        public PdfIndirectReference(int objectNumber, int generationNumber, IIndirectReferenceResolver resolver)
         {
 			IsContainer = true;
 
-			ObjectNumber = int.Parse(lexer.ReadToken());
-			GenerationNumber = int.Parse(lexer.ReadToken());
-			lexer.Expects("R");
+			ObjectNumber = objectNumber;
+			GenerationNumber = generationNumber;
 			_resolver = resolver;
+		}
+
+		public static PdfIndirectReference Parse(Lexical.ILexer lexer, IIndirectReferenceResolver resolver)
+        {
+			int objectNumber = int.Parse(lexer.ReadToken());
+			int generationNumber = int.Parse(lexer.ReadToken());
+			lexer.Expects("R");
+			return new PdfIndirectReference(objectNumber, generationNumber, resolver);
 		}
 
 		public int ObjectNumber { get; private set; }
@@ -40,7 +47,7 @@ namespace SafeRapidPdf.Primitives
 			get
 			{
 				var list = new List<IPdfObject>();
-				list.Add(ReferencedObject.PdfObject);
+				list.Add(ReferencedObject.Object);
 				return list.AsReadOnly();
 			}
 		}

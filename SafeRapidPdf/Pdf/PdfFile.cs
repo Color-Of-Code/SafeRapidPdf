@@ -25,7 +25,7 @@ namespace SafeRapidPdf.Pdf
 				List<IPdfObject> objects = new List<IPdfObject>();
 
 				// check that this stuff is really looking like a PDF
-				PdfComment comment = new PdfComment(lexer);
+				PdfComment comment = PdfComment.Parse(lexer);
 				if (comment == null || !comment.Text.StartsWith("%PDF-"))
 					throw new Exception("PDF header missing");
 				objects.Add(comment);
@@ -33,7 +33,7 @@ namespace SafeRapidPdf.Pdf
 				bool lastObjectWasOEF = false;
 				while (true)
 				{
-					var obj = PdfObject.Parse(lexer);
+					var obj = PdfObject.ParseAny(lexer);
 
 					if (obj == null)
 					{

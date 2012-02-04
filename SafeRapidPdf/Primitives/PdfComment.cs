@@ -11,10 +11,15 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
 	public class PdfComment : PdfObject
 	{
-		internal PdfComment(Lexical.ILexer lexer)
+		private PdfComment(String text)
+		{
+			_text = text;
+		}
+
+		public static PdfComment Parse(Lexical.ILexer lexer)
 		{
 			lexer.Expects("%");
-			_text = lexer.ReadUntilEol();
+			return new PdfComment(lexer.ReadUntilEol());
 		}
 
 		private String _text;

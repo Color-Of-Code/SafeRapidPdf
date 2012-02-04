@@ -7,9 +7,16 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfNull : PdfObject
 	{
-		public PdfNull(Lexical.ILexer lexer)
+		private PdfNull()
+		{
+		}
+
+		private static readonly PdfNull Null = new PdfNull();
+
+		public static PdfNull Parse(Lexical.ILexer lexer)
 		{
 			lexer.Expects("null");
+			return Null;
 		}
 
 		public override string ToString()

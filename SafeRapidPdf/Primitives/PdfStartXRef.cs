@@ -8,11 +8,17 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfStartXRef : PdfObject
 	{
-		public PdfStartXRef(Lexical.ILexer lexer)
+		public PdfStartXRef(PdfNumeric value)
 		{
 			IsContainer = true;
+			Numeric = value;
+		}
+
+		public static PdfStartXRef Parse(Lexical.ILexer lexer)
+		{
 			lexer.Expects("startxref");
-			Numeric = new PdfNumeric(lexer);
+			var n = PdfNumeric.Parse(lexer);
+			return new PdfStartXRef(n);
 		}
 
 		public PdfNumeric Numeric { get; private set; }

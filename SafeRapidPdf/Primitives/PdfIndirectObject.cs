@@ -9,25 +9,34 @@ namespace SafeRapidPdf.Primitives
 
     public class PdfIndirectObject : PdfObject
     {
-        public PdfIndirectObject(Lexical.ILexer lexer)
+        private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
         {
 			IsContainer = true;
 
-			ObjectNumber = int.Parse(lexer.ReadToken());
-			GenerationNumber = int.Parse(lexer.ReadToken());
+			ObjectNumber = objectNumber;
+			GenerationNumber = generationNumber;
+			Object = obj;
+		}
+
+        public static PdfIndirectObject Parse(Lexical.ILexer lexer)
+        {
+			int objectNumber = int.Parse(lexer.ReadToken());
+			int generationNumber = int.Parse(lexer.ReadToken());
 
 			lexer.Expects("obj");
 
-			PdfObject = PdfObject.Parse(lexer);
+			PdfObject obj = PdfObject.ParseAny(lexer);
 
 			lexer.Expects("endobj");
+
+			return new PdfIndirectObject(objectNumber, generationNumber, obj);
 		}
 
 		public int ObjectNumber { get; private set; }
 
 		public int GenerationNumber { get; private set; }
 
-		public PdfObject PdfObject
+		public IPdfObject Object
 		{
 			get;
 			private set;
@@ -43,7 +52,7 @@ namespace SafeRapidPdf.Primitives
 			get
 			{
 				var list = new List<IPdfObject>();
-				list.Add(PdfObject);
+				list.Add(Object);
 				return list.AsReadOnly();
 			}
 		}

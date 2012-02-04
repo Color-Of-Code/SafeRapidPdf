@@ -18,7 +18,7 @@ namespace SafeRapidPdf.Primitives
 			String token = lexer.PeekToken();
 			while (Char.IsDigit(token[0]))
 			{
-				_sections.Add(new PdfXRefSection(lexer));
+				_sections.Add(PdfXRefSection.Parse(lexer));
 				token = lexer.PeekToken();
 			}
 
