@@ -9,11 +9,16 @@ using SafeRapidPdf.Primitives;
 
 namespace SafeRapidPdf.Pdf
 {
-	public class PdfFile : IPdfObject
+	public class PdfFile : IPdfObject, IIndirectReferenceResolver
 	{
-		public PdfFile(ReadOnlyCollection<IPdfObject> objects)
+		private PdfFile(ReadOnlyCollection<IPdfObject> objects)
 		{
 			Items = objects;
+
+			// build up the fast object lookup dictionary
+			_indirectObjects = new Dictionary<String, PdfIndirectObject>();
+			foreach (var obj in Items.OfType<PdfIndirectObject>())
+				InsertObject(obj);
 		}
 
 		public static Pdf.PdfFile Parse(String pdfFilePath)
@@ -42,9 +47,6 @@ namespace SafeRapidPdf.Pdf
 						else
 							throw new Exception("End of file reached without EOF marker");
 					}
-
-					if (obj is PdfIndirectObject)
-						lexer.IndirectReferenceResolver.InsertObject(obj as PdfIndirectObject);
 
 					objects.Add(obj);
 
@@ -81,6 +83,22 @@ namespace SafeRapidPdf.Pdf
 		public bool IsContainer
 		{
 			get { return true; }
+		}
+
+		private IDictionary<String, PdfIndirectObject> _indirectObjects;
+
+		private void InsertObject(PdfIndirectObject obj)
+		{
+			if (obj == null)
+				throw new Exception("This object must be an indirect object");
+			String key = PdfXRef.BuildKey(obj.ObjectNumber, obj.GenerationNumber);
+			_indirectObjects[key] = obj;
+		}
+
+		public PdfIndirectObject GetObject(int objectNumber, int generationNumber)
+		{
+			String key = PdfXRef.BuildKey(objectNumber, generationNumber);
+			return _indirectObjects[key];
 		}
 	}
 }

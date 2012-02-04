@@ -34,6 +34,7 @@ namespace PdfStructureViewer
 			{
 				var file = PdfFile.Parse("test.pdf");
 				fileView.FileStructure = file;
+				documentView.DocumentStructure = new PdfDocument(file);
 			}
 		}
 	}

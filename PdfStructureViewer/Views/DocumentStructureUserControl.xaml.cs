@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using SafeRapidPdf;
+using SafeRapidPdf.Pdf;
+
 namespace PdfStructureViewer.Views
 {
 	/// <summary>
@@ -22,6 +25,18 @@ namespace PdfStructureViewer.Views
 		public DocumentStructureUserControl()
 		{
 			InitializeComponent();
+		}
+
+		private PdfDocument _document;
+		public PdfDocument DocumentStructure 
+		{
+			get { return _document; }
+			set { _document = value; RefreshControl(); }
+		}
+
+		private void RefreshControl()
+		{
+			treeView.ItemsSource = _document.Items;
 		}
 	}
 }

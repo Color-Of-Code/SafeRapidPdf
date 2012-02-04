@@ -83,7 +83,7 @@ namespace SafeRapidPdf.Primitives
 					break;
 			}
 			if (obj == null)
-				throw new Exception("Parsing error, could not read object");
+				throw new Exception("Parse error, could not read object");
 			return obj;
 		}
 

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using SafeRapidPdf.Primitives;
+
 namespace SafeRapidPdf
 {
 	public interface IIndirectReferenceResolver
 	{
-		void InsertObject(Primitives.PdfIndirectObject obj);
-
-		Primitives.PdfIndirectObject GetObject(int objNumber, int genNumber);
+		PdfIndirectObject GetObject(int objectNumber, int generationNumber);
 	}
 }
