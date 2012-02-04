@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeRapidPdf", "SafeRapidPd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfStructureViewer", "PdfStructureViewer\PdfStructureViewer.csproj", "{46C838E7-752A-4620-8092-9CC60C8BA245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeRapidPdf.UnitTests", "SafeRapidPdf.UnitTests\SafeRapidPdf.UnitTests.csproj", "{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{46C838E7-752A-4620-8092-9CC60C8BA245}.Release|Mixed Platforms.Build.0 = Release|x86
 		{46C838E7-752A-4620-8092-9CC60C8BA245}.Release|x86.ActiveCfg = Release|x86
 		{46C838E7-752A-4620-8092-9CC60C8BA245}.Release|x86.Build.0 = Release|x86
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{52AA76A5-14C4-4A77-A96E-7C5C309BB56B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

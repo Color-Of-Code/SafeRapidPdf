@@ -12,7 +12,7 @@ namespace SafeRapidPdf.Primitives
 	/// </summary>
     public class PdfIndirectReference : PdfObject
     {
-        public PdfIndirectReference(int objectNumber, int generationNumber, IIndirectReferenceResolver resolver)
+        private PdfIndirectReference(int objectNumber, int generationNumber, IIndirectReferenceResolver resolver)
         {
 			IsContainer = true;
 

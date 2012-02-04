@@ -11,11 +11,17 @@ namespace SafeRapidPdf.Primitives
 	/// parentheses and the backslash, which must be treated specially. Balanced pairs of 
 	/// parentheses within a string require no special treatment. 
 	/// </summary>
-	public class PdfLiteralString : PdfString
+	public class PdfLiteralString : PdfObject
 	{
-		public PdfLiteralString(Lexical.ILexer lexer)
+		private PdfLiteralString(String text)
+		{
+			_text = text;
+		}
+
+		public static PdfLiteralString Parse(Lexical.ILexer lexer)
 		{
 			lexer.Expects("(");
+
 			int parenthesisCount = 0;
 			StringBuilder sb = new StringBuilder();
 			char c = lexer.ReadChar();
@@ -82,8 +88,14 @@ namespace SafeRapidPdf.Primitives
 				}
 				c = lexer.ReadChar();
 			}
-			_text = sb.ToString();
+			return new PdfLiteralString(sb.ToString());
 		}
 
+		private String _text;
+
+		public override string ToString()
+		{
+			return _text;
+		}
 	}
 }

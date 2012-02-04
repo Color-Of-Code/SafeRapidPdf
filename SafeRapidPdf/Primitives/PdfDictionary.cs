@@ -7,7 +7,7 @@ using System.Text;
 namespace SafeRapidPdf.Primitives
 {
 	/// <summary>
-	/// Immutable type
+	/// A PDF Dictionary type, a collection of named objects
 	/// </summary>
 	public class PdfDictionary : PdfObject
     {

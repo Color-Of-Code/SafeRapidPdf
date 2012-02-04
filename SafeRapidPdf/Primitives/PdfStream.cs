@@ -8,10 +8,15 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfStream : PdfObject
 	{
-		public PdfStream(PdfDictionary dictionary, Lexical.ILexer lexer)
+		private PdfStream(PdfDictionary dictionary, byte[] data)
 		{
 			IsContainer = true;
+			StreamDictionary = dictionary;
+			Data = data;
+		}
 
+		public static PdfStream Parse(PdfDictionary dictionary, Lexical.ILexer lexer)
+		{
 			lexer.Expects("stream");
 			lexer.SkipEol(); // position to begin of stream data
 
@@ -38,10 +43,10 @@ namespace SafeRapidPdf.Primitives
 				length = int.Parse(lengthObject.ToString());
 			}
 
-			Data = lexer.ReadBytes(length);
+			var data = lexer.ReadBytes(length);
 			lexer.Expects("endstream");
 
-			StreamDictionary = dictionary;
+			return new PdfStream(dictionary, data);
 		}
 
 		public PdfObject StreamDictionary

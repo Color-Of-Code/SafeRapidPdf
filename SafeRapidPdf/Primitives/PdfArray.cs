@@ -8,7 +8,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfArray : PdfObject
 	{
-		private PdfArray( ReadOnlyCollection<IPdfObject> items)
+		private PdfArray(ReadOnlyCollection<IPdfObject> items)
 		{
 			IsContainer = true;
 			_items = items;

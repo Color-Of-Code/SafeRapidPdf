@@ -8,7 +8,7 @@ namespace SafeRapidPdf.Primitives
 {
 	public abstract class PdfObject : IPdfObject
 	{
-		public PdfObject()
+		protected PdfObject()
 		{
 		}
 
@@ -42,25 +42,25 @@ namespace SafeRapidPdf.Primitives
 					// check for stream and combine put dictionary into stream object
 					token = lexer.PeekToken();
 					if (token == "stream")
-						obj = new PdfStream(obj as PdfDictionary, lexer);
+						obj = PdfStream.Parse(obj as PdfDictionary, lexer);
 					break;
 				case "[":
 					obj = PdfArray.Parse(lexer);
 					break;
 				case "<":
-					obj = new PdfHexadecimalString(lexer);
+					obj = PdfHexadecimalString.Parse(lexer);
 					break;
 				case "(":
-					obj = new PdfLiteralString(lexer);
+					obj = PdfLiteralString.Parse(lexer);
 					break;
 				case "/":
 					obj = PdfName.Parse(lexer);
 					break;
 				case "xref":
-					obj = new PdfXRef(lexer);
+					obj = PdfXRef.Parse(lexer);
 					break;
 				case "trailer":
-					obj = new PdfTrailer(lexer);
+					obj = PdfTrailer.Parse(lexer);
 					break;
 
 				case ")":

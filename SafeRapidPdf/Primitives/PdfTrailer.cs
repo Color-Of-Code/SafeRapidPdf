@@ -8,11 +8,17 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfTrailer : PdfObject
 	{
-		public PdfTrailer(Lexical.ILexer lexer)
+		private PdfTrailer(PdfDictionary dictionary)
 		{
 			IsContainer = true;
+			Content = dictionary;
+		}
+
+		public static PdfTrailer Parse(Lexical.ILexer lexer)
+		{
 			lexer.Expects("trailer");
-			Content = PdfDictionary.Parse(lexer);
+			var dictionary = PdfDictionary.Parse(lexer);
+			return new PdfTrailer(dictionary);
 		}
 
 		public PdfDictionary Content { get; private set; }

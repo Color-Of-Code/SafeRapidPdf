@@ -5,15 +5,11 @@ using System.Text;
 
 namespace SafeRapidPdf.Primitives
 {
-	public class PdfHexadecimalString : PdfString
+	public class PdfHexadecimalString : PdfObject
 	{
-		public PdfHexadecimalString(Lexical.ILexer lexer)
+		private PdfHexadecimalString(String hexString)
 		{
-			lexer.Expects("<");
-			String text = lexer.ReadToken();
-			String cleantext = String.Join("", text.Where(x => !Lexical.LexicalParser.IsWhitespace(x)));
-			if ((cleantext.Length % 2) != 0)
-				cleantext = cleantext + "0";
+			_text = hexString;
 			//int length = cleantext.Length;
 			//StringBuilder sb = new StringBuilder();
 			//for (int i = 0; i < length; i += 2)
@@ -22,9 +18,28 @@ namespace SafeRapidPdf.Primitives
 			//    sb.Append((char)b);
 			//}
 			//_text = sb.ToString();
-			_text = cleantext;
+		}
 
-			lexer.Expects(">");
+		public static PdfHexadecimalString Parse(Lexical.ILexer lexer)
+		{
+			lexer.Expects("<");
+			StringBuilder hexString = new StringBuilder();
+			String text = string.Empty;
+			while (text != ">")
+			{
+				hexString.Append(text);
+				text = lexer.ReadToken();
+			}
+			if ((hexString.Length % 2) != 0)
+				hexString.Append('0');
+			return new PdfHexadecimalString(hexString.ToString());
+		}
+
+		private String _text;
+
+		public override string ToString()
+		{
+			return _text;
 		}
 	}
 }

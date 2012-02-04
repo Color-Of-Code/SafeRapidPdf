@@ -8,36 +8,38 @@ namespace SafeRapidPdf.Primitives
 {
 	public class PdfXRef : PdfObject
 	{
-		public PdfXRef(Lexical.ILexer lexer)
+		private PdfXRef(IList<PdfXRefSection> sections)
 		{
 			IsContainer = true;
 
-			lexer.Expects("xref");
-
-			_sections = new List<PdfXRefSection>();
-			String token = lexer.PeekToken();
-			while (Char.IsDigit(token[0]))
-			{
-				_sections.Add(PdfXRefSection.Parse(lexer));
-				token = lexer.PeekToken();
-			}
-
+			_sections = sections;
 			// create the access table
-			foreach (var section in _sections)
-			{
-				foreach (var entryItem in section.Items)
-				{
+			foreach (var section in _sections) {
+				foreach (var entryItem in section.Items) {
 					PdfXRefEntry entry = entryItem as PdfXRefEntry;
-					if (entry.InUse)
-					{
-						String key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
-						_offsets.Add(key, entry.Offset);
+					if (entry.InUse) {
+						String key = BuildKey (entry.ObjectNumber, entry.GenerationNumber);
+						_offsets.Add (key, entry.Offset);
 					}
 				}
 			}
 		}
 
-		private List<PdfXRefSection> _sections;
+		public static PdfXRef Parse(Lexical.ILexer lexer)
+		{
+			lexer.Expects ("xref");
+
+			var sections = new List<PdfXRefSection>();
+			String token = lexer.PeekToken();
+			while (Char.IsDigit (token[0]))
+			{
+				sections.Add(PdfXRefSection.Parse(lexer));
+				token = lexer.PeekToken();
+			}
+			return new PdfXRef(sections);
+		}
+
+		private IList<PdfXRefSection> _sections;
 
 		public long GetOffset(int objectNumber, int generationNumber)
 		{
@@ -56,7 +58,7 @@ namespace SafeRapidPdf.Primitives
 		{
 			get
 			{
-				return _sections.ConvertAll(x => x as IPdfObject).AsReadOnly();
+				return _sections.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
 			}
 		}
 
