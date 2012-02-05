@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+
+//using ComponentAce.Compression.Libs.zlib;
 
 namespace SafeRapidPdf.Primitives
 {
@@ -13,6 +16,28 @@ namespace SafeRapidPdf.Primitives
 			IsContainer = true;
 			StreamDictionary = dictionary;
 			Data = data;
+
+			//IPdfObject filter = StreamDictionary["Filter"];
+			//if (filter.Text == "FlateDecode")
+			//{
+			//    ZInputStream zin = new ZInputStream(new MemoryStream(Data));
+			//    //zin.
+			//    int r;
+			//    IList<char> output = new List<char>(data.Length*10);
+			//    while ((r = zin.Read()) != -1)
+			//    {
+			//        output.Add((char)r);
+			//    }
+			//    char[] decompressed = output.ToArray();
+			//    String test = new String(decompressed);
+			//    zin.Close();
+			//}
+			//else if (filter.Text == "DCTDecode")
+			//{
+			//    // JPEG image
+			//}
+			//else
+			//    throw new NotImplementedException("Implement Filter");
 		}
 
 		public static PdfStream Parse(PdfDictionary dictionary, Lexical.ILexer lexer)
@@ -49,7 +74,7 @@ namespace SafeRapidPdf.Primitives
 			return new PdfStream(dictionary, data);
 		}
 
-		public PdfObject StreamDictionary
+		public PdfDictionary StreamDictionary
 		{
 			get;
 			private set;

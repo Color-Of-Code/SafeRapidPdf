@@ -40,6 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\Flate\Adler32.cs" />
+    <Compile Include="Filters\Flate\Deflate.cs" />
+    <Compile Include="Filters\Flate\InfBlocks.cs" />
+    <Compile Include="Filters\Flate\InfCodes.cs" />
+    <Compile Include="Filters\Flate\Inflate.cs" />
+    <Compile Include="Filters\Flate\InfTree.cs" />
+    <Compile Include="Filters\Flate\StaticTree.cs" />
+    <Compile Include="Filters\Flate\SupportClass.cs" />
+    <Compile Include="Filters\Flate\Tree.cs" />
+    <Compile Include="Filters\Flate\ZInputStream.cs" />
+    <Compile Include="Filters\Flate\Zlib.cs" />
+    <Compile Include="Filters\Flate\ZOutputStream.cs" />
+    <Compile Include="Filters\Flate\ZStream.cs" />
+    <Compile Include="Filters\Flate\ZStreamException.cs" />
     <Compile Include="ObjectResolver\IIndirectReferenceResolver.cs" />
     <Compile Include="Lexical\ILexer.cs" />
     <Compile Include="Lexical\LexicalParser.cs" />
