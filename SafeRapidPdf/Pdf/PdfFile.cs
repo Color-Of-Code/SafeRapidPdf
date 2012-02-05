@@ -24,6 +24,22 @@ namespace SafeRapidPdf.Pdf
 			_indirectObjects = new Dictionary<String, PdfIndirectObject>();
 			foreach (var obj in Items.OfType<PdfIndirectObject>())
 				InsertObject(obj);
+			SetResolver(this);
+		}
+
+		private void SetResolver(IPdfObject obj)
+		{
+			if (obj != null && obj.IsContainer)
+			{
+				foreach (IPdfObject item in obj.Items)
+				{
+					if (item is PdfIndirectReference)
+					{
+						(item as PdfIndirectReference).Resolver = this;
+					}
+					SetResolver(item);
+				}
+			}
 		}
 
 		public static Pdf.PdfFile Parse(String pdfFilePath)

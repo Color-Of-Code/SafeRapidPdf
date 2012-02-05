@@ -14,11 +14,9 @@ namespace SafeRapidPdf.Primitives
     {
         private PdfIndirectReference(int objectNumber, int generationNumber, IIndirectReferenceResolver resolver)
         {
-			IsContainer = true;
-
 			ObjectNumber = objectNumber;
 			GenerationNumber = generationNumber;
-			_resolver = resolver;
+			Resolver = resolver;
 		}
 
 		public static PdfIndirectReference Parse(Lexical.ILexer lexer, IIndirectReferenceResolver resolver)
@@ -33,22 +31,13 @@ namespace SafeRapidPdf.Primitives
 
         public int GenerationNumber { get; private set; }
 
-		private IIndirectReferenceResolver _resolver;
+		internal IIndirectReferenceResolver Resolver { get; set;}
+
 		public PdfIndirectObject ReferencedObject
 		{
 			get
 			{
-				return _resolver.GetObject(ObjectNumber, GenerationNumber);
-			}
-		}
-
-		public override ReadOnlyCollection<IPdfObject> Items
-		{
-			get
-			{
-				var list = new List<IPdfObject>();
-				list.Add(ReferencedObject.Object);
-				return list.AsReadOnly();
+				return Resolver.GetObject(ObjectNumber, GenerationNumber);
 			}
 		}
 
