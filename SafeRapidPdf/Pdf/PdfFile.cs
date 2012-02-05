@@ -9,6 +9,11 @@ using SafeRapidPdf.Primitives;
 
 namespace SafeRapidPdf.Pdf
 {
+	/// <summary>
+	/// Represents the physical structure of a PDF. Contains the objects present
+	/// in the file and allows direct retrieval of indirect references.
+	/// The file itself is considered as a PDF object.
+	/// </summary>
 	public class PdfFile : IPdfObject, IIndirectReferenceResolver
 	{
 		private PdfFile(ReadOnlyCollection<IPdfObject> objects)

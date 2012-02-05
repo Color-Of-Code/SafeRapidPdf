@@ -6,6 +6,10 @@ using System.Text;
 
 namespace SafeRapidPdf.Pdf
 {
+	/// <summary>
+	/// Represents the logical structure of a PDF document. It uses the low-
+	/// level physical structure to extract the logical objects.
+	/// </summary>
 	public class PdfDocument : IPdfObject
 	{
 		public PdfDocument(PdfFile file)
