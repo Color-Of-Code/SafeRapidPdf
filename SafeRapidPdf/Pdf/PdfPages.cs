@@ -8,34 +8,29 @@ using SafeRapidPdf.Primitives;
 
 namespace SafeRapidPdf.Pdf 
 {
-	public class PdfCatalog : PdfBaseObject
+	public class PdfPages : PdfBaseObject
 	{
-		public PdfCatalog(PdfDictionary catalog)
-			: base(PdfObjectType.Catalog)
+		public PdfPages(PdfDictionary pages)
+			: base(PdfObjectType.Pages)
 		{
 			IsContainer = true;
-			catalog.ExpectsType("Catalog");
+			pages.ExpectsType("Pages");
 
-			PdfIndirectReference pagesRef = catalog["Pages"] as PdfIndirectReference;
-			PdfDictionary pages = pagesRef.Dereference<PdfDictionary>();
-			Pages = new PdfPages(pages);
 		}
-
-		public PdfPages Pages { get; private set; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
 			get
 			{
 				var list = new List<IPdfObject>();
-				list.Add(Pages);
+				//list.Add(Pages);
 				return list.AsReadOnly();
 			}
 		}
 
 		public override string ToString ()
 		{
-			return "/";
+			return "Pages";
 		}
 	}
 }

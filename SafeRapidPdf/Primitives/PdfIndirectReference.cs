@@ -19,6 +19,12 @@ namespace SafeRapidPdf.Primitives
 			GenerationNumber = generationNumber;
 		}
 
+		public T Dereference<T>() where T: class
+		{
+			PdfIndirectObject obj = ReferencedObject as PdfIndirectObject;
+			return obj.Object as T;
+		}
+
 		public static PdfIndirectReference Parse(Lexical.ILexer lexer)
         {
 			int objectNumber = int.Parse(lexer.ReadToken());

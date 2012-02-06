@@ -65,6 +65,7 @@
     <Compile Include="Pdf\PdfDocument.cs" />
     <Compile Include="Pdf\PdfPage.cs" />
     <Compile Include="IPdfObject.cs" />
+    <Compile Include="Pdf\PdfPages.cs" />
     <Compile Include="Primitives\PdfArray.cs" />
     <Compile Include="Primitives\PdfBoolean.cs" />
     <Compile Include="Primitives\PdfComment.cs" />

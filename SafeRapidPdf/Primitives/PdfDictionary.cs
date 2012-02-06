@@ -18,6 +18,13 @@ namespace SafeRapidPdf.Primitives
 			_dictionary = dictionary;
 		}
 
+		public void ExpectsType(String name)
+		{
+			PdfName type = this["Type"] as PdfName;
+			if (type.Name != name)
+				throw new Exception(String.Format("Expected {0}, but got {1}", name, type.Name));
+		}
+
         public static PdfDictionary Parse(Lexical.ILexer lexer)
         {
 			lexer.Expects("<<");
