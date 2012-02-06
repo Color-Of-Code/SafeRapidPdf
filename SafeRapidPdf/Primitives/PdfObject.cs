@@ -8,8 +8,14 @@ namespace SafeRapidPdf.Primitives
 {
 	public abstract class PdfObject : IPdfObject
 	{
-		protected PdfObject()
+		protected PdfObject(PdfObjectType type)
 		{
+			ObjectType = type;
+		}
+
+		public PdfObjectType ObjectType
+		{
+			get; private set;
 		}
 
 		public static PdfObject ParseAny(Lexical.ILexer lexer)
@@ -35,7 +41,9 @@ namespace SafeRapidPdf.Primitives
 					obj = PdfIndirectObject.Parse(lexer);
 					break;
 				case "R":
-					obj = PdfIndirectReference.Parse(lexer, lexer.IndirectReferenceResolver);
+					PdfIndirectReference ir = PdfIndirectReference.Parse(lexer);
+					ir.Resolver = lexer.IndirectReferenceResolver;
+					obj = ir;
 					break;
 				case "<<":
 					obj = PdfDictionary.Parse(lexer);

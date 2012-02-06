@@ -10,6 +10,7 @@ namespace SafeRapidPdf.Primitives
     public class PdfIndirectObject : PdfObject
     {
         private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
+			: base(PdfObjectType.IndirectObject)
         {
 			IsContainer = true;
 

@@ -12,6 +12,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfDictionary : PdfObject
     {
         private PdfDictionary(IList<PdfKeyValuePair> dictionary)
+			: base(PdfObjectType.Dictionary)
 		{
 			IsContainer = true;
 			_dictionary = dictionary;

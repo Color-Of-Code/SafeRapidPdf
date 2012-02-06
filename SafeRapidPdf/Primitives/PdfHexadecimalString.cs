@@ -8,6 +8,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfHexadecimalString : PdfObject
 	{
 		private PdfHexadecimalString(String hexString)
+			: base(PdfObjectType.HexadecimalString)
 		{
 			_text = hexString;
 			//int length = cleantext.Length;

@@ -8,6 +8,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfNumeric : PdfObject
 	{
 		private PdfNumeric(decimal value)
+			: base(PdfObjectType.Numeric)
 		{
 			Value = value;
 		}

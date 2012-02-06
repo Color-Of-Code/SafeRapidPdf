@@ -14,6 +14,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfLiteralString : PdfObject
 	{
 		private PdfLiteralString(String text)
+			: base(PdfObjectType.LiteralString)
 		{
 			_text = text;
 		}

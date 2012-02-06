@@ -8,6 +8,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfNull : PdfObject
 	{
 		private PdfNull()
+			: base(PdfObjectType.Null)
 		{
 		}
 

@@ -9,6 +9,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfXRefSection : PdfObject
 	{
 		private PdfXRefSection(int firstId, int size, List<IPdfObject> entries)
+			: base(PdfObjectType.XRefSection)
 		{
 			IsContainer = true;
 

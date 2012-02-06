@@ -14,6 +14,11 @@ namespace SafeRapidPdf
 	public interface IPdfObject
 	{
 		/// <summary>
+		/// Returns the type of this object
+		/// </summary>
+		PdfObjectType ObjectType { get; }
+
+		/// <summary>
 		/// Description of this object
 		/// </summary>
 		String Text { get; }

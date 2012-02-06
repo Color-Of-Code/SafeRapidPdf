@@ -106,6 +106,11 @@ namespace SafeRapidPdf.Pdf
 			get { return true; }
 		}
 
+		public PdfObjectType ObjectType
+		{
+			get { return PdfObjectType.File; }
+		}
+
 		private IDictionary<String, PdfIndirectObject> _indirectObjects;
 
 		private void InsertObject(PdfIndirectObject obj)

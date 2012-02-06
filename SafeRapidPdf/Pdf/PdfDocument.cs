@@ -36,5 +36,10 @@ namespace SafeRapidPdf.Pdf
 				return null;
 			}
 		}
+
+		public PdfObjectType ObjectType
+		{
+			get { return PdfObjectType.Document; }
+		}
 	}
 }

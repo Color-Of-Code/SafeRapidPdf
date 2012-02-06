@@ -6,9 +6,14 @@ using System.Text;
 
 namespace SafeRapidPdf.Primitives
 {
+	/// <summary>
+	/// Object not described in the specification but eases use and
+	/// implementation in .NET
+	/// </summary>
 	public class PdfKeyValuePair : PdfObject
 	{
 		public PdfKeyValuePair(PdfName key, PdfObject value)
+			: base(PdfObjectType.KeyValuePair)
 		{
 			IsContainer = true;
 			Key = key;

@@ -12,6 +12,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfComment : PdfObject
 	{
 		private PdfComment(String text)
+			: base(PdfObjectType.Comment)
 		{
 			_text = text;
 		}

@@ -12,6 +12,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfStream : PdfObject
 	{
 		private PdfStream(PdfDictionary dictionary, byte[] data)
+			: base(PdfObjectType.Stream)
 		{
 			IsContainer = true;
 			StreamDictionary = dictionary;

@@ -8,6 +8,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfXRefEntry : PdfObject
 	{
 		private PdfXRefEntry(int objectNumber, int generationNumber, long offset, bool inUse)
+			: base(PdfObjectType.XRefEntry)
 		{
 			ObjectNumber = objectNumber;
 			GenerationNumber = generationNumber;

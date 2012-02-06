@@ -9,6 +9,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfTrailer : PdfObject
 	{
 		private PdfTrailer(PdfDictionary dictionary)
+			: base(PdfObjectType.Trailer)
 		{
 			IsContainer = true;
 			Content = dictionary;

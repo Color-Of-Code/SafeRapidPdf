@@ -8,6 +8,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfBoolean : PdfObject
 	{
 		private PdfBoolean(Boolean value)
+			: base(PdfObjectType.Boolean)
 		{
 			Value = value;
 		}

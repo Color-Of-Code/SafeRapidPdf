@@ -54,10 +54,12 @@
     <Compile Include="Filters\Flate\ZOutputStream.cs" />
     <Compile Include="Filters\Flate\ZStream.cs" />
     <Compile Include="Filters\Flate\ZStreamException.cs" />
+    <Compile Include="Filters\IFilter.cs" />
     <Compile Include="ObjectResolver\IIndirectReferenceResolver.cs" />
     <Compile Include="Lexical\ILexer.cs" />
     <Compile Include="Lexical\LexicalParser.cs" />
     <Compile Include="ObjectResolver\IndirectReferenceResolver.cs" />
+    <Compile Include="PdfObjectType.cs" />
     <Compile Include="Pdf\PdfCatalog.cs" />
     <Compile Include="Pdf\PdfDocument.cs" />
     <Compile Include="Pdf\PdfPage.cs" />
@@ -86,7 +88,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Filters\ASCII85\" />
+    <Folder Include="Filters\ASCIIHex\" />
+    <Folder Include="Filters\CCITTFax\" />
+    <Folder Include="Filters\Crypt\" />
     <Folder Include="Filters\DCT\" />
+    <Folder Include="Filters\JBIG2\" />
+    <Folder Include="Filters\JPX\" />
+    <Folder Include="Filters\LZW\" />
+    <Folder Include="Filters\RunLength\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

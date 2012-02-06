@@ -9,6 +9,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfStartXRef : PdfObject
 	{
 		private PdfStartXRef(PdfNumeric value)
+			: base(PdfObjectType.StartXRef)
 		{
 			IsContainer = true;
 			Numeric = value;

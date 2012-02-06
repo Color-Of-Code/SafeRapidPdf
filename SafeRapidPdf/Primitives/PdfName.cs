@@ -9,6 +9,7 @@ namespace SafeRapidPdf.Primitives
 	public class PdfName : PdfObject
 	{
 		private PdfName(String name)
+			: base(PdfObjectType.Name)
 		{
 			Name = name;
 		}
