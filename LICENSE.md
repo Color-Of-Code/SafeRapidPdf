@@ -22,6 +22,11 @@ THE SOFTWARE.
 
 
 Integrated 3rdparty source:
+-----------------------------------------------------------------------------------------
+Tango icon set (Public Domain)
+-----------------------------------------------------------------------------------------
+The icons are taken from the Tango Desktop Library project
+http://tango.freedesktop.org/
 
 -----------------------------------------------------------------------------------------
 ZLIB.NET:
