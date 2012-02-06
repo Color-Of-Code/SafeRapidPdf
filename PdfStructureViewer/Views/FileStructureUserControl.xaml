@@ -16,7 +16,7 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type srp:IPdfObject}">
                     <StackPanel Orientation="Horizontal">
-                        <!--Image Width="16" Height="16" Margin="3,0" Source="{Binding ObjectType, Converter=IconConverter}" /-->
+                        <Image Width="16" Height="16" Margin="3,0" Source="{Binding ObjectType, Converter={StaticResource IconConverter}}" />
                         <TextBlock Text="{Binding Text}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>

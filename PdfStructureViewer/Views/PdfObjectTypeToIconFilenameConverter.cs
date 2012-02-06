@@ -22,9 +22,8 @@ namespace PdfStructureViewer.Views
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return "/WPFApplication;component/Images/folder.png";
-			//return "Images/folder.png";
-			//return Enum.GetName(typeof(PdfObjectType), value) + ".png";
+			String basePath = "/PdfStructureViewer;component/Images/";
+			return String.Format("{0}{1}.png", basePath, Enum.GetName(typeof(PdfObjectType), value));
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
