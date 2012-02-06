@@ -4,42 +4,46 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
+using SafeRapidPdf.Primitives;
+
 namespace SafeRapidPdf.Pdf
 {
 	/// <summary>
 	/// Represents the logical structure of a PDF document. It uses the low-
 	/// level physical structure to extract the logical objects.
 	/// </summary>
-	public class PdfDocument : IPdfObject
+	public class PdfDocument : PdfBaseObject
 	{
 		public PdfDocument(PdfFile file)
+			: base(PdfObjectType.Document)
 		{
 			_file = file;
+			IsContainer = true;
+			var trailers = _file.Items.OfType<PdfTrailer>();
+			if (trailers.Count() > 1)
+				throw new Exception("too many trailers found");
+			PdfTrailer trailer = trailers.First();
+			var root =  trailer.Content["Root"];
+			Root = new PdfCatalog(root as PdfIndirectReference);
 		}
 
 		private PdfFile _file;
 
-		public string Text
-		{
-			get { return "root"; }
-		}
+		public PdfCatalog Root { get; private set; }
 
-		public bool IsContainer
-		{
-			get { return true; }
-		}
-
-		public ReadOnlyCollection<IPdfObject> Items
+		public override ReadOnlyCollection<IPdfObject> Items
 		{
 			get
 			{
-				return null;
+				var list = new List<IPdfObject>();
+				list.Add(Root);
+				return list.AsReadOnly();
 			}
 		}
 
-		public PdfObjectType ObjectType
+		public override string ToString ()
 		{
-			get { return PdfObjectType.Document; }
+			return "Document";
 		}
 	}
 }

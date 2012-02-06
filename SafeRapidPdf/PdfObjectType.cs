@@ -36,5 +36,8 @@ namespace SafeRapidPdf
 		// high level objects
 		File,
 		Document,
+		Catalog,
+		Pages,
+		Page
 	}
 }

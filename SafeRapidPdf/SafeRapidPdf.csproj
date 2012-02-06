@@ -60,10 +60,10 @@
     <Compile Include="Lexical\LexicalParser.cs" />
     <Compile Include="ObjectResolver\IndirectReferenceResolver.cs" />
     <Compile Include="PdfObjectType.cs" />
+    <Compile Include="Pdf\PdfBaseObject.cs" />
     <Compile Include="Pdf\PdfCatalog.cs" />
     <Compile Include="Pdf\PdfDocument.cs" />
     <Compile Include="Pdf\PdfPage.cs" />
-    <Compile Include="Pdf\PdfTrailer.cs" />
     <Compile Include="IPdfObject.cs" />
     <Compile Include="Primitives\PdfArray.cs" />
     <Compile Include="Primitives\PdfBoolean.cs" />
