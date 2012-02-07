@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf.File
 {
 	public abstract class PdfObject : IPdfObject
 	{
@@ -23,7 +23,7 @@ namespace SafeRapidPdf.Primitives
 			String token = lexer.PeekToken();
 			if (token == null) return null;
 
-			Primitives.PdfObject obj = null;
+			File.PdfObject obj = null;
 			switch (token)
 			{
 				// null object

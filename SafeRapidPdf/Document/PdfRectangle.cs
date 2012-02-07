@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Pdf 
+namespace SafeRapidPdf.Document
 {
-	public class PdfMediaBox : PdfRectangle
+	public class PdfRectangle 
 	{
 	}
 }

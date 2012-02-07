@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf.File
 {
 	/// <summary>
 	/// A  literal string is written as an arbitrary number of characters enclosed in 

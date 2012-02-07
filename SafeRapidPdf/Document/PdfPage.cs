@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using SafeRapidPdf.Primitives;
+using SafeRapidPdf.File;
 
-namespace SafeRapidPdf.Pdf
+namespace SafeRapidPdf.Document
 {
 	public class PdfPage : PdfBaseObject
 	{

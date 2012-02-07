@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-using SafeRapidPdf.Primitives;
+using SafeRapidPdf.File;
 
-namespace SafeRapidPdf.Pdf
+namespace SafeRapidPdf.Document
 {
 	/// <summary>
 	/// Represents the logical structure of a PDF document. It uses the low-

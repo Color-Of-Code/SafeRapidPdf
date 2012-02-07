@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SafeRapidPdf.Filters 
 {
-	using SafeRapidPdf.Primitives;
+	using SafeRapidPdf.File;
 
 	public interface IFilter 
 	{

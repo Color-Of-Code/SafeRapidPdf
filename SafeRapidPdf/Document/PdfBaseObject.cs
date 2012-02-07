@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Pdf 
+namespace SafeRapidPdf.Document 
 {
 	public abstract class PdfBaseObject : IPdfObject
 	{

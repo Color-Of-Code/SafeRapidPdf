@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using SIO=System.IO;
 using System.Linq;
 using System.Text;
 
-using SafeRapidPdf.Primitives;
+using SafeRapidPdf.File;
 
-namespace SafeRapidPdf.Pdf
+namespace SafeRapidPdf.File
 {
 	/// <summary>
 	/// Represents the physical structure of a PDF. Contains the objects present
@@ -42,9 +42,9 @@ namespace SafeRapidPdf.Pdf
 			}
 		}
 
-		public static Pdf.PdfFile Parse(String pdfFilePath)
+		public static File.PdfFile Parse(String pdfFilePath)
 		{
-			using (Stream reader = File.Open(pdfFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
 			{
 				var lexer = new Lexical.LexicalParser(reader);
 
@@ -82,7 +82,7 @@ namespace SafeRapidPdf.Pdf
 						}
 					}
 				}
-				return new Pdf.PdfFile(objects.AsReadOnly()); ;
+				return new File.PdfFile(objects.AsReadOnly()); ;
 			}
 		}
 

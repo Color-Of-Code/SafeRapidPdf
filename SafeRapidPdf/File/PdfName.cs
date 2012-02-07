@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf.File
 {
 	public class PdfName : PdfObject
 	{

@@ -7,7 +7,7 @@ using System.Text;
 
 //using ComponentAce.Compression.Libs.zlib;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf.File
 {
 	public class PdfStream : PdfObject
 	{

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf.File
 {
 	public class PdfStartXRef : PdfObject
 	{

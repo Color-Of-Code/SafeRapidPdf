@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SafeRapidPdf.Primitives
+namespace SafeRapidPdf.File
 {
 	/// <summary>
 	/// Comments start with % and end on EOL char (CR or LF)
