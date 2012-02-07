@@ -166,7 +166,7 @@
     <Content Include="Images\Page.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\Pages.png">
+    <Content Include="Images\PageTree.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\StartXRef.png">

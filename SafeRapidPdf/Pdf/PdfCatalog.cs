@@ -18,10 +18,10 @@ namespace SafeRapidPdf.Pdf
 
 			PdfIndirectReference pagesRef = catalog["Pages"] as PdfIndirectReference;
 			PdfDictionary pages = pagesRef.Dereference<PdfDictionary>();
-			Pages = new PdfPages(pages);
+			Pages = new PdfPageTree(pages, true);
 		}
 
-		public PdfPages Pages { get; private set; }
+		public PdfPageTree Pages { get; private set; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{

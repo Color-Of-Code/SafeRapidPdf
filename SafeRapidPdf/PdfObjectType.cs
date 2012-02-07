@@ -37,7 +37,7 @@ namespace SafeRapidPdf
 		File,
 		Document,
 		Catalog,
-		Pages,
+		PageTree,
 		Page
 	}
 }
