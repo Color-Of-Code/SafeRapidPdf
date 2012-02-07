@@ -20,8 +20,9 @@ namespace SafeRapidPdf.Pdf
 			_file = file;
 			IsContainer = true;
 			var trailers = _file.Items.OfType<PdfTrailer>();
-			if (trailers.Count() > 1)
-				throw new Exception("too many trailers found");
+			// this could happen for linearized documents
+			//if (trailers.Count() > 1)
+			//    throw new Exception("too many trailers found");
 			PdfTrailer trailer = trailers.First();
 			PdfIndirectReference root =  trailer.Content["Root"] as PdfIndirectReference;
 			PdfDictionary dic = root.Dereference<PdfDictionary>();
