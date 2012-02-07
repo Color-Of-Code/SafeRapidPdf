@@ -12,8 +12,19 @@ namespace SafeRapidPdf.Pdf
 		public PdfPage(PdfDictionary pages)
 			: base(PdfObjectType.Page)
 		{
-			IsContainer = false;
+			IsContainer = true;
 			pages.ExpectsType("Page");
+			_pages = pages;
+		}
+
+		private PdfDictionary _pages;
+
+		public override System.Collections.ObjectModel.ReadOnlyCollection<IPdfObject> Items
+		{
+			get
+			{
+				return _pages.Items;
+			}
 		}
 
 		public override string ToString ()
