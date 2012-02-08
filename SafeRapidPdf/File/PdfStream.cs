@@ -11,7 +11,7 @@ namespace SafeRapidPdf.File
 {
 	public class PdfStream : PdfObject
 	{
-		private PdfStream(PdfDictionary dictionary, byte[] data)
+		private PdfStream(PdfDictionary dictionary, PdfData data)
 			: base(PdfObjectType.Stream)
 		{
 			IsContainer = true;
@@ -69,7 +69,7 @@ namespace SafeRapidPdf.File
 				length = int.Parse(lengthObject.ToString());
 			}
 
-			var data = lexer.ReadBytes(length);
+			PdfData data = PdfData.Parse(lexer, length);
 			lexer.Expects("endstream");
 
 			return new PdfStream(dictionary, data);
@@ -81,7 +81,7 @@ namespace SafeRapidPdf.File
 			private set;
 		}
 
-		public byte[] Data
+		public PdfData Data
 		{
 			get;
 			private set;
@@ -92,7 +92,8 @@ namespace SafeRapidPdf.File
 			get
 			{
 				var list = new List<IPdfObject>();
-				list.Add(StreamDictionary);
+				list.AddRange(StreamDictionary.Items);
+				list.Add(Data);
 				return list.AsReadOnly();
 			}
 		}

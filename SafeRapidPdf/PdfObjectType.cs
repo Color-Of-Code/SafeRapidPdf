@@ -15,6 +15,7 @@ namespace SafeRapidPdf
 		HexadecimalString,
 		LiteralString,
 		Name,
+		Data,
 
 		IndirectObject,
 		IndirectReference,

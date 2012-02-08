@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="File\PdfData.cs" />
     <Compile Include="Filters\Flate\Adler32.cs" />
     <Compile Include="Filters\Flate\Deflate.cs" />
     <Compile Include="Filters\Flate\InfBlocks.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="File\PdfBoolean.cs" />
     <Compile Include="File\PdfComment.cs" />
     <Compile Include="File\PdfDictionary.cs" />
-    <Compile Include="Document\PdfFile.cs" />
+    <Compile Include="File\PdfFile.cs" />
     <Compile Include="File\PdfHexadecimalString.cs" />
     <Compile Include="File\PdfIndirectObject.cs" />
     <Compile Include="File\PdfIndirectReference.cs" />

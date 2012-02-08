@@ -9,8 +9,8 @@ using SafeRapidPdf.File;
 namespace SafeRapidPdf.Document
 {
 	/// <summary>
-	/// Represents the logical structure of a PDF document. It uses the low-
-	/// level physical structure to extract the logical objects.
+	/// Represents the document structure of a PDF document. It uses the low-
+	/// level physical structure to extract the document objects.
 	/// </summary>
 	public class PdfDocument : PdfBaseObject
 	{

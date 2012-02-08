@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using SafeRapidPdf;
-using SafeRapidPdf.Pdf;
+using SafeRapidPdf.Document;
 
 namespace PdfStructureViewer.Views
 {
