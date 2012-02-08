@@ -25,6 +25,7 @@
             </TabItem>
         </TabControl>
         <StatusBar Grid.Row="2">
+            <ProgressBar Height="10" HorizontalAlignment="Left" Name="progressBar" VerticalAlignment="Top" Width="200" />
         </StatusBar>
     </Grid>
 </Window>

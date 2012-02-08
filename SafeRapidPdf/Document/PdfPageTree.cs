@@ -20,23 +20,43 @@ namespace SafeRapidPdf.Document
 		{
 			IsContainer = true;
 			pages.ExpectsType("Pages");
-			if (!isRoot)
-				Parent = pages["Parent"];
-			Count = pages["Count"] as PdfNumeric;
-			PdfArray kids = pages["Kids"] as PdfArray;
-			Kids = new List<IPdfObject>();
-			foreach (PdfIndirectReference item in kids.Items)
+
+			_items = new List<IPdfObject>();
+			foreach (PdfKeyValuePair pair in pages.Items)
 			{
-				var dic = item.Dereference<PdfDictionary>();
-				String type = dic["Type"].Text;
-				if (type == "Pages")
-					Kids.Add(new PdfPageTree(dic));
-				else if (type == "Page")
-					Kids.Add(new PdfPage(dic));
-				else
-					throw new Exception("Content of Kids in a Page Tree Node must be either a Page or another Page Tree Node");
+				switch (pair.Key.Text)
+				{
+				case "Kids":
+					PdfArray kids = pair.Value as PdfArray;
+					Kids = new List<IPdfObject>();
+					foreach (PdfIndirectReference item in kids.Items)
+					{
+						var dic = item.Dereference<PdfDictionary>();
+						String type = dic["Type"].Text;
+						if (type == "Pages")
+							Kids.Add(new PdfPageTree(dic));
+						else if (type == "Page")
+							Kids.Add(new PdfPage(dic));
+						else
+							throw new Exception("Content of Kids in a Page Tree Node must be either a Page or another Page Tree Node");
+					}
+					break;
+				case "Count":
+					Count = pair.Value as PdfNumeric;
+					_items.Add(pair);
+					break;
+				case "Parent":
+					Parent = pair.Value;
+					_items.Add(pair);
+					break;
+				default:
+					_items.Add(pair);
+					break;
+				}
 			}
 		}
+
+		private List<IPdfObject> _items;
 
 		private IPdfObject Parent { get; set; }
 
@@ -48,7 +68,10 @@ namespace SafeRapidPdf.Document
 		{
 			get
 			{
-				return Kids.AsReadOnly();
+				var list = new List<IPdfObject>();
+				list.AddRange(_items);
+				list.AddRange(Kids);
+				return list.AsReadOnly();
 			}
 		}
 

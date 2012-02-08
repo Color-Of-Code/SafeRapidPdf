@@ -16,11 +16,22 @@ namespace SafeRapidPdf.Document
 			IsContainer = true;
 			catalog.ExpectsType("Catalog");
 
-			PdfIndirectReference pagesRef = catalog["Pages"] as PdfIndirectReference;
-			PdfDictionary pages = pagesRef.Dereference<PdfDictionary>();
-			Pages = new PdfPageTree(pages, true);
+			_items = new List<IPdfObject>();
+			foreach (PdfKeyValuePair pair in catalog.Items)
+			{
+				if (pair.Key.Text == "Pages")
+				{
+					PdfDictionary pages = catalog.Resolve<PdfDictionary>("Pages");
+					Pages = new PdfPageTree(pages, true);
+				}
+				else
+				{
+					_items.Add(pair);
+				}
+			}
 		}
 
+		private List<IPdfObject> _items;
 		public PdfPageTree Pages { get; private set; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
@@ -28,6 +39,7 @@ namespace SafeRapidPdf.Document
 			get
 			{
 				var list = new List<IPdfObject>();
+				list.AddRange(_items);
 				list.Add(Pages);
 				return list.AsReadOnly();
 			}

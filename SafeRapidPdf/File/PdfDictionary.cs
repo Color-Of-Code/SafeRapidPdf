@@ -56,7 +56,49 @@ namespace SafeRapidPdf.File
 			}
 		}
 
+		/// <summary>
+		/// Automatically dereference indirect references or returns the Pdf object
+		/// after checking that it is of the expected type
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public T Resolve<T>(String name) where T: class
+		{
+			IPdfObject value = this[name];
+			if (value is PdfIndirectReference)
+			{
+				PdfIndirectReference reference = value as PdfIndirectReference;
+				return reference.Dereference<T>();
+			}
+			if (value is T)
+				return value as T;
+			throw new Exception(String.Format("Value '{0}' not of the expected type {1}", typeof(T)));
+		}
+
 		private IList<PdfKeyValuePair> _dictionary;
+
+		public IEnumerable<String> Keys
+		{
+			get
+			{
+				foreach (PdfKeyValuePair pair in _dictionary)
+				{
+					yield return pair.Key.Text;
+				}
+			}
+		}
+
+		public IEnumerable<IPdfObject> Values
+		{
+			get
+			{
+				foreach (PdfKeyValuePair pair in _dictionary)
+				{
+					yield return pair.Value;
+				}
+			}
+		}
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
