@@ -6,37 +6,23 @@ using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfTrailer : PdfObject
+	public class PdfTrailer : PdfDictionary
 	{
 		private PdfTrailer(PdfDictionary dictionary)
-			: base(PdfObjectType.Trailer)
+			: base(dictionary, PdfObjectType.Trailer)
 		{
-			IsContainer = true;
-			Content = dictionary;
 		}
 
-		public static PdfTrailer Parse(Lexical.ILexer lexer)
+		public new static PdfTrailer Parse(Lexical.ILexer lexer)
 		{
 			lexer.Expects("trailer");
 			var dictionary = PdfDictionary.Parse(lexer);
 			return new PdfTrailer(dictionary);
 		}
 
-		public PdfDictionary Content { get; private set; }
-
 		public override string ToString()
 		{
 			return "trailer";
-		}
-
-		public override ReadOnlyCollection<IPdfObject> Items
-		{
-			get
-			{
-				var list = new List<IPdfObject>();
-				list.Add(Content);
-				return list.AsReadOnly();
-			}
 		}
 	}
 }

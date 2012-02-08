@@ -24,7 +24,7 @@ namespace SafeRapidPdf.Document
 			//if (trailers.Count() > 1)
 			//    throw new Exception("too many trailers found");
 			PdfTrailer trailer = trailers.First();
-			PdfIndirectReference root =  trailer.Content["Root"] as PdfIndirectReference;
+			PdfIndirectReference root =  trailer["Root"] as PdfIndirectReference;
 			PdfDictionary dic = root.Dereference<PdfDictionary>();
 			Root = new PdfCatalog(dic);
 		}

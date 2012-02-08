@@ -18,6 +18,13 @@ namespace SafeRapidPdf.File
 			_dictionary = dictionary;
 		}
 
+        protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
+			: base(type)
+		{
+			IsContainer = true;
+			_dictionary = dictionary._dictionary;
+		}
+
 		public void ExpectsType(String name)
 		{
 			PdfName type = this["Type"] as PdfName;

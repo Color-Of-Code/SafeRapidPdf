@@ -38,5 +38,11 @@ namespace PdfStructureViewer
 				documentView.DocumentStructure = new PdfDocument(file);
 			}
 		}
+
+		private void Button_Click (object sender, RoutedEventArgs e)
+		{
+
+		}
+
 	}
 }

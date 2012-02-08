@@ -9,7 +9,7 @@
             <RowDefinition Height="24" />
         </Grid.RowDefinitions>
         <ToolBar>
-            <Button>
+            <Button Click="Button_Click">
                 <Image Source="/PdfStructureViewer;component/Images/document-open.png"></Image>
             </Button>
         </ToolBar>
