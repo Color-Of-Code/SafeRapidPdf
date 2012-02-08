@@ -28,20 +28,26 @@ namespace PdfStructureViewer
 			InitializeComponent ();
 		}
 
-		private void FileStructureUserControl_Loaded(object sender, RoutedEventArgs e)
+		private void ParseFile (String filePath)
 		{
-			// Hack for testing purposes...
-			if (fileView.FileStructure == null)
-			{
-				var file = PdfFile.Parse("test.pdf");
-				fileView.FileStructure = file;
-				documentView.DocumentStructure = new PdfDocument(file);
-			}
+			var file = PdfFile.Parse(filePath);
+			fileView.FileStructure = file;
+			documentView.DocumentStructure = new PdfDocument (file);
 		}
 
 		private void Button_Click (object sender, RoutedEventArgs e)
 		{
-
+			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();          
+ 
+			dlg.DefaultExt = ".pdf";
+			dlg.Filter = "PDF documents (.pdf)|*.pdf";
+ 
+			Nullable<bool> result = dlg.ShowDialog();
+			if (result == true)
+			{
+				string fullPath = dlg.FileName;
+				ParseFile(fullPath);
+			 }
 		}
 
 	}

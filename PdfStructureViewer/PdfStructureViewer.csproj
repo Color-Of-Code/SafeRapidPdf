@@ -62,6 +62,9 @@
     <Compile Include="Views\FileStructureUserControl.xaml.cs">
       <DependentUpon>FileStructureUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LogicalStructureUserControl.xaml.cs">
+      <DependentUpon>LogicalStructureUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PdfObjectTypeToIconFilenameConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -80,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FileStructureUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogicalStructureUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

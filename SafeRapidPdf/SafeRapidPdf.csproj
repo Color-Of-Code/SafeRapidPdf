@@ -60,6 +60,7 @@
     <Compile Include="Filters\Flate\ZStream.cs" />
     <Compile Include="Filters\Flate\ZStreamException.cs" />
     <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Logical\PdfStructure.cs" />
     <Compile Include="ObjectResolver\IIndirectReferenceResolver.cs" />
     <Compile Include="Lexical\ILexer.cs" />
     <Compile Include="Lexical\LexicalParser.cs" />
@@ -106,7 +107,6 @@
     <Folder Include="Filters\JPX\" />
     <Folder Include="Filters\LZW\" />
     <Folder Include="Filters\RunLength\" />
-    <Folder Include="Logical\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
