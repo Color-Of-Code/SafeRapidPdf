@@ -3,7 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PDF File and Document Structure Browser" Height="350" Width="525">
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="24" />
+        </Grid.RowDefinitions>
+        <ToolBar>
+            <Button>
+                <Image Source="/PdfStructureViewer;component/Images/document-open.png"></Image>
+            </Button>
+        </ToolBar>
+        <TabControl VerticalAlignment="Stretch" Grid.Row="1">
             <TabItem Header="File structure">
                 <my:FileStructureUserControl x:Name="fileView" Loaded="FileStructureUserControl_Loaded" />
             </TabItem>
@@ -11,5 +21,7 @@
                 <my:DocumentStructureUserControl x:Name="documentView"/>
             </TabItem>
         </TabControl>
+        <StatusBar Grid.Row="2">
+        </StatusBar>
     </Grid>
 </Window>
