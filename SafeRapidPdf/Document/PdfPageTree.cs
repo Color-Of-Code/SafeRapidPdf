@@ -26,6 +26,8 @@ namespace SafeRapidPdf.Document
 			{
 				switch (pair.Key.Text)
 				{
+				case "Type": // skip Type Pages
+					break;
 				case "Kids":
 					PdfArray kids = pair.Value as PdfArray;
 					Kids = new List<IPdfObject>();

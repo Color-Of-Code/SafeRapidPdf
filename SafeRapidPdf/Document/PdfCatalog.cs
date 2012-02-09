@@ -19,14 +19,17 @@ namespace SafeRapidPdf.Document
 			_items = new List<IPdfObject>();
 			foreach (PdfKeyValuePair pair in catalog.Items)
 			{
-				if (pair.Key.Text == "Pages")
+				switch (pair.Key.Text)
 				{
+				case "Type": // skip Type Catalog
+					break;
+				case "Pages":
 					PdfDictionary pages = catalog.Resolve<PdfDictionary>("Pages");
 					Pages = new PdfPageTree(pages, true);
-				}
-				else
-				{
+					break;
+				default:
 					_items.Add(pair);
+					break;
 				}
 			}
 		}

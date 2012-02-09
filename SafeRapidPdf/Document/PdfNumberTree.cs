@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SafeRapidPdf.Document
 {
-	public class ArtBox : PdfRectangle
+	public class PdfNumberTree 
 	{
 	}
 }

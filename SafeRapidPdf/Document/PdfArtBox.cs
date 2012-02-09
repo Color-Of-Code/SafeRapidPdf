@@ -8,12 +8,12 @@ using SafeRapidPdf.File;
 namespace SafeRapidPdf.Document
 {
 	/// <summary>
-	/// visible region of default user space
+	/// extent of the page’s meaningful content
 	/// </summary>
-	public class PdfCropBox : PdfRectangle
+	public class PdfArtBox : PdfRectangle
 	{
-		public PdfCropBox(PdfArray box)
-			: base(PdfObjectType.CropBox, box)
+		public PdfArtBox(PdfArray box)
+			: base(PdfObjectType.ArtBox, box)
 		{
 		}
 	}

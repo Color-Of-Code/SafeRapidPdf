@@ -41,6 +41,12 @@ namespace SafeRapidPdf
 
 		Catalog,
 		PageTree,
-		Page
+		Page,
+
+		ArtBox,
+		BleedBox,
+		CropBox,
+		MediaBox,
+		TrimBox,
 	}
 }

@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Document\ArtBox.cs" />
+    <Compile Include="Document\PdfArtBox.cs" />
     <Compile Include="Document\PdfBleedBox.cs" />
     <Compile Include="Document\PdfCropBox.cs" />
+    <Compile Include="Document\PdfDate.cs" />
+    <Compile Include="Document\PdfNameTree.cs" />
+    <Compile Include="Document\PdfNumberTree.cs" />
     <Compile Include="Document\PdfTrimBox.cs" />
     <Compile Include="File\PdfData.cs" />
     <Compile Include="Filters\Flate\Adler32.cs" />
