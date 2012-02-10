@@ -48,5 +48,7 @@ namespace SafeRapidPdf
 		CropBox,
 		MediaBox,
 		TrimBox,
+
+		Rotate,
 	}
 }

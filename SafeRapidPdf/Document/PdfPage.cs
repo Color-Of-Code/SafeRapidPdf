@@ -43,6 +43,10 @@ namespace SafeRapidPdf.Document
 					TrimBox = new PdfTrimBox(pair.Value as PdfArray);
 					_items.Add(TrimBox);
 					break;
+				case "Rotate":
+					Rotate = new PdfRotate(pair.Value as PdfNumeric);
+					_items.Add(Rotate);
+					break;
 				default:
 					_items.Add(pair);
 					break;
@@ -62,7 +66,7 @@ namespace SafeRapidPdf.Document
 		public PdfArtBox ArtBox { get; private set; }
 		//public PdfDictionary BoxColorInfo { get; private set; }
 		//public PdfStream/PdfArray Contents { get; private set; }
-		public PdfNumeric Rotate { get; private set; }
+		public PdfRotate Rotate { get; private set; }
 		//public PdfDictionary Group { get; private set; }
 		//public PdfStream Thumb { get; private set; }
 		//public PdfArray B { get; private set; }
