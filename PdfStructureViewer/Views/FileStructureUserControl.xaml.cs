@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -55,11 +56,39 @@ namespace PdfStructureViewer.Views
 
 		private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-
+			// if the object is a stream of image type, display it on the side
 		}
 
 		private void textBoxQuery_TextChanged(object sender, TextChangedEventArgs e)
 		{
+			ICollectionView view = CollectionViewSource.GetDefaultView(treeView.ItemsSource);
+			String query = textBoxQuery.Text;
+			if (String.IsNullOrWhiteSpace(query))
+			{
+				view.Filter = null;
+			}
+			else
+			{
+				query = query.Trim();
+				bool inverted = false;
+				if (query.StartsWith("!"))
+				{
+					inverted = true;
+					query = query.Substring(1).Trim();
+				}
+				view.Filter = o =>
+				{
+					var pdfObject = o as IPdfObject;
+					if (inverted)
+					{
+						return !o.ToString().Contains(query);
+					}
+					else
+					{
+						return o.ToString().Contains(query);
+					}
+				};
+			}
 		}
 	}
 }
