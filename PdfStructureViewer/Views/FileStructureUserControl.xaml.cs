@@ -52,6 +52,7 @@ namespace PdfStructureViewer.Views
 		private void RefreshControl()
 		{
 			treeView.ItemsSource = _file.Items;
+			ApplyFilter();
 		}
 
 		private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -61,30 +62,49 @@ namespace PdfStructureViewer.Views
 
 		private void textBoxQuery_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			ICollectionView view = CollectionViewSource.GetDefaultView(treeView.ItemsSource);
-			if (view == null)
-				return;
+			ApplyFilter();
+		}
+
+		private void ApplyFilter()
+		{
+			object source = treeView.ItemsSource;
 			String query = textBoxQuery.Text;
+			query = query.Trim();
+			bool inverted = false;
+			if (query.StartsWith("!"))
+			{
+				inverted = true;
+				query = query.Substring(1).Trim();
+			}
+			ApplyFilterToItems(source, query, inverted);
+		}
+
+		private static bool ApplyFilterToItems(object source, String query, bool inverted)
+		{
+			if (source == null)
+				return false;
+			ICollectionView view = CollectionViewSource.GetDefaultView(source);
+			if (view == null)
+				return true;
+			bool show = false;
 			if (String.IsNullOrWhiteSpace(query))
 			{
 				view.Filter = null;
 			}
 			else
 			{
-				query = query.Trim();
-				bool inverted = false;
-				if (query.StartsWith("!"))
-				{
-					inverted = true;
-					query = query.Substring(1).Trim();
-				}
 				view.Filter = o =>
 				{
 					var pdfObject = o as IPdfObject;
 					bool predicate = o.ToString().Contains(query);
-					return inverted ^ predicate;
+					bool result = inverted ^ predicate;
+					if (!result)
+						result = ApplyFilterToItems(pdfObject.Items, query, inverted);
+					show = show || result;
+					return result;
 				};
 			}
+			return show;
 		}
 	}
 }
