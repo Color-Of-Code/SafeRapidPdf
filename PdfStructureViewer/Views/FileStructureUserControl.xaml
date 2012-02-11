@@ -8,11 +8,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
         <Grid.Resources>
             <srpv:PdfObjectTypeToIconFilenameConverter x:Key="IconConverter"/>
         </Grid.Resources>
+        
         <TreeView VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True"
-                  Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}">
+                  Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}"
+                  SelectedItemChanged="treeView_SelectedItemChanged" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="2">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type srp:IPdfObject}">
                     <StackPanel Orientation="Horizontal">
@@ -22,5 +32,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+        <Label Content="Query" Grid.Row="0" HorizontalAlignment="Stretch" Name="label" VerticalAlignment="Stretch"/>
+        <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Name="textBoxQuery" VerticalAlignment="Stretch" TextChanged="textBoxQuery_TextChanged" />
     </Grid>
 </UserControl>

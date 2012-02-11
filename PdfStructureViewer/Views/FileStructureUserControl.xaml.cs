@@ -21,23 +21,45 @@ namespace PdfStructureViewer.Views
 	/// <summary>
 	/// Interaction logic for FileStructureUserControl.xaml
 	/// </summary>
-	public partial class FileStructureUserControl : UserControl
+	public partial class FileStructureUserControl: UserControl
 	{
 		public FileStructureUserControl()
 		{
 			InitializeComponent();
 		}
 
-		private PdfFile _file;
-		public PdfFile FileStructure 
+		public Image ImageControl
 		{
-			get { return _file; }
-			set { _file = value; RefreshControl(); }
+			get;
+			set;
+		}
+
+		private PdfFile _file;
+		public PdfFile FileStructure
+		{
+			get
+			{
+				return _file;
+			}
+			set
+			{
+				_file = value;
+				RefreshControl();
+			}
 		}
 
 		private void RefreshControl()
 		{
 			treeView.ItemsSource = _file.Items;
+		}
+
+		private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+
+		}
+
+		private void textBoxQuery_TextChanged(object sender, TextChangedEventArgs e)
+		{
 		}
 	}
 }

@@ -3,17 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PDF File and Document Structure Browser" Height="350" Width="525">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <ToolBar>
+        <ToolBar Grid.ColumnSpan="2">
             <Button Click="Button_Click">
                 <Image Height="16" Width="16" Source="/PdfStructureViewer;component/Images/document-open.png"></Image>
             </Button>
         </ToolBar>
-        <TabControl VerticalAlignment="Stretch" Grid.Row="1">
+        <TabControl VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
             <TabItem Header="File structure">
                 <my:FileStructureUserControl x:Name="fileView" />
             </TabItem>
@@ -24,8 +28,9 @@
                 <my:LogicalStructureUserControl x:Name="logicalView"/>
             </TabItem>
         </TabControl>
-        <StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2">
             <ProgressBar Height="10" HorizontalAlignment="Left" Name="progressBar" VerticalAlignment="Top" Width="200" />
         </StatusBar>
+        <Image Grid.Column="1" Grid.Row="1" Name="image" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

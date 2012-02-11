@@ -60,6 +60,7 @@ namespace PdfStructureViewer
 		private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			PdfFile file = e.Result as PdfFile;
+			fileView.ImageControl = image;
 			fileView.FileStructure = file;
 			documentView.DocumentStructure = new PdfDocument(file);
 			progressBar.Visibility = System.Windows.Visibility.Hidden;
