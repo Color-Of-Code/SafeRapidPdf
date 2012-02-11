@@ -44,7 +44,11 @@ namespace SafeRapidPdf.File
 		public static PdfStream Parse(PdfDictionary dictionary, Lexical.ILexer lexer)
 		{
 			lexer.Expects("stream");
-			lexer.SkipEol(); // position to begin of stream data
+			char eol = lexer.ReadChar();
+			if (eol == '\r')
+				eol = lexer.ReadChar();
+			if (eol != '\n')
+				throw new Exception(@"Parser error: stream needs to be followed by either \r\n or \n alone");
 
 			if (dictionary == null)
 				throw new Exception("Parser error: stream needs a dictionary");

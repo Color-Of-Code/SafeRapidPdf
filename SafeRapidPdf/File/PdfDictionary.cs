@@ -121,7 +121,6 @@ namespace SafeRapidPdf.File
 			}
 		}
 
-
 		public override string ToString()
 		{
 			String type = Type;

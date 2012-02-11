@@ -37,11 +37,6 @@ namespace SafeRapidPdf.Lexical
 		String ReadUntilEol();
 
 		/// <summary>
-		/// Skip all EOL chars
-		/// </summary>
-		void SkipEol();
-
-		/// <summary>
 		/// Read a block of bytes from the stream (used for stream objects)
 		/// </summary>
 		/// <param name="length"></param>

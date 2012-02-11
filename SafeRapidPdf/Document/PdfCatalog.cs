@@ -24,8 +24,7 @@ namespace SafeRapidPdf.Document
 				case "Type": // skip Type Catalog
 					break;
 				case "Pages":
-					PdfDictionary pages = catalog.Resolve<PdfDictionary>("Pages");
-					Pages = new PdfPageTree(pages, true);
+					Pages = new PdfPageTree(catalog["Pages"] as PdfIndirectReference);
 					break;
 				default:
 					_items.Add(pair);

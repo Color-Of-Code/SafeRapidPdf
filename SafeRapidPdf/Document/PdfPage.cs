@@ -11,21 +11,28 @@ namespace SafeRapidPdf.Document
 {
 	public class PdfPage: PdfBaseObject
 	{
-		public PdfPage(PdfDictionary pages)
+		public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
 			: base(PdfObjectType.Page)
 		{
 			IsContainer = true;
-			pages.ExpectsType("Page");
+			var page = pages.Dereference<PdfDictionary>();
+			page.ExpectsType("Page");
+			GenerationNumber = pages.GenerationNumber;
+			ObjectNumber = pages.ObjectNumber;
+			Parent = parent;
 			_items = new List<IPdfObject>();
-			foreach (PdfKeyValuePair pair in pages.Items)
+			foreach (PdfKeyValuePair pair in page.Items)
 			{
 				HandleKeyValuePair(pair);
 			}
 		}
 
-		protected PdfPage(PdfDictionary pages, PdfObjectType type)
+		protected PdfPage(PdfIndirectReference pages, PdfPageTree parent, PdfObjectType type)
 			: base(type)
 		{
+			GenerationNumber = pages.GenerationNumber;
+			ObjectNumber = pages.ObjectNumber;
+			Parent = parent;
 			_items = new List<IPdfObject>();
 		}
 
@@ -59,16 +66,47 @@ namespace SafeRapidPdf.Document
 				Rotate = new PdfRotate(pair.Value as PdfNumeric);
 				_items.Add(Rotate);
 				break;
+			case "Contents":
+				Contents = new PdfContents(pair.Value);
+				_items.Add(Contents);
+				break;
+			case "Parent":
+				PdfIndirectReference parent = pair.Value as PdfIndirectReference;
+				if (parent.ObjectNumber != Parent.ObjectNumber)
+					throw new Exception("Unexpected not matching parent object number!");
+				if (parent.GenerationNumber != Parent.GenerationNumber)
+					throw new Exception("Unexpected not matching parent generation number!");
+				// ignore entry (parent is shown through the hierarchy
+				break;
 			default:
 				_items.Add(pair);
 				break;
 			}
 		}
-		
+
+		protected int GenerationNumber
+		{
+			get;
+			private set;
+		}
+		protected int ObjectNumber
+		{
+			get;
+			private set;
+		}
+
 		protected List<IPdfObject> _items;
 
-		//public PdfPageTree Parent { get; private set; }
+		// excepted in root node
+		[ParameterType(required : true, inheritable : false)]
+		public PdfPageTree Parent
+		{
+			get;
+			private set;
+		}
+
 		//public PdfDate LastModified { get; private set; }
+
 		public PdfDictionary Resources
 		{
 			get;
@@ -111,7 +149,13 @@ namespace SafeRapidPdf.Document
 		}
 
 		//public PdfDictionary BoxColorInfo { get; private set; }
-		//public PdfStream/PdfArray Contents { get; private set; }
+
+		[ParameterType(required : false, inheritable : false)]
+		public PdfContents Contents
+		{
+			get;
+			private set;
+		}
 
 		[ParameterType(required : false, inheritable : true)]
 		public PdfRotate Rotate

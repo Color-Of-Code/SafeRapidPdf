@@ -29,18 +29,26 @@ namespace PdfStructureViewer
 			InitializeComponent();
 		}
 
-		private BackgroundWorker _worker = new BackgroundWorker();
+		private BackgroundWorker _worker;
 
 		private void ParseFile(String filePath)
 		{
-			_worker.WorkerReportsProgress = true;
-			_worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-			_worker.DoWork += new DoWorkEventHandler(worker_DoWork);
-			_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
-			progressBar.Maximum = 100.0;
-			progressBar.Value = 0;
-			progressBar.Visibility = System.Windows.Visibility.Visible;
-			_worker.RunWorkerAsync(filePath);
+			if (_worker == null)
+			{
+				_worker = new BackgroundWorker();
+				_worker.WorkerReportsProgress = true;
+				_worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+				_worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+				_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+				progressBar.Maximum = 100.0;
+				progressBar.Value = 0;
+				progressBar.Visibility = System.Windows.Visibility.Visible;
+				_worker.RunWorkerAsync(filePath);
+			}
+			else
+			{
+				MessageBox.Show("Still loading another file, please wait...");
+			}
 		}
 
 		private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -55,6 +63,7 @@ namespace PdfStructureViewer
 			fileView.FileStructure = file;
 			documentView.DocumentStructure = new PdfDocument(file);
 			progressBar.Visibility = System.Windows.Visibility.Hidden;
+			_worker = null;
 		}
 
 		private void worker_DoWork(object sender, DoWorkEventArgs e)

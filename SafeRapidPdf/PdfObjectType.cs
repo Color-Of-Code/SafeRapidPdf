@@ -52,5 +52,7 @@ namespace SafeRapidPdf
 		Rotate,
 
 		Count,
+
+		Contents,
 	}
 }

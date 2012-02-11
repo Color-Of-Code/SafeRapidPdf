@@ -11,18 +11,19 @@ namespace SafeRapidPdf.Document
 {
 	public class PdfPageTree : PdfPage
 	{
-		public PdfPageTree(PdfDictionary pages)
-			: this(pages, false)
+		public PdfPageTree(PdfIndirectReference pages)
+			: this(pages, null)
 		{
 		}
 
-		public PdfPageTree(PdfDictionary pages, Boolean isRoot)
-			: base(pages, PdfObjectType.PageTree)
+		public PdfPageTree(PdfIndirectReference pages, PdfPageTree parent)
+			: base(pages, parent, PdfObjectType.PageTree)
 		{
 			IsContainer = true;
-			pages.ExpectsType("Pages");
+			var pagetree = pages.Dereference<PdfDictionary>();
+			pagetree.ExpectsType("Pages");
 
-			foreach (PdfKeyValuePair pair in pages.Items)
+			foreach (PdfKeyValuePair pair in pagetree.Items)
 			{
 				switch (pair.Key.Text)
 				{
@@ -36,9 +37,9 @@ namespace SafeRapidPdf.Document
 						var dic = item.Dereference<PdfDictionary>();
 						String type = dic["Type"].Text;
 						if (type == "Pages")
-							Kids.Add(new PdfPageTree(dic));
+							Kids.Add(new PdfPageTree(item, this));
 						else if (type == "Page")
-							Kids.Add(new PdfPage(dic));
+							Kids.Add(new PdfPage(item, this));
 						else
 							throw new Exception("Content of Kids in a Page Tree Node must be either a Page or another Page Tree Node");
 					}
@@ -47,10 +48,6 @@ namespace SafeRapidPdf.Document
 					Count = new PdfCount(pair.Value as PdfNumeric);
 					_items.Add(Count);
 					break;
-				case "Parent":
-					Parent = pair.Value;
-					_items.Add(pair);
-					break;
 				default:
 					HandleKeyValuePair(pair);
 					break;
@@ -58,10 +55,6 @@ namespace SafeRapidPdf.Document
 			}
 			_items.AddRange(Kids);
 		}
-
-		// excepted in root node
-		[ParameterType(required:true, inheritable:false)]
-		public IPdfObject Parent { get; private set; }
 
 		[ParameterType(required:true, inheritable:false)]
 		private List<IPdfObject> Kids { get; set; }

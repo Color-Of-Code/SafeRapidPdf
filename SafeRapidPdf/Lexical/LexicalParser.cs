@@ -222,12 +222,6 @@ namespace SafeRapidPdf.Lexical
 			return b == 10 || b == 13 || b == -1;
 		}
 
-		public void SkipEol()
-		{
-			while (IsEol(_reader.ReadByte())) ;
-			Putc();
-		}
-
 		public IIndirectReferenceResolver IndirectReferenceResolver { get; private set; }
 
 		private Stack<long> _positions = new Stack<long>();
