@@ -50,5 +50,7 @@ namespace SafeRapidPdf
 		TrimBox,
 
 		Rotate,
+
+		Count,
 	}
 }

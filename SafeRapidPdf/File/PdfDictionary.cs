@@ -108,9 +108,26 @@ namespace SafeRapidPdf.File
 			}
 		}
 
+		public String Type
+		{
+			get
+			{
+				if (Keys.Contains("Type"))
+				{
+					PdfName type = this["Type"] as PdfName;
+					return type.Name;
+				}
+				return null;
+			}
+		}
+
+
 		public override string ToString()
 		{
-			return "<<...>>";
+			String type = Type;
+			if (type == null)
+				return "<<...>>";
+			return String.Format("<<...>> ({0})", type);
 		}
 	}
 }

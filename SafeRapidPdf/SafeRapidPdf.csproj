@@ -43,6 +43,7 @@
     <Compile Include="Attributes\ParameterTypeAttribute.cs" />
     <Compile Include="Document\PdfArtBox.cs" />
     <Compile Include="Document\PdfBleedBox.cs" />
+    <Compile Include="Document\PdfCount.cs" />
     <Compile Include="Document\PdfCropBox.cs" />
     <Compile Include="Document\PdfDate.cs" />
     <Compile Include="Document\PdfNameTree.cs" />

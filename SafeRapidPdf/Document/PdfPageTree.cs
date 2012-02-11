@@ -44,8 +44,8 @@ namespace SafeRapidPdf.Document
 					}
 					break;
 				case "Count":
-					Count = pair.Value as PdfNumeric;
-					_items.Add(pair);
+					Count = new PdfCount(pair.Value as PdfNumeric);
+					_items.Add(Count);
 					break;
 				case "Parent":
 					Parent = pair.Value;
@@ -67,7 +67,7 @@ namespace SafeRapidPdf.Document
 		private List<IPdfObject> Kids { get; set; }
 
 		[ParameterType(required:true, inheritable:false)]
-		public PdfNumeric Count { get; private set; }
+		public PdfCount Count { get; private set; }
 
 		public override string ToString ()
 		{
