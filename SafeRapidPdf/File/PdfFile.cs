@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using SIO=System.IO;
 using System.Linq;
 using System.Text;
@@ -42,10 +43,12 @@ namespace SafeRapidPdf.File
 			}
 		}
 
-		public static File.PdfFile Parse(String pdfFilePath)
+		public static File.PdfFile Parse(String pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
 		{
 			using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
 			{
+				if (progress != null)
+					progress(null, new ProgressChangedEventArgs(0, null));
 				var lexer = new Lexical.LexicalParser(reader);
 
 				List<IPdfObject> objects = new List<IPdfObject>();
@@ -71,6 +74,9 @@ namespace SafeRapidPdf.File
 
 					objects.Add(obj);
 
+					if (progress != null)
+						progress(null, new ProgressChangedEventArgs(lexer.Percentage, null));
+
 					lastObjectWasOEF = false;
 					if (obj is PdfComment)
 					{
@@ -82,6 +88,8 @@ namespace SafeRapidPdf.File
 						}
 					}
 				}
+				if (progress != null)
+					progress(null, new ProgressChangedEventArgs(100, null));
 				return new File.PdfFile(objects.AsReadOnly()); ;
 			}
 		}

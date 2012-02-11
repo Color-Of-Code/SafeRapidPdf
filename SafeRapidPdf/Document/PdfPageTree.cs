@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 
 using SafeRapidPdf.File;
+using SafeRapidPdf.Attributes;
 
 namespace SafeRapidPdf.Document 
 {
-	public class PdfPageTree : PdfBaseObject
+	public class PdfPageTree : PdfPage
 	{
 		public PdfPageTree(PdfDictionary pages)
 			: this(pages, false)
@@ -16,12 +17,11 @@ namespace SafeRapidPdf.Document
 		}
 
 		public PdfPageTree(PdfDictionary pages, Boolean isRoot)
-			: base(PdfObjectType.PageTree)
+			: base(pages, PdfObjectType.PageTree)
 		{
 			IsContainer = true;
 			pages.ExpectsType("Pages");
 
-			_items = new List<IPdfObject>();
 			foreach (PdfKeyValuePair pair in pages.Items)
 			{
 				switch (pair.Key.Text)
@@ -52,30 +52,22 @@ namespace SafeRapidPdf.Document
 					_items.Add(pair);
 					break;
 				default:
-					_items.Add(pair);
+					HandleKeyValuePair(pair);
 					break;
 				}
 			}
+			_items.AddRange(Kids);
 		}
 
-		private List<IPdfObject> _items;
+		// excepted in root node
+		[ParameterType(required:true, inheritable:false)]
+		public IPdfObject Parent { get; private set; }
 
-		private IPdfObject Parent { get; set; }
-
+		[ParameterType(required:true, inheritable:false)]
 		private List<IPdfObject> Kids { get; set; }
 
-		private PdfNumeric Count { get; set; }
-
-		public override ReadOnlyCollection<IPdfObject> Items
-		{
-			get
-			{
-				var list = new List<IPdfObject>();
-				list.AddRange(_items);
-				list.AddRange(Kids);
-				return list.AsReadOnly();
-			}
-		}
+		[ParameterType(required:true, inheritable:false)]
+		public PdfNumeric Count { get; private set; }
 
 		public override string ToString ()
 		{

@@ -62,5 +62,13 @@ namespace SafeRapidPdf.Lexical
 		void PushPosition(long newPosition);
 
 		void PopPosition();
+
+		/// <summary>
+		/// Relative position in % inside the file
+		/// </summary>
+		int Percentage
+		{
+			get;
+		}
 	}
 }

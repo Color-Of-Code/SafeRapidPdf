@@ -16,6 +16,9 @@ namespace SafeRapidPdf.Lexical
 		public LexicalParser(Stream stream)
 		{
 			_reader = stream;
+			_reader.Seek(0, SeekOrigin.End);
+			_size = _reader.Position;
+			_reader.Seek(0, SeekOrigin.Begin);
 			IndirectReferenceResolver = new ObjectResolver.IndirectReferenceResolver(this);
 		}
 
@@ -228,6 +231,7 @@ namespace SafeRapidPdf.Lexical
 		public IIndirectReferenceResolver IndirectReferenceResolver { get; private set; }
 
 		private Stack<long> _positions = new Stack<long>();
+		private long _size;
 
 		public void PushPosition(long newPosition)
 		{
@@ -242,5 +246,14 @@ namespace SafeRapidPdf.Lexical
 		{
 			_reader.Seek(_positions.Pop(), SeekOrigin.Begin);
 		}
+
+		public int Percentage
+		{
+			get
+			{
+				return (int)(_reader.Position * 100 / _size);
+			}
+		}
+
 	}
 }

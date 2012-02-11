@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -21,33 +22,65 @@ namespace PdfStructureViewer
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow: Window
 	{
-		public MainWindow ()
+		public MainWindow()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 
-		private void ParseFile (String filePath)
+		private BackgroundWorker _worker = new BackgroundWorker();
+
+		private void ParseFile(String filePath)
 		{
-			var file = PdfFile.Parse(filePath);
+			_worker.WorkerReportsProgress = true;
+			_worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+			_worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+			_worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+			progressBar.Maximum = 100.0;
+			progressBar.Value = 0;
+			progressBar.Visibility = System.Windows.Visibility.Visible;
+			_worker.RunWorkerAsync(filePath);
+		}
+
+		private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			progressBar.Maximum = 100.0;
+			progressBar.Value = e.ProgressPercentage;
+		}
+
+		private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			PdfFile file = e.Result as PdfFile;
 			fileView.FileStructure = file;
-			documentView.DocumentStructure = new PdfDocument (file);
+			documentView.DocumentStructure = new PdfDocument(file);
+			progressBar.Visibility = System.Windows.Visibility.Hidden;
 		}
 
-		private void Button_Click (object sender, RoutedEventArgs e)
+		private void worker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();          
- 
+			var file = PdfFile.Parse(e.Argument as String, Parse_Progress);
+			e.Result = file;
+		}
+
+		private void Parse_Progress(object source, ProgressChangedEventArgs e)
+		{
+			_worker.ReportProgress(e.ProgressPercentage);
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
 			dlg.DefaultExt = ".pdf";
 			dlg.Filter = "PDF documents (.pdf)|*.pdf";
- 
+
 			Nullable<bool> result = dlg.ShowDialog();
 			if (result == true)
 			{
 				string fullPath = dlg.FileName;
 				ParseFile(fullPath);
-			 }
+			}
 		}
 
 	}

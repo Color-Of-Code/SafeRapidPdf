@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SafeRapidPdf.Attributes
 {
+	[AttributeUsage(AttributeTargets.Property)]
 	public class ParameterTypeAttribute : Attribute 
 	{
 		public ParameterTypeAttribute(Boolean required, Boolean inheritable = false,

@@ -5,68 +5,121 @@ using System.Linq;
 using System.Text;
 
 using SafeRapidPdf.File;
+using SafeRapidPdf.Attributes;
 
 namespace SafeRapidPdf.Document
 {
-	public class PdfPage : PdfBaseObject
+	public class PdfPage: PdfBaseObject
 	{
 		public PdfPage(PdfDictionary pages)
 			: base(PdfObjectType.Page)
 		{
 			IsContainer = true;
 			pages.ExpectsType("Page");
-
 			_items = new List<IPdfObject>();
 			foreach (PdfKeyValuePair pair in pages.Items)
 			{
-				switch (pair.Key.Text)
-				{
-				case "Type": // skip type Page
-					break;
-				case "ArtBox":
-					ArtBox = new PdfArtBox(pair.Value as PdfArray);
-					_items.Add(ArtBox);
-					break;
-				case "BleedBox":
-					BleedBox = new PdfBleedBox(pair.Value as PdfArray);
-					_items.Add(BleedBox);
-					break;
-				case "CropBox":
-					CropBox = new PdfCropBox(pair.Value as PdfArray);
-					_items.Add(CropBox);
-					break;
-				case "MediaBox":
-					MediaBox = new PdfMediaBox(pair.Value as PdfArray);
-					_items.Add(MediaBox);
-					break;
-				case "TrimBox":
-					TrimBox = new PdfTrimBox(pair.Value as PdfArray);
-					_items.Add(TrimBox);
-					break;
-				case "Rotate":
-					Rotate = new PdfRotate(pair.Value as PdfNumeric);
-					_items.Add(Rotate);
-					break;
-				default:
-					_items.Add(pair);
-					break;
-				}
+				HandleKeyValuePair(pair);
 			}
 		}
 
-		private List<IPdfObject> _items;
+		protected PdfPage(PdfDictionary pages, PdfObjectType type)
+			: base(type)
+		{
+			_items = new List<IPdfObject>();
+		}
+
+		protected void HandleKeyValuePair(PdfKeyValuePair pair)
+		{
+			switch (pair.Key.Text)
+			{
+			case "Type": // skip type Page
+				break;
+			case "ArtBox":
+				ArtBox = new PdfArtBox(pair.Value as PdfArray);
+				_items.Add(ArtBox);
+				break;
+			case "BleedBox":
+				BleedBox = new PdfBleedBox(pair.Value as PdfArray);
+				_items.Add(BleedBox);
+				break;
+			case "CropBox":
+				CropBox = new PdfCropBox(pair.Value as PdfArray);
+				_items.Add(CropBox);
+				break;
+			case "MediaBox":
+				MediaBox = new PdfMediaBox(pair.Value as PdfArray);
+				_items.Add(MediaBox);
+				break;
+			case "TrimBox":
+				TrimBox = new PdfTrimBox(pair.Value as PdfArray);
+				_items.Add(TrimBox);
+				break;
+			case "Rotate":
+				Rotate = new PdfRotate(pair.Value as PdfNumeric);
+				_items.Add(Rotate);
+				break;
+			default:
+				_items.Add(pair);
+				break;
+			}
+		}
+		
+		protected List<IPdfObject> _items;
 
 		//public PdfPageTree Parent { get; private set; }
 		//public PdfDate LastModified { get; private set; }
-		public PdfDictionary Resources { get; private set; }
-		public PdfMediaBox MediaBox { get; private set; }
-		public PdfCropBox CropBox { get; private set; }
-		public PdfBleedBox BleedBox { get; private set; }
-		public PdfTrimBox TrimBox { get; private set; }
-		public PdfArtBox ArtBox { get; private set; }
+		public PdfDictionary Resources
+		{
+			get;
+			private set;
+		}
+
+		[ParameterType(required : true, inheritable : true)]
+		public PdfMediaBox MediaBox
+		{
+			get;
+			private set;
+		}
+
+		[ParameterType(required : false, inheritable : true)]
+		public PdfCropBox CropBox
+		{
+			get;
+			private set;
+		}
+
+		[ParameterType(required : false, inheritable : false, version : "1.3")]
+		public PdfBleedBox BleedBox
+		{
+			get;
+			private set;
+		}
+
+		[ParameterType(required : false, inheritable : false, version : "1.3")]
+		public PdfTrimBox TrimBox
+		{
+			get;
+			private set;
+		}
+
+		[ParameterType(required : false, inheritable : false, version : "1.3")]
+		public PdfArtBox ArtBox
+		{
+			get;
+			private set;
+		}
+
 		//public PdfDictionary BoxColorInfo { get; private set; }
 		//public PdfStream/PdfArray Contents { get; private set; }
-		public PdfRotate Rotate { get; private set; }
+
+		[ParameterType(required : false, inheritable : true)]
+		public PdfRotate Rotate
+		{
+			get;
+			private set;
+		}
+
 		//public PdfDictionary Group { get; private set; }
 		//public PdfStream Thumb { get; private set; }
 		//public PdfArray B { get; private set; }
@@ -94,7 +147,7 @@ namespace SafeRapidPdf.Document
 			}
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return "Page";
 		}
