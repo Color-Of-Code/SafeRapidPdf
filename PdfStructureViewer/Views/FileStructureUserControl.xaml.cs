@@ -62,6 +62,8 @@ namespace PdfStructureViewer.Views
 		private void textBoxQuery_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			ICollectionView view = CollectionViewSource.GetDefaultView(treeView.ItemsSource);
+			if (view == null)
+				return;
 			String query = textBoxQuery.Text;
 			if (String.IsNullOrWhiteSpace(query))
 			{
@@ -79,14 +81,8 @@ namespace PdfStructureViewer.Views
 				view.Filter = o =>
 				{
 					var pdfObject = o as IPdfObject;
-					if (inverted)
-					{
-						return !o.ToString().Contains(query);
-					}
-					else
-					{
-						return o.ToString().Contains(query);
-					}
+					bool predicate = o.ToString().Contains(query);
+					return inverted ^ predicate;
 				};
 			}
 		}
