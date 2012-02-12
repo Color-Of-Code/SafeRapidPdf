@@ -121,5 +121,17 @@ namespace PdfStructureViewer.Views
 			}
 			return show;
 		}
+
+		private void treeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			var node = treeView.SelectedItem as PdfIndirectReference;
+			if (node != null)
+			{
+				var obj = node.ReferencedObject;
+				var view = CollectionViewSource.GetDefaultView(treeView.ItemsSource);
+				bool isInView = view.MoveCurrentTo(obj);
+				view.Refresh();
+			}
+		}
 	}
 }

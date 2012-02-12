@@ -38,5 +38,12 @@ namespace PdfStructureViewer.Views
 		{
 			treeView.ItemsSource = _structure.Items;
 		}
+
+		private void treeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+
+		}
+
+
 	}
 }

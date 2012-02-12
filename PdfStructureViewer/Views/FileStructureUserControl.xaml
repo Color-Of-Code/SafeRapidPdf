@@ -22,7 +22,7 @@
         
         <TreeView VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True"
                   Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}"
-                  SelectedItemChanged="treeView_SelectedItemChanged" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="2">
+                  SelectedItemChanged="treeView_SelectedItemChanged" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="2" MouseDoubleClick="treeView_MouseDoubleClick">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type srp:IPdfObject}">
                     <StackPanel Orientation="Horizontal">
