@@ -55,7 +55,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		/// <returns>The resulting number from the shift operation</returns>
 		public static int URShift(int number, int bits)
 		{
-			if ( number >= 0)
+			if (number >= 0)
 				return number >> bits;
 			else
 				return (number >> bits) + (2 << ~bits);
@@ -80,7 +80,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		/// <returns>The resulting number from the shift operation</returns>
 		public static long URShift(long number, int bits)
 		{
-			if ( number >= 0)
+			if (number >= 0)
 				return number >> bits;
 			else
 				return (number >> bits) + (2L << ~bits);
@@ -111,15 +111,15 @@ namespace ComponentAce.Compression.Libs.zlib
 				return 0;
 
 			byte[] receiver = new byte[target.Length];
-			int bytesRead   = sourceStream.Read(receiver, start, count);
+			int bytesRead = sourceStream.Read(receiver, start, count);
 
 			// Returns -1 if EOF
-			if (bytesRead == 0)	
+			if (bytesRead == 0)
 				return -1;
-                
-			for(int i = start; i < start + bytesRead; i++)
+
+			for (int i = start; i < start + bytesRead; i++)
 				target[i] = (byte)receiver[i];
-                
+
 			return bytesRead;
 		}
 
@@ -132,15 +132,17 @@ namespace ComponentAce.Compression.Libs.zlib
 		public static System.Int32 ReadInput(System.IO.TextReader sourceTextReader, byte[] target, int start, int count)
 		{
 			// Returns 0 bytes if not enough space in target
-			if (target.Length == 0) return 0;
+			if (target.Length == 0)
+				return 0;
 
 			char[] charArray = new char[target.Length];
 			int bytesRead = sourceTextReader.Read(charArray, start, count);
 
 			// Returns -1 if EOF
-			if (bytesRead == 0) return -1;
+			if (bytesRead == 0)
+				return -1;
 
-			for(int index=start; index<start+bytesRead; index++)
+			for (int index = start; index < start + bytesRead; index++)
 				target[index] = (byte)charArray[index];
 
 			return bytesRead;
@@ -161,7 +163,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		/// </summary>
 		/// <param name="byteArray">The array of bytes to convert</param>
 		/// <returns>The new array of chars</returns>
-		public static char[] ToCharArray(byte[] byteArray) 
+		public static char[] ToCharArray(byte[] byteArray)
 		{
 			return System.Text.UTF8Encoding.UTF8.GetChars(byteArray);
 		}

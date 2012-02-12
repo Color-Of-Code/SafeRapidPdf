@@ -45,10 +45,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 namespace ComponentAce.Compression.Libs.zlib
 {
-	
-	public class ZOutputStream:System.IO.Stream
+
+	public class ZOutputStream: System.IO.Stream
 	{
-		private void  InitBlock()
+		private void InitBlock()
 		{
 			flush_Renamed_Field = zlibConst.Z_NO_FLUSH;
 			buf = new byte[bufsize];
@@ -59,12 +59,12 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return (flush_Renamed_Field);
 			}
-			
+
 			set
 			{
 				this.flush_Renamed_Field = value;
 			}
-			
+
 		}
 		/// <summary> Returns the total number of bytes input so far.</summary>
 		virtual public long TotalIn
@@ -73,7 +73,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return z.total_in;
 			}
-			
+
 		}
 		/// <summary> Returns the total number of bytes output so far.</summary>
 		virtual public long TotalOut
@@ -82,55 +82,57 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return z.total_out;
 			}
-			
+
 		}
-		
+
 		protected internal ZStream z = new ZStream();
-		protected internal int bufsize = 4096;		
-		protected internal int flush_Renamed_Field;		
+		protected internal int bufsize = 4096;
+		protected internal int flush_Renamed_Field;
 		protected internal byte[] buf, buf1 = new byte[1];
 		protected internal bool compress;
-		
+
 		private System.IO.Stream out_Renamed;
-		
-		public ZOutputStream(System.IO.Stream out_Renamed):base()
+
+		public ZOutputStream(System.IO.Stream out_Renamed)
+			: base()
 		{
 			InitBlock();
 			this.out_Renamed = out_Renamed;
 			z.inflateInit();
 			compress = false;
 		}
-		
-		public ZOutputStream(System.IO.Stream out_Renamed, int level):base()
+
+		public ZOutputStream(System.IO.Stream out_Renamed, int level)
+			: base()
 		{
 			InitBlock();
 			this.out_Renamed = out_Renamed;
 			z.deflateInit(level);
 			compress = true;
 		}
-		
-		public  void  WriteByte(int b)
+
+		public void WriteByte(int b)
 		{
-			buf1[0] = (byte) b;
+			buf1[0] = (byte)b;
 			Write(buf1, 0, 1);
 		}
 		//UPGRADE_TODO: The differences in the Expected value  of parameters for method 'WriteByte'  may cause compilation errors.  'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1092_3"'
-		public override  void  WriteByte(byte b)
+		public override void WriteByte(byte b)
 		{
-			WriteByte((int) b);
+			WriteByte((int)b);
 		}
-		
-		public override void  Write(System.Byte[] b1, int off, int len)
+
+		public override void Write(System.Byte[] b1, int off, int len)
 		{
 			if (len == 0)
-				return ;
+				return;
 			int err;
 			byte[] b = new byte[b1.Length];
-			System.Array.Copy(b1, 0, b, 0, b1.Length); 
+			System.Array.Copy(b1, 0, b, 0, b1.Length);
 			z.next_in = b;
 			z.next_in_index = off;
 			z.avail_in = len;
-			do 
+			do
 			{
 				z.next_out = buf;
 				z.next_out_index = 0;
@@ -139,17 +141,17 @@ namespace ComponentAce.Compression.Libs.zlib
 					err = z.deflate(flush_Renamed_Field);
 				else
 					err = z.inflate(flush_Renamed_Field);
-				if (err != zlibConst.Z_OK && err != zlibConst.Z_STREAM_END) 
-					throw new ZStreamException((compress?"de":"in") + "flating: " + z.msg);
+				if (err != zlibConst.Z_OK && err != zlibConst.Z_STREAM_END)
+					throw new ZStreamException((compress ? "de" : "in") + "flating: " + z.msg);
 				out_Renamed.Write(buf, 0, bufsize - z.avail_out);
 			}
 			while (z.avail_in > 0 || z.avail_out == 0);
 		}
-		
-		public virtual void  finish()
+
+		public virtual void finish()
 		{
 			int err;
-			do 
+			do
 			{
 				z.next_out = buf;
 				z.next_out_index = 0;
@@ -163,7 +165,7 @@ namespace ComponentAce.Compression.Libs.zlib
 					err = z.inflate(zlibConst.Z_FINISH);
 				}
 				if (err != zlibConst.Z_STREAM_END && err != zlibConst.Z_OK)
-					throw new ZStreamException((compress?"de":"in") + "flating: " + z.msg);
+					throw new ZStreamException((compress ? "de" : "in") + "flating: " + z.msg);
 				if (bufsize - z.avail_out > 0)
 				{
 					out_Renamed.Write(buf, 0, bufsize - z.avail_out);
@@ -178,7 +180,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 			}
 		}
-		public virtual void  end()
+		public virtual void end()
 		{
 			if (compress)
 			{
@@ -191,7 +193,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			z.free();
 			z = null;
 		}
-		public override void  Close()
+		public override void Close()
 		{
 			try
 			{
@@ -210,8 +212,8 @@ namespace ComponentAce.Compression.Libs.zlib
 				out_Renamed = null;
 			}
 		}
-		
-		public override void  Flush()
+
+		public override void Flush()
 		{
 			out_Renamed.Flush();
 		}
@@ -221,7 +223,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			return 0;
 		}
 		//UPGRADE_TODO: The following method was automatically generated and it must be implemented in order to preserve the class logic. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1232_3"'
-		public override void  SetLength(System.Int64 value)
+		public override void SetLength(System.Int64 value)
 		{
 		}
 		//UPGRADE_TODO: The following method was automatically generated and it must be implemented in order to preserve the class logic. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1232_3"'
@@ -236,7 +238,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return false;
 			}
-			
+
 		}
 		//UPGRADE_TODO: The following property was automatically generated and it must be implemented in order to preserve the class logic. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1232_3"'
 		public override System.Boolean CanSeek
@@ -245,7 +247,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return false;
 			}
-			
+
 		}
 		//UPGRADE_TODO: The following property was automatically generated and it must be implemented in order to preserve the class logic. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1232_3"'
 		public override System.Boolean CanWrite
@@ -254,7 +256,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return false;
 			}
-			
+
 		}
 		//UPGRADE_TODO: The following property was automatically generated and it must be implemented in order to preserve the class logic. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1232_3"'
 		public override System.Int64 Length
@@ -263,7 +265,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return 0;
 			}
-			
+
 		}
 		//UPGRADE_TODO: The following property was automatically generated and it must be implemented in order to preserve the class logic. 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="jlca1232_3"'
 		public override System.Int64 Position
@@ -272,11 +274,11 @@ namespace ComponentAce.Compression.Libs.zlib
 			{
 				return 0;
 			}
-			
+
 			set
 			{
 			}
-			
+
 		}
 	}
 }
