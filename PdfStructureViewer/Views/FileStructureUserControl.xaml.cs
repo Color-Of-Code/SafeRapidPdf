@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -58,6 +59,20 @@ namespace PdfStructureViewer.Views
 		private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
 			// if the object is a stream of image type, display it on the side
+			PdfStream stream = e.NewValue as PdfStream;
+			if (stream != null)
+			{
+				PdfDictionary dic = stream.StreamDictionary;
+				var filter = dic["Filter"];
+				if (filter.Text.Contains("DCTDecode"))
+				{
+					var jpegData = new MemoryStream(stream.Data.Data);
+					var decoder = new JpegBitmapDecoder(jpegData, BitmapCreateOptions.None, BitmapCacheOption.Default);
+					var imageSource = decoder.Frames[0];
+					imageSource.Freeze();
+					ImageControl.Source = imageSource;
+				}
+			}
 		}
 
 		private void textBoxQuery_TextChanged(object sender, TextChangedEventArgs e)
