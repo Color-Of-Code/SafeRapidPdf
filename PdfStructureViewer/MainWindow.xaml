@@ -29,7 +29,7 @@
             </TabItem>
         </TabControl>
         <GridSplitter Grid.Column="0" Grid.Row="1" Width="2"/>
-        <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
+        <TabControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center">
             <TabItem Header="Image">
                 <Image Name="image" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             </TabItem>
