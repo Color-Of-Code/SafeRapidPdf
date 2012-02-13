@@ -52,14 +52,17 @@ namespace PdfStructureViewer.Views
 
 		private void RefreshControl()
 		{
-			treeView.ItemsSource = _file.Items;
+			treeView.ItemsSource = new PdfObjectTreeViewModel(_file).FirstGeneration;
 			ApplyFilter();
 		}
 
 		private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
 			// if the object is a stream of image type, display it on the side
-			PdfStream stream = e.NewValue as PdfStream;
+			PdfObjectViewModel objectViewModel = e.NewValue as PdfObjectViewModel;
+			if (objectViewModel == null)
+				return;
+			PdfStream stream = objectViewModel.Object as PdfStream;
 			if (stream != null)
 			{
 				PdfDictionary dic = stream.StreamDictionary;
@@ -104,17 +107,26 @@ namespace PdfStructureViewer.Views
 			bool show = false;
 			if (String.IsNullOrWhiteSpace(query))
 			{
+				view.Filter = o =>
+				{
+					var pdfObjectVM = o as PdfObjectViewModel;
+					ApplyFilterToItems(pdfObjectVM.Items, query, inverted);
+					pdfObjectVM.IsExpanded = false;
+					return true;
+				};
 				view.Filter = null;
+				show = true;
 			}
 			else
 			{
 				view.Filter = o =>
 				{
-					var pdfObject = o as IPdfObject;
-					bool predicate = o.ToString().Contains(query);
+					var pdfObjectVM = o as PdfObjectViewModel;
+					bool predicate = pdfObjectVM.Object.ToString().Contains(query);
 					bool result = inverted ^ predicate;
 					if (!result)
-						result = ApplyFilterToItems(pdfObject.Items, query, inverted);
+						result = ApplyFilterToItems(pdfObjectVM.Items, query, inverted);
+					pdfObjectVM.IsExpanded = result;
 					show = show || result;
 					return result;
 				};
@@ -124,13 +136,19 @@ namespace PdfStructureViewer.Views
 
 		private void treeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			var node = treeView.SelectedItem as PdfIndirectReference;
-			if (node != null)
+			var nodeVM = treeView.SelectedItem as PdfObjectViewModel;
+			if (nodeVM != null)
 			{
-				var obj = node.ReferencedObject;
-				var view = CollectionViewSource.GetDefaultView(treeView.ItemsSource);
-				bool isInView = view.MoveCurrentTo(obj);
-				view.Refresh();
+				var node = nodeVM.Object as PdfIndirectReference;
+				if (node != null)
+				{
+					//var obj = node.ReferencedObject;
+					//var view = CollectionViewSource.GetDefaultView(treeView.ItemsSource);
+					//node.IsExpanded = true;
+					//node.IsSelected = true;
+					//bool isInView = view.MoveCurrentTo(obj);
+					//view.Refresh();
+				}
 			}
 		}
 	}

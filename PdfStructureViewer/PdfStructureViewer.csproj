@@ -65,7 +65,9 @@
     <Compile Include="Views\LogicalStructureUserControl.xaml.cs">
       <DependentUpon>LogicalStructureUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PdfObjectTreeViewModel.cs" />
     <Compile Include="Views\PdfObjectTypeToIconFilenameConverter.cs" />
+    <Compile Include="Views\PdfObjectViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

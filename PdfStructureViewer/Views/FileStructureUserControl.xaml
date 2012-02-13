@@ -21,10 +21,22 @@
         </Grid.Resources>
         
         <TreeView VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.IsDeferredScrollingEnabled="True"
-                  Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding}"
+                  Name="treeView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding FirstGeneration}"
                   SelectedItemChanged="treeView_SelectedItemChanged" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="2" MouseDoubleClick="treeView_MouseDoubleClick">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type srp:IPdfObject}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Items}" DataType="{x:Type srpv:PdfObjectViewModel}">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="16" Height="16" Margin="3,0" Source="{Binding ObjectType, Converter={StaticResource IconConverter}}" />
                         <TextBlock Text="{Binding Text}" />
