@@ -126,6 +126,8 @@ namespace PdfStructureViewer.Views
 					bool result = inverted ^ predicate;
 					if (!result)
 						result = ApplyFilterToItems(pdfObjectVM.Items, query, inverted);
+					else
+						ApplyFilterToItems(pdfObjectVM.Items, String.Empty, inverted);
 					pdfObjectVM.IsExpanded = result;
 					show = show || result;
 					return result;
