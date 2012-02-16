@@ -6,3 +6,5 @@
 /SafeRapidPdf/bin
 /SafeRapidPdf.UnitTests/bin
 /SafeRapidPdf.UnitTests/obj
+*.psess
+*.vsp

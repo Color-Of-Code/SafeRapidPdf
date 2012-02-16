@@ -20,6 +20,11 @@ namespace SafeRapidPdf.File
 
 		public static PdfObject ParseAny(Lexical.ILexer lexer)
 		{
+			return ParseAny(lexer, string.Empty);
+		}
+
+		public static PdfObject ParseAny(Lexical.ILexer lexer, String endToken)
+		{
 			String token = lexer.PeekToken();
 			if (token == null) return null;
 
@@ -79,6 +84,8 @@ namespace SafeRapidPdf.File
 				case "stream":
 				case "endstream":
 				case "endobj":
+					if (endToken == token)
+						return null; // expected end
 					throw new Exception("Parser error: out of sync");
 
 				case "startxref":

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using SIO=System.IO;
+using System.Diagnostics;
+using SIO = System.IO;
 using System.Linq;
 using System.Text;
 
@@ -30,15 +31,19 @@ namespace SafeRapidPdf.File
 
 		private void SetResolver(IPdfObject obj)
 		{
-			if (obj != null && obj.IsContainer)
+			if (obj.IsContainer)
 			{
 				foreach (IPdfObject item in obj.Items)
 				{
-					if (item is PdfIndirectReference)
+					PdfIndirectReference iref = item as PdfIndirectReference;
+					if (iref != null)
 					{
-						(item as PdfIndirectReference).Resolver = this;
+						iref.Resolver = this;
 					}
-					SetResolver(item);
+					else
+					{
+						SetResolver(item);
+					}
 				}
 			}
 		}
@@ -47,9 +52,13 @@ namespace SafeRapidPdf.File
 		{
 			using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
 			{
+				//SIO.BufferedStream reader = new SIO.BufferedStream(rawReader, 256*1024); 
 				if (progress != null)
 					progress(null, new ProgressChangedEventArgs(0, null));
-				var lexer = new Lexical.LexicalParser(reader);
+
+				Stopwatch watch = new Stopwatch();
+				watch.Start();
+				var lexer = new Lexical.LexicalParser (reader);
 
 				List<IPdfObject> objects = new List<IPdfObject>();
 
@@ -90,9 +99,17 @@ namespace SafeRapidPdf.File
 				}
 				if (progress != null)
 					progress(null, new ProgressChangedEventArgs(100, null));
-				return new File.PdfFile(objects.AsReadOnly()); ;
+				watch.Stop();
+				PdfFile file = new File.PdfFile(objects.AsReadOnly());
+				file.ParsingTime = watch.Elapsed.TotalSeconds;
+				return file;
 			}
 		}
+
+		/// <summary>
+		/// Parsing time in seconds
+		/// </summary>
+		public Double ParsingTime { get; private set; }
 
 		public String Version
 		{

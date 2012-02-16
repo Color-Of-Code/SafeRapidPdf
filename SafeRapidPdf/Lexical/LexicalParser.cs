@@ -183,7 +183,8 @@ namespace SafeRapidPdf.Lexical
 		/// <returns></returns>
 		public static bool IsWhitespace(int b)
 		{
-			return b == 0 || b == 9 || b == 10 || b == 12 || b == 13 || b == 32;
+			return (b <= 32) && // shortcut everything > 32 => most cases
+				(b == 32 || b == 10 || b == 12 || b == 13|| b == 9  || b == 0);
 		}
 
 		/// <summary>

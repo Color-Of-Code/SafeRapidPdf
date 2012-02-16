@@ -63,8 +63,9 @@ namespace PdfStructureViewer
 			fileView.ImageControl = image;
 			fileView.FileStructure = file;
 			documentView.DocumentStructure = new PdfDocument(file);
-			progressBar.Visibility = System.Windows.Visibility.Hidden;
+			progressBar.Visibility = Visibility.Collapsed;
 			_worker = null;
+			parsingTime.Content = String.Format("File parsed in {0:0.0} seconds", file.ParsingTime);
 		}
 
 		private void worker_DoWork(object sender, DoWorkEventArgs e)

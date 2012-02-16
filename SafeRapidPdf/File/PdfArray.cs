@@ -19,14 +19,13 @@ namespace SafeRapidPdf.File
 		{
 			lexer.Expects("[");
 			var list = new List<IPdfObject>();
-			String token;
-			while ((token = lexer.PeekToken()) != "]")
+			PdfObject value;
+			while ((value = PdfObject.ParseAny(lexer, "]")) != null)
 			{
-				PdfObject value = PdfObject.ParseAny(lexer);
 				list.Add(value);
 			}
-			lexer.Expects("]");
-			return new PdfArray(list.AsReadOnly());
+			lexer.Expects ("]");
+			return new PdfArray (list.AsReadOnly ());
 		}
 
 		private ReadOnlyCollection<IPdfObject> _items;
