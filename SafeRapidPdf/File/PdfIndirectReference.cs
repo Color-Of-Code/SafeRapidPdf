@@ -33,7 +33,19 @@ namespace SafeRapidPdf.File
 			return new PdfIndirectReference(objectNumber, generationNumber);
 		}
 
-		public int ObjectNumber { get; private set; }
+		public static PdfIndirectReference Parse(Lexical.ILexer lexer, String numberNumberToken, String generationNumberToken)
+		{
+			int objectNumber = int.Parse(numberNumberToken);
+			int generationNumber = int.Parse(generationNumberToken);
+			lexer.Expects("R");
+			return new PdfIndirectReference(objectNumber, generationNumber);
+		}
+
+		public int ObjectNumber
+		{
+			get;
+			private set;
+		}
 
         public int GenerationNumber { get; private set; }
 

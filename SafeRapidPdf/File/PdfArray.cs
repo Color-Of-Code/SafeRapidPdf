@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfArray : PdfObject
+	public class PdfArray: PdfObject
 	{
 		private PdfArray(ReadOnlyCollection<IPdfObject> items)
 			: base(PdfObjectType.Array)
@@ -24,8 +24,7 @@ namespace SafeRapidPdf.File
 			{
 				list.Add(value);
 			}
-			lexer.Expects ("]");
-			return new PdfArray (list.AsReadOnly ());
+			return new PdfArray(list.AsReadOnly());
 		}
 
 		private ReadOnlyCollection<IPdfObject> _items;

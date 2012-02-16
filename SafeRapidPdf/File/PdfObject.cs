@@ -85,7 +85,10 @@ namespace SafeRapidPdf.File
 				case "endstream":
 				case "endobj":
 					if (endToken == token)
+					{
+						lexer.Expects(token);
 						return null; // expected end
+					}
 					throw new Exception("Parser error: out of sync");
 
 				case "startxref":

@@ -9,16 +9,16 @@ namespace SafeRapidPdf.File
 	/// <summary>
 	/// A PDF Dictionary type, a collection of named objects
 	/// </summary>
-	public class PdfDictionary : PdfObject
-    {
-        private PdfDictionary(IList<PdfKeyValuePair> dictionary)
+	public class PdfDictionary: PdfObject
+	{
+		private PdfDictionary(IList<PdfKeyValuePair> dictionary)
 			: base(PdfObjectType.Dictionary)
 		{
 			IsContainer = true;
 			_dictionary = dictionary;
 		}
 
-        protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
+		protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
 			: base(type)
 		{
 			IsContainer = true;
@@ -32,21 +32,22 @@ namespace SafeRapidPdf.File
 				throw new Exception(String.Format("Expected {0}, but got {1}", name, type.Name));
 		}
 
-        public static PdfDictionary Parse(Lexical.ILexer lexer)
-        {
+		public static PdfDictionary Parse(Lexical.ILexer lexer)
+		{
 			lexer.Expects("<<");
 			var dictionary = new List<PdfKeyValuePair>();
-			String token;
-			while ((token = lexer.PeekToken()) != ">>")
+			PdfObject obj;
+			while ((obj = PdfObject.ParseAny(lexer, ">>")) != null)
 			{
-				PdfName name = PdfName.Parse(lexer);
+				PdfName name = obj as PdfName;
+				if (name == null)
+					throw new Exception("Parser Error: the first item of a pair inside a dictionary must be a PDF name object");
 				PdfObject value = PdfObject.ParseAny(lexer);
 
 				dictionary.Add(new PdfKeyValuePair(name, value));
 			}
-			lexer.Expects(">>");
 			return new PdfDictionary(dictionary);
-        }
+		}
 
 		public IPdfObject this[string name]
 		{

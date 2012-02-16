@@ -11,22 +11,30 @@ namespace SafeRapidPdf.File
 		private PdfName(String name)
 			: base(PdfObjectType.Name)
 		{
-			Name = name;
+			_rawName = name;
 		}
 
 		public static PdfName Parse(Lexical.ILexer lexer)
 		{
 			lexer.Expects("/");
 			String name = lexer.ReadToken();
-			// process the # encoded chars
-			name = Regex.Replace(name, @"#(\d\d)", x => { 
-					byte val = Convert.ToByte(x.Groups[1].Value, 16);
-					return ((char)val).ToString();
-				});
 			return new PdfName(name);
 		}
 
-		public string Name { get; private set; }
+		private String _rawName;
+
+		public string Name
+		{
+			get
+			{
+				// process the # encoded chars
+				return Regex.Replace(_rawName, @"#(\d\d)", x =>
+				{
+					byte val = Convert.ToByte(x.Groups[1].Value, 16);
+					return ((char)val).ToString();
+				});
+			}
+		}
 
 		public override string ToString()
 		{

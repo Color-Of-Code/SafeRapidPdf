@@ -12,7 +12,7 @@ namespace SafeRapidPdf.File
 		{
 		}
 
-		private static readonly PdfNull Null = new PdfNull();
+		public static readonly PdfNull Null = new PdfNull();
 
 		public static PdfNull Parse(Lexical.ILexer lexer)
 		{
