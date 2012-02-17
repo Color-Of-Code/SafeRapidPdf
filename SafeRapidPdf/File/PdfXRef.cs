@@ -28,14 +28,12 @@ namespace SafeRapidPdf.File
 
 		public static PdfXRef Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects ("xref");
-
 			var sections = new List<PdfXRefSection>();
-			String token = lexer.PeekToken();
+			String token = lexer.PeekToken1();
 			while (Char.IsDigit (token[0]))
 			{
 				sections.Add(PdfXRefSection.Parse(lexer));
-				token = lexer.PeekToken();
+				token = lexer.PeekToken1();
 			}
 			return new PdfXRef(sections);
 		}

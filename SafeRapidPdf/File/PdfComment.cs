@@ -19,7 +19,6 @@ namespace SafeRapidPdf.File
 
 		public static PdfComment Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects("%");
 			return new PdfComment(lexer.ReadUntilEol());
 		}
 

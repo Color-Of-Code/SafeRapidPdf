@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,16 +9,16 @@ namespace SafeRapidPdf.File
 	/// <summary>
 	/// A PDF Dictionary type, a collection of named objects
 	/// </summary>
-	public class PdfDictionary: PdfObject
-	{
-		private PdfDictionary(IList<PdfKeyValuePair> dictionary)
+	public class PdfDictionary : PdfObject
+    {
+        private PdfDictionary(IList<PdfKeyValuePair> dictionary)
 			: base(PdfObjectType.Dictionary)
 		{
 			IsContainer = true;
 			_dictionary = dictionary;
 		}
 
-		protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
+        protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
 			: base(type)
 		{
 			IsContainer = true;
@@ -32,9 +32,8 @@ namespace SafeRapidPdf.File
 				throw new Exception(String.Format("Expected {0}, but got {1}", name, type.Name));
 		}
 
-		public static PdfDictionary Parse(Lexical.ILexer lexer)
-		{
-			lexer.Expects("<<");
+        public static PdfDictionary Parse(Lexical.ILexer lexer)
+        {
 			var dictionary = new List<PdfKeyValuePair>();
 			PdfObject obj;
 			while ((obj = PdfObject.ParseAny(lexer, ">>")) != null)
@@ -47,7 +46,7 @@ namespace SafeRapidPdf.File
 				dictionary.Add(new PdfKeyValuePair(name, value));
 			}
 			return new PdfDictionary(dictionary);
-		}
+        }
 
 		public IPdfObject this[string name]
 		{

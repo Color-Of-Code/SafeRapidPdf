@@ -63,8 +63,9 @@ namespace SafeRapidPdf.File
 				List<IPdfObject> objects = new List<IPdfObject>();
 
 				// check that this stuff is really looking like a PDF
+				lexer.Expects("%");
 				PdfComment comment = PdfComment.Parse(lexer);
-				if (comment == null || !comment.Text.StartsWith("%PDF-"))
+				if (!comment.Text.StartsWith("%PDF-"))
 					throw new Exception("PDF header missing");
 				objects.Add(comment);
 

@@ -7,11 +7,11 @@ using System.Text;
 namespace SafeRapidPdf.File
 {
 
-    public class PdfIndirectObject : PdfObject
-    {
-        private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
+	public class PdfIndirectObject : PdfObject
+	{
+		private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
 			: base(PdfObjectType.IndirectObject)
-        {
+		{
 			IsContainer = true;
 
 			ObjectNumber = objectNumber;
@@ -19,9 +19,22 @@ namespace SafeRapidPdf.File
 			Object = obj;
 		}
 
-        public static PdfIndirectObject Parse(Lexical.ILexer lexer)
-        {
+		public static PdfIndirectObject Parse(Lexical.ILexer lexer)
+		{
 			int objectNumber = int.Parse(lexer.ReadToken());
+			int generationNumber = int.Parse(lexer.ReadToken());
+
+			lexer.Expects("obj");
+
+			PdfObject obj = PdfObject.ParseAny(lexer);
+
+			lexer.Expects("endobj");
+
+			return new PdfIndirectObject(objectNumber, generationNumber, obj);
+		}
+
+		public static PdfIndirectObject Parse(Lexical.ILexer lexer, int objectNumber)
+		{
 			int generationNumber = int.Parse(lexer.ReadToken());
 
 			lexer.Expects("obj");

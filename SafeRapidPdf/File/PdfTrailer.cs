@@ -15,7 +15,7 @@ namespace SafeRapidPdf.File
 
 		public new static PdfTrailer Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects("trailer");
+			lexer.Expects("<<");
 			var dictionary = PdfDictionary.Parse(lexer);
 			return new PdfTrailer(dictionary);
 		}

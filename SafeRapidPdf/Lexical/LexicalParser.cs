@@ -30,7 +30,7 @@ namespace SafeRapidPdf.Lexical
 					expectedToken, actualToken));
 		}
 
-		public String PeekToken()
+		public String PeekToken3()
 		{
 			long lastPosition = _reader.Position;
 			String token = ReadToken();
@@ -47,6 +47,31 @@ namespace SafeRapidPdf.Lexical
 					}
 				}
 			}
+			_reader.Seek(lastPosition, SeekOrigin.Begin);
+			return token;
+		}
+
+		public String PeekToken2()
+		{
+			long lastPosition = _reader.Position;
+			String token = ReadToken();
+			if (IsInteger(token))
+			{
+				// should be "obj" or "R"
+				string token2 = ParseToken();
+				if (token2 == "obj" || token2 == "R")
+				{
+					token = token2;
+				}
+			}
+			_reader.Seek(lastPosition, SeekOrigin.Begin);
+			return token;
+		}
+
+		public String PeekToken1()
+		{
+			long lastPosition = _reader.Position;
+			String token = ReadToken();
 			_reader.Seek(lastPosition, SeekOrigin.Begin);
 			return token;
 		}

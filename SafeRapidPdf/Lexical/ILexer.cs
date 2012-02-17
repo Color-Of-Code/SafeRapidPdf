@@ -17,7 +17,9 @@ namespace SafeRapidPdf.Lexical
 		/// Preview the next token without advancing in the stream
 		/// </summary>
 		/// <returns></returns>
-		String PeekToken();
+		String PeekToken1();
+		String PeekToken2();
+		String PeekToken3();
 
 		/// <summary>
 		/// One step back in the stream

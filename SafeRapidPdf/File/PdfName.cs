@@ -16,7 +16,6 @@ namespace SafeRapidPdf.File
 
 		public static PdfName Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects("/");
 			String name = lexer.ReadToken();
 			return new PdfName(name);
 		}

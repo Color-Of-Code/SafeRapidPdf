@@ -21,8 +21,6 @@ namespace SafeRapidPdf.File
 
 		public static PdfLiteralString Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects("(");
-
 			int parenthesisCount = 0;
 			StringBuilder sb = new StringBuilder();
 			char c = lexer.ReadChar();

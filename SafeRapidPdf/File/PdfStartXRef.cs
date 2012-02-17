@@ -17,7 +17,6 @@ namespace SafeRapidPdf.File
 
 		public static PdfStartXRef Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects("startxref");
 			var n = PdfNumeric.Parse(lexer);
 			return new PdfStartXRef(n);
 		}

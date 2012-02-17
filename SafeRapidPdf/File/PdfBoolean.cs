@@ -13,9 +13,8 @@ namespace SafeRapidPdf.File
 			Value = value;
 		}
 
-		public static PdfBoolean Parse(Lexical.ILexer lexer)
+		public static PdfBoolean Parse(String token)
 		{
-			String token = lexer.ReadToken();
 			if (token != "true" && token != "false")
 				throw new Exception("Parser error: invalid boolean value");
 			return new PdfBoolean(token == "true");

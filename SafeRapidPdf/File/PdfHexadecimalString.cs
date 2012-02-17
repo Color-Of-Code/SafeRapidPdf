@@ -23,7 +23,6 @@ namespace SafeRapidPdf.File
 
 		public static PdfHexadecimalString Parse(Lexical.ILexer lexer)
 		{
-			lexer.Expects("<");
 			StringBuilder hexString = new StringBuilder();
 			String text = string.Empty;
 			while (text != ">")
