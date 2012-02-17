@@ -28,9 +28,7 @@ namespace SafeRapidPdf.File
 		public static PdfIndirectReference Parse(Lexical.ILexer lexer)
         {
 			int objectNumber = int.Parse(lexer.ReadToken());
-			int generationNumber = int.Parse(lexer.ReadToken());
-			lexer.Expects("R");
-			return new PdfIndirectReference(objectNumber, generationNumber);
+			return Parse(lexer, objectNumber);
 		}
 
 		public static PdfIndirectReference Parse(Lexical.ILexer lexer, int objectNumber)

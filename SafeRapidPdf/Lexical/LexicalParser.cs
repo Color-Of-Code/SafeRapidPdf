@@ -43,30 +43,28 @@ namespace SafeRapidPdf.Lexical
 					expectedToken, actualToken));
 		}
 
+		private String _peekedToken;
+		private String _peekedToken2;
+
 		public String PeekToken2()
 		{
-			long lastPosition = _reader.Position;
-			String peekedToken = _peekedToken;
-			String token = ReadToken();
-			if (IsInteger(token))
+			_peekedToken = _peekedToken ?? ReadTokenInternal();
+			if (IsInteger(_peekedToken))
 			{
+				_peekedToken2 = _peekedToken2 ?? ReadTokenInternal();
 				// should be "obj" or "R"
-				string token2 = ParseToken();
-				if (token2 == "obj" || token2 == "R")
+				string token = _peekedToken2;
+				if (token == "obj" || token == "R")
 				{
-					token = token2;
+					return token;
 				}
 			}
-			_reader.Seek(lastPosition, SeekOrigin.Begin);
-			_peekedToken = peekedToken;
-			return token;
+			return _peekedToken;
 		}
-
-		private String _peekedToken;
 
 		public String PeekToken1()
 		{
-			_peekedToken = _peekedToken ?? ReadToken();
+			_peekedToken = _peekedToken ?? ReadTokenInternal();
 			return _peekedToken;
 		}
 
@@ -75,10 +73,15 @@ namespace SafeRapidPdf.Lexical
 			if (_peekedToken != null)
 			{
 				String peekedToken = _peekedToken;
-				_peekedToken = null;
+				_peekedToken = _peekedToken2;
+				_peekedToken2 = null;
 				return peekedToken;
 			}
+			return ReadTokenInternal();
+		}
 
+		private String ReadTokenInternal()
+		{
 			int b = SkipWhitespaces();
 			if (b == -1)
 				return null;
@@ -264,12 +267,14 @@ namespace SafeRapidPdf.Lexical
 			else
 				_reader.Seek(newPosition, SeekOrigin.Begin);
 			_peekedToken = null;
+			_peekedToken2 = null;
 		}
 
 		public void PopPosition()
 		{
 			_reader.Seek(_positions.Pop(), SeekOrigin.Begin);
 			_peekedToken = null;
+			_peekedToken2 = null;
 		}
 
 		public int Percentage

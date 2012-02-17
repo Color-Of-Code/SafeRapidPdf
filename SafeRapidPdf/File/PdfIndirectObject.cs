@@ -28,13 +28,9 @@ namespace SafeRapidPdf.File
 		public static PdfIndirectObject Parse(Lexical.ILexer lexer, int objectNumber)
 		{
 			int generationNumber = int.Parse(lexer.ReadToken());
-
 			lexer.Expects("obj");
-
 			PdfObject obj = PdfObject.ParseAny(lexer);
-
 			lexer.Expects("endobj");
-
 			return new PdfIndirectObject(objectNumber, generationNumber, obj);
 		}
 
