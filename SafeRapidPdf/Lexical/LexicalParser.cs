@@ -86,7 +86,7 @@ namespace SafeRapidPdf.Lexical
 			if (b == -1)
 				return null;
 
-			char c = (char)b;
+			int c = b;
 			switch (c)
 			{
 				case '%': return "%";
@@ -96,16 +96,16 @@ namespace SafeRapidPdf.Lexical
 				case '(': return "(";
 				case ')': return ")";
 				case '<':
-					b = _reader.ReadByte();
-					if ((char)b == '<')
+					b = ReadByte();
+					if (b == '<')
 						return "<<";
-					Putc();
+					_byteRead = b;
 					return "<";
 				case '>':
-					b = _reader.ReadByte();
-					if ((char)b == '>')
+					b = ReadByte();
+					if (b == '>')
 						return ">>";
-					Putc();
+					_byteRead = b;
 					return ">";
 			}
 
@@ -113,23 +113,21 @@ namespace SafeRapidPdf.Lexical
 
 			if (token == String.Empty)
 			{
-				if (_reader.ReadByte() == -1) // end of file
+				if (ReadByte() == -1) // end of file
 					return null;
 				throw new Exception("Token may not be empty");
 			}
-
-			// one step back because one char has been read too far
-			Putc();
-
 			return token;
 		}
+
+		private int _byteRead = -1;
 
 		public String ReadUntilEol()
 		{
 			StringBuilder sb = new StringBuilder();
 			while (true)
 			{
-				int c = _reader.ReadByte();
+				int c = ReadByte();
 				if (IsEol(c))
 					break;
 				sb.Append((char)c);
@@ -145,9 +143,20 @@ namespace SafeRapidPdf.Lexical
 			return buffer;
 		}
 
+		private int ReadByte()
+		{
+			if (_byteRead != -1)
+			{
+				int result = _byteRead;
+				_byteRead = -1;
+				return result;
+			}
+			return _reader.ReadByte();
+		}
+
 		public char ReadChar()
 		{
-			return (char)_reader.ReadByte();
+			return (char)ReadByte();
 		}
 
 		private String ParseToken(int b)
@@ -156,16 +165,17 @@ namespace SafeRapidPdf.Lexical
 			if (_delimiterTable[b+1])
 			{
 				token.Append((char)b);
-				b = _reader.ReadByte();
+				b = ReadByte();
 			}
 			else
 			{
 				while (_regularTable[b+1])
 				{
 					token.Append((char)b);
-					b = _reader.ReadByte();
+					b = ReadByte();
 				}
 			}
+			_byteRead = b;
 			return token.ToString();
 		}
 
@@ -185,7 +195,7 @@ namespace SafeRapidPdf.Lexical
 			int c = 0;
 			do
 			{
-				c = _reader.ReadByte();
+				c = ReadByte();
 			} while (_whitespaceTable[c+1]);
 			return c;
 		}
