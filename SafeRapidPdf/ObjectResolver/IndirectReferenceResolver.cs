@@ -35,6 +35,7 @@ namespace SafeRapidPdf.ObjectResolver
 			StartXRef = RetrieveStartXRef();
 
 			_lexer.PushPosition(StartXRef);
+			_lexer.Expects("xref");
 			_xref = PdfXRef.Parse(_lexer);
 			_lexer.PopPosition();
 		}

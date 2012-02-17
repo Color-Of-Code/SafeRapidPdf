@@ -19,19 +19,29 @@ namespace SafeRapidPdf.Document
 		{
 			_file = file;
 			IsContainer = true;
-			var trailers = _file.Items.OfType<PdfTrailer>();
-			// this could happen for linearized documents
-			//if (trailers.Count() > 1)
-			//    throw new Exception("too many trailers found");
-			PdfTrailer trailer = trailers.First();
-			PdfIndirectReference root =  trailer["Root"] as PdfIndirectReference;
-			PdfDictionary dic = root.Dereference<PdfDictionary>();
-			Root = new PdfCatalog(dic);
 		}
 
 		private PdfFile _file;
+		private PdfCatalog _root;
 
-		public PdfCatalog Root { get; private set; }
+		public PdfCatalog Root
+		{
+			get
+			{
+				if (_root == null)
+				{
+					var trailers = _file.Items.OfType<PdfTrailer>();
+					// this could happen for linearized documents
+					//if (trailers.Count() > 1)
+					//    throw new Exception("too many trailers found");
+					PdfTrailer trailer = trailers.First();
+					PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
+					PdfDictionary dic = root.Dereference<PdfDictionary>();
+					_root = new PdfCatalog(dic);
+				}
+				return _root;
+			}
+		}
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{

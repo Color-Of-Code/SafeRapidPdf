@@ -53,7 +53,6 @@ namespace PdfStructureViewer.Views
 		private void RefreshControl()
 		{
 			treeView.ItemsSource = new PdfObjectTreeViewModel(_file).FirstGeneration;
-			ApplyFilter();
 		}
 
 		private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -76,11 +75,6 @@ namespace PdfStructureViewer.Views
 					ImageControl.Source = imageSource;
 				}
 			}
-		}
-
-		private void textBoxQuery_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			ApplyFilter();
 		}
 
 		private void ApplyFilter()
@@ -152,6 +146,11 @@ namespace PdfStructureViewer.Views
 					//view.Refresh();
 				}
 			}
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			ApplyFilter();
 		}
 	}
 }
