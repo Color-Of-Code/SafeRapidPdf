@@ -62,8 +62,10 @@ namespace PdfStructureViewer
 		{
 			PdfFile file = e.Result as PdfFile;
 			fileView.ImageControl = image;
-			//fileView.FileStructure = file;
-			//documentView.DocumentStructure = new PdfDocument(file);
+
+			fileView.FileStructure = file;
+			documentView.DocumentStructure = new PdfDocument(file);
+
 			progressBar.Visibility = Visibility.Collapsed;
 			_worker = null;
 			parsingTime.Content = String.Format("File parsed in {0:0.0} seconds", file.ParsingTime);

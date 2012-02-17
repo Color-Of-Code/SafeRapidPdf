@@ -13,6 +13,19 @@ namespace SafeRapidPdf.Lexical
 	/// </summary>
 	internal class LexicalParser : ILexer
 	{
+		private static bool[] _regularTable = new bool[257];
+		private static bool[] _whitespaceTable = new bool[257];
+		private static bool[] _delimiterTable = new bool[257];
+		static LexicalParser()
+		{
+			for (int c = 0; c < 257; c++)
+			{
+				_regularTable[c] = IsRegular(c-1);
+				_whitespaceTable[c] = IsWhitespace(c-1);
+				_delimiterTable[c] = IsDelimiter(c-1);
+			}
+		}
+
 		public LexicalParser(Stream stream)
 		{
 			_reader = stream;
@@ -28,27 +41,6 @@ namespace SafeRapidPdf.Lexical
 			if (actualToken != expectedToken)
 				throw new Exception(String.Format("Parser error: expected '{0}', read '{1}'",
 					expectedToken, actualToken));
-		}
-
-		public String PeekToken3()
-		{
-			long lastPosition = _reader.Position;
-			String token = ReadToken();
-			if (IsInteger(token))
-			{
-				string token2 = ParseToken();
-				if (IsInteger(token2))
-				{
-					// should be "obj" or "R"
-					string token3 = ParseToken();
-					if (token3 == "obj" || token3 == "R")
-					{
-						token = token3;
-					}
-				}
-			}
-			_reader.Seek(lastPosition, SeekOrigin.Begin);
-			return token;
 		}
 
 		public String PeekToken2()
@@ -149,14 +141,14 @@ namespace SafeRapidPdf.Lexical
 		private String ParseToken(int b)
 		{
 			StringBuilder token = new StringBuilder();
-			if (IsDelimiter(b))
+			if (_delimiterTable[b+1])
 			{
 				token.Append((char)b);
 				b = _reader.ReadByte();
 			}
 			else
 			{
-				while (IsRegular(b))
+				while (_regularTable[b+1])
 				{
 					token.Append((char)b);
 					b = _reader.ReadByte();
@@ -182,7 +174,7 @@ namespace SafeRapidPdf.Lexical
 			do
 			{
 				c = _reader.ReadByte();
-			} while (IsWhitespace(c));
+			} while (_whitespaceTable[c+1]);
 			return c;
 		}
 
@@ -229,12 +221,14 @@ namespace SafeRapidPdf.Lexical
 		/// <returns></returns>
 		public static bool IsDelimiter(int b)
 		{
+			// 37 40 41 47 60 62 91 93 123 125
 			return
-				b == '(' || b == ')' ||
-				b == '<' || b == '>' ||
-				b == '[' || b == ']' ||
-				b == '{' || b == '}' ||
-				b == '/' || b == '%';
+				b == '/' ||					// 47
+				b == '<' || b == '>' ||		// 60 62
+				b == '[' || b == ']' ||		// 91 93
+				b == '(' || b == ')' ||		// 40 41
+				b == '{' || b == '}' ||		// 123 125
+				b == '%';					// 37
 		}
 
 		/// <summary>
