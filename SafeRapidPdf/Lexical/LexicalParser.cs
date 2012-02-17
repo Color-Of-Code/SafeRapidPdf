@@ -46,6 +46,7 @@ namespace SafeRapidPdf.Lexical
 		public String PeekToken2()
 		{
 			long lastPosition = _reader.Position;
+			String peekedToken = _peekedToken;
 			String token = ReadToken();
 			if (IsInteger(token))
 			{
@@ -57,19 +58,27 @@ namespace SafeRapidPdf.Lexical
 				}
 			}
 			_reader.Seek(lastPosition, SeekOrigin.Begin);
+			_peekedToken = peekedToken;
 			return token;
 		}
 
+		private String _peekedToken;
+
 		public String PeekToken1()
 		{
-			long lastPosition = _reader.Position;
-			String token = ReadToken();
-			_reader.Seek(lastPosition, SeekOrigin.Begin);
-			return token;
+			_peekedToken = _peekedToken ?? ReadToken();
+			return _peekedToken;
 		}
 
 		public String ReadToken()
 		{
+			if (_peekedToken != null)
+			{
+				String peekedToken = _peekedToken;
+				_peekedToken = null;
+				return peekedToken;
+			}
+
 			int b = SkipWhitespaces();
 			if (b == -1)
 				return null;
@@ -254,11 +263,13 @@ namespace SafeRapidPdf.Lexical
 				_reader.Seek(newPosition, SeekOrigin.End);
 			else
 				_reader.Seek(newPosition, SeekOrigin.Begin);
+			_peekedToken = null;
 		}
 
 		public void PopPosition()
 		{
 			_reader.Seek(_positions.Pop(), SeekOrigin.Begin);
+			_peekedToken = null;
 		}
 
 		public int Percentage
