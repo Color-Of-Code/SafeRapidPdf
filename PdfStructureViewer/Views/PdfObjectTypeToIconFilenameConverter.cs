@@ -22,7 +22,7 @@ namespace PdfStructureViewer.Views
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			String basePath = "/PdfStructureViewer;component/Images/";
+			String basePath = "pack://application:,,,/PdfStructureViewer;component/Images/";
 			return String.Format("{0}{1}.png", basePath, Enum.GetName(typeof(PdfObjectType), value));
 		}
 
