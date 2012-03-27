@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
+# SharpDevelop 4.2.0.8528-beta
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeRapidPdf", "SafeRapidPdf\SafeRapidPdf.csproj", "{F001A884-07F4-4C8D-B014-D958376B79AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfStructureViewer", "PdfStructureViewer\PdfStructureViewer.csproj", "{46C838E7-752A-4620-8092-9CC60C8BA245}"
