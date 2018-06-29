@@ -34,10 +34,9 @@ namespace SafeRapidPdf.Lexical
 
 		public void Expects(String expectedToken)
 		{
-			String actualToken = ReadToken();
-			if (actualToken != expectedToken)
-				throw new Exception(String.Format("Parser error: expected '{0}', read '{1}'",
-					expectedToken, actualToken));
+			string actualToken = ReadToken();
+            if (actualToken != expectedToken)
+                throw new Exception($"Parser error: expected '{expectedToken}', read '{actualToken}'");
 		}
 
 		private String _peekedToken;

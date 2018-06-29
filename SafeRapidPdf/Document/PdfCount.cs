@@ -20,7 +20,7 @@ namespace SafeRapidPdf.Document
 
 		public override string ToString()
 		{
-			return String.Format("Count : {0}", Value);
+            return "Count : {Value}";
 		}
 	}
 }

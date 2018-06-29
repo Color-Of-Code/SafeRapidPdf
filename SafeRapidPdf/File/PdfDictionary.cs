@@ -28,7 +28,7 @@ namespace SafeRapidPdf.File
 		{
 			PdfName type = this["Type"] as PdfName;
 			if (type.Name != name)
-				throw new Exception(String.Format("Expected {0}, but got {1}", name, type.Name));
+				throw new Exception($"Expected {name}, but got {type.Name}");
 		}
 
         public static PdfDictionary Parse(Lexical.ILexer lexer)
@@ -72,7 +72,7 @@ namespace SafeRapidPdf.File
 			}
 			if (value is T)
 				return value as T;
-			throw new Exception(String.Format("Value '{0}' not of the expected type {1}", typeof(T)));
+			throw new Exception($"Value is not of the expected type {typeof(T)}. Was {value.GetType()}'.");
 		}
 
 		private IList<PdfKeyValuePair> _dictionary;
@@ -122,10 +122,7 @@ namespace SafeRapidPdf.File
 
 		public override string ToString()
 		{
-			String type = Type;
-			if (type == null)
-				return "<<...>>";
-			return String.Format("<<...>> ({0})", type);
-		}
+            return Type != null ? $"<<...>> ({Type})" : "<<...>>";
+        }
 	}
 }
