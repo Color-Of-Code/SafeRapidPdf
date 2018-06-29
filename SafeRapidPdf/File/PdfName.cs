@@ -17,7 +17,7 @@ namespace SafeRapidPdf.File
 			return new PdfName(name);
 		}
 
-		private String _rawName;
+		private readonly string _rawName;
 
 		public string Name
 		{

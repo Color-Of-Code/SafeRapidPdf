@@ -76,17 +76,9 @@ namespace SafeRapidPdf.File
 			return new PdfStream(dictionary, data);
 		}
 
-		public PdfDictionary StreamDictionary
-		{
-			get;
-			private set;
-		}
+		public PdfDictionary StreamDictionary { get; private set; }
 
-		public PdfData Data
-		{
-			get;
-			private set;
-		}
+		public PdfData Data { get; private set; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{

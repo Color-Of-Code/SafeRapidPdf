@@ -34,11 +34,7 @@ namespace SafeRapidPdf.File
 
 		public int GenerationNumber { get; private set; }
 
-		public IPdfObject Object
-		{
-			get;
-			private set;
-		}
+		public IPdfObject Object { get; private set; }
 
 		public override string ToString()
 		{

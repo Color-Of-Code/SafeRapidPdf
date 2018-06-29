@@ -8,11 +8,7 @@
 			Data = data;
 		}
 
-		public byte[] Data
-		{
-			get;
-			private set;
-		}
+		public byte[] Data { get; private set; }
 
 		public static PdfData Parse(Lexical.ILexer lexer, int length)
 		{

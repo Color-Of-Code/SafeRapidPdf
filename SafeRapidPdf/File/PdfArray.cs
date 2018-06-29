@@ -26,11 +26,8 @@ namespace SafeRapidPdf.File
 		private List<IPdfObject> _items;
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
-			get
-			{
-				return _items.AsReadOnly();
-			}
-		}
+            get => _items.AsReadOnly();
+        }
 
 		public override string ToString()
 		{

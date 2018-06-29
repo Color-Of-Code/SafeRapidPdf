@@ -21,8 +21,8 @@ namespace SafeRapidPdf.File
 
 		public static PdfHexadecimalString Parse(Lexical.ILexer lexer)
 		{
-			StringBuilder hexString = new StringBuilder();
-			String text = string.Empty;
+			var hexString = new StringBuilder();
+			string text = string.Empty;
 			while (text != ">")
 			{
 				hexString.Append(text);
@@ -33,11 +33,8 @@ namespace SafeRapidPdf.File
 			return new PdfHexadecimalString(hexString.ToString());
 		}
 
-		private String _text;
+		private string _text;
 
-		public override string ToString()
-		{
-			return _text;
-		}
+        public override string ToString() => _text;
 	}
 }

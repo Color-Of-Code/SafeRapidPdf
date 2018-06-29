@@ -10,22 +10,13 @@ namespace SafeRapidPdf.Document
 			ObjectType = type;
 		}
 
-		public PdfObjectType ObjectType
-		{
-			get; private set;
-		}
+		public PdfObjectType ObjectType { get; private set; }
 
-		public bool IsContainer { get; protected set; }
+        public bool IsContainer { get; protected set; }
 
-		public String Text
-		{
-			get
-			{
-				return ToString();
-			}
-		}
+        public string Text => ToString();
 
-		public virtual ReadOnlyCollection<IPdfObject> Items
+        public virtual ReadOnlyCollection<IPdfObject> Items
 		{
 			get 
 			{

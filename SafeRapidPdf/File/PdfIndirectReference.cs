@@ -31,11 +31,7 @@ namespace SafeRapidPdf.File
 			return new PdfIndirectReference(objectNumber, generationNumber);
 		}
 
-		public int ObjectNumber
-		{
-			get;
-			private set;
-		}
+		public int ObjectNumber { get; private set; }
 
         public int GenerationNumber { get; private set; }
 
@@ -43,11 +39,8 @@ namespace SafeRapidPdf.File
 
 		public PdfIndirectObject ReferencedObject
 		{
-			get
-			{
-				return Resolver.GetObject(ObjectNumber, GenerationNumber);
-			}
-		}
+            get => Resolver.GetObject(ObjectNumber, GenerationNumber);
+        }
 
 		public override string ToString()
 		{

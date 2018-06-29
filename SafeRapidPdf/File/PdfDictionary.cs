@@ -49,11 +49,8 @@ namespace SafeRapidPdf.File
 
 		public IPdfObject this[string name]
 		{
-			get
-			{
-				return _dictionary.First(x => x.Key.Text == name).Value;
-			}
-		}
+            get => _dictionary.First(x => x.Key.Text == name).Value;
+        }
 
 		/// <summary>
 		/// Automatically dereference indirect references or returns the Pdf object
@@ -107,7 +104,7 @@ namespace SafeRapidPdf.File
 			}
 		}
 
-		public String Type
+		public string Type
 		{
 			get
 			{
