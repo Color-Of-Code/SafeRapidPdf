@@ -30,7 +30,7 @@ namespace SafeRapidPdf.File
 
 		public override string ToString()
 		{
-			return String.Format("%{0}", _text);
+            return $"%{_text}";
 		}
 	}
 }

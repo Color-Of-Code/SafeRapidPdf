@@ -60,7 +60,7 @@ namespace SafeRapidPdf.Document
 
 		public override string ToString ()
 		{
-			return String.Format("Page Tree Node ({0} kids)", Count);
+            return $"Page Tree Node ({Count} kids)";
 		}
 	}
 }

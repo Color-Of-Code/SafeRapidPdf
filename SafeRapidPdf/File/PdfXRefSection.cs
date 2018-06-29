@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
@@ -43,7 +42,7 @@ namespace SafeRapidPdf.File
 
 		public override string ToString()
 		{
-			return String.Format("{0} {1}", FirstId, Size);
+            return $"{FirstId} {Size}";
 		}
 	}
 }
