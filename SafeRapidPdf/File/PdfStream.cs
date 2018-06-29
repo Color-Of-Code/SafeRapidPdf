@@ -55,10 +55,8 @@ namespace SafeRapidPdf.File
 				throw new Exception("Parser error: stream dictionary requires a Length entry");
 
 			int length = 0;
-			if (lengthObject is PdfIndirectReference)
-			{
-				PdfIndirectReference reference = lengthObject as PdfIndirectReference;
-				
+			if (lengthObject is PdfIndirectReference reference)
+			{				
 				PdfIndirectObject lenobj = lexer.IndirectReferenceResolver
 					.GetObject(reference.ObjectNumber, reference.GenerationNumber);
 

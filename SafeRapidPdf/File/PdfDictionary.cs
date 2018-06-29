@@ -59,17 +59,21 @@ namespace SafeRapidPdf.File
 		/// <typeparam name="T"></typeparam>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public T Resolve<T>(String name) where T: class
+		public T Resolve<T>(String name) where T : class
 		{
 			IPdfObject value = this[name];
-			if (value is PdfIndirectReference)
-			{
-				PdfIndirectReference reference = value as PdfIndirectReference;
-				return reference.Dereference<T>();
-			}
-			if (value is T)
-				return value as T;
-			throw new Exception($"Value is not of the expected type {typeof(T)}. Was {value.GetType()}'.");
+            if (value is PdfIndirectReference reference)
+            {
+                return reference.Dereference<T>();
+            }
+            else if (value is T)
+            {
+                return value as T;
+            }
+            else
+            {
+                throw new Exception($"Value is not of the expected type {typeof(T)}. Was {value.GetType()}'.");
+            }
 		}
 
 		private IList<PdfKeyValuePair> _dictionary;
