@@ -32,16 +32,15 @@ namespace SafeRapidPdf.File
 			{
 				foreach (IPdfObject item in obj.Items)
 				{
-					PdfIndirectReference iref = item as PdfIndirectReference;
-					if (iref != null)
-					{
-						iref.Resolver = this;
-					}
-					else
-					{
-						SetResolver(item);
-					}
-				}
+                    if (item is PdfIndirectReference iref)
+                    {
+                        iref.Resolver = this;
+                    }
+                    else
+                    {
+                        SetResolver(item);
+                    }
+                }
 			}
 		}
 
@@ -49,11 +48,10 @@ namespace SafeRapidPdf.File
 		{
 			using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
 			{
-				//SIO.BufferedStream reader = new SIO.BufferedStream(rawReader, 256*1024); 
-				if (progress != null)
-					progress(null, new ProgressChangedEventArgs(0, null));
+                //SIO.BufferedStream reader = new SIO.BufferedStream(rawReader, 256*1024); 
+                progress?.Invoke(null, new ProgressChangedEventArgs(0, null));
 
-				Stopwatch watch = new Stopwatch();
+                Stopwatch watch = new Stopwatch();
 				watch.Start();
 				var lexer = new Lexical.LexicalParser (reader);
 
@@ -81,10 +79,9 @@ namespace SafeRapidPdf.File
 
 					objects.Add(obj);
 
-					if (progress != null)
-						progress(null, new ProgressChangedEventArgs(lexer.Percentage, null));
+                    progress?.Invoke(null, new ProgressChangedEventArgs(lexer.Percentage, null));
 
-					lastObjectWasOEF = false;
+                    lastObjectWasOEF = false;
 					if (obj is PdfComment)
 					{
 						PdfComment cmt = obj as PdfComment;
@@ -95,9 +92,8 @@ namespace SafeRapidPdf.File
 						}
 					}
 				}
-				if (progress != null)
-					progress(null, new ProgressChangedEventArgs(100, null));
-				watch.Stop();
+                progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
+                watch.Stop();
 				PdfFile file = new File.PdfFile(objects.AsReadOnly());
 				file.ParsingTime = watch.Elapsed.TotalSeconds;
 				return file;
