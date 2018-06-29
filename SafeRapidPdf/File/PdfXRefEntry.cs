@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfXRefEntry : PdfObject
+    public class PdfXRefEntry : PdfObject
 	{
 		private PdfXRefEntry(int objectNumber, int generationNumber, long offset, bool inUse)
 			: base(PdfObjectType.XRefEntry)

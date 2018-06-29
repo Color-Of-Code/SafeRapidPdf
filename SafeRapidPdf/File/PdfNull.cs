@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SafeRapidPdf.File
+﻿namespace SafeRapidPdf.File
 {
-	public class PdfNull : PdfObject
+    public class PdfNull : PdfObject
 	{
 		private PdfNull()
 			: base(PdfObjectType.Null)

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-	public class PdfContents : PdfBaseObject
+    public class PdfContents : PdfBaseObject
 	{
 		public PdfContents(IPdfObject obj)
 			: base(PdfObjectType.Contents)

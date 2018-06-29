@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-using SafeRapidPdf.File;
+﻿using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.ObjectResolver
 {
-	internal class IndirectReferenceResolver : IIndirectReferenceResolver
+    internal class IndirectReferenceResolver : IIndirectReferenceResolver
 	{
 		public IndirectReferenceResolver(Lexical.ILexer lexer)
 		{

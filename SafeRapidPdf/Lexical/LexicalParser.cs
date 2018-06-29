@@ -1,17 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
-
-using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Lexical
 {
-	/// <summary>
-	/// The lexer
-	/// </summary>
-	internal class LexicalParser : ILexer
+    /// <summary>
+    /// The lexer
+    /// </summary>
+    internal class LexicalParser : ILexer
 	{
 		private static bool[] _regularTable = new bool[257];
 		private static bool[] _whitespaceTable = new bool[257];

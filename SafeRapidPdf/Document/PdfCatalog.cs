@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 using SafeRapidPdf.File;
 
-namespace SafeRapidPdf.Document 
+namespace SafeRapidPdf.Document
 {
-	public class PdfCatalog : PdfBaseObject
+    public class PdfCatalog : PdfBaseObject
 	{
 		public PdfCatalog(PdfDictionary catalog)
 			: base(PdfObjectType.Catalog)

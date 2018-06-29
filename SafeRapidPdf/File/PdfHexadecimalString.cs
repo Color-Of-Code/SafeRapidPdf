@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfHexadecimalString : PdfObject
+    public class PdfHexadecimalString : PdfObject
 	{
 		private PdfHexadecimalString(String hexString)
 			: base(PdfObjectType.HexadecimalString)

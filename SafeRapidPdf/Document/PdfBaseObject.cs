@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
-namespace SafeRapidPdf.Document 
+namespace SafeRapidPdf.Document
 {
-	public abstract class PdfBaseObject : IPdfObject
+    public abstract class PdfBaseObject : IPdfObject
 	{
 		protected PdfBaseObject(PdfObjectType type)
 		{

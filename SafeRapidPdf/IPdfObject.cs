@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf
 {
-	/// <summary>
-	/// Interface common to all PDF objects high or low level.
-	/// The presence of this interface eases the implementation
-	/// of code crawling through all objects.
-	/// </summary>
-	public interface IPdfObject
+    /// <summary>
+    /// Interface common to all PDF objects high or low level.
+    /// The presence of this interface eases the implementation
+    /// of code crawling through all objects.
+    /// </summary>
+    public interface IPdfObject
 	{
 		/// <summary>
 		/// Returns the type of this object

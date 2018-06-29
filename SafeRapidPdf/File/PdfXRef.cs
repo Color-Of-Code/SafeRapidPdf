@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfXRef : PdfObject
+    public class PdfXRef : PdfObject
 	{
 		private PdfXRef(IList<PdfXRefSection> sections)
 			: base(PdfObjectType.XRef)

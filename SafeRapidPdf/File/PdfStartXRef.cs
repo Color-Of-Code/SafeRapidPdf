@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfStartXRef : PdfObject
+    public class PdfStartXRef : PdfObject
 	{
 		private PdfStartXRef(PdfNumeric value)
 			: base(PdfObjectType.StartXRef)

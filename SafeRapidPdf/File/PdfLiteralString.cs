@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	/// <summary>
-	/// A  literal string is written as an arbitrary number of characters enclosed in 
-	/// parentheses. Any characters may appear in a string except  unbalanced 
-	/// parentheses and the backslash, which must be treated specially. Balanced pairs of 
-	/// parentheses within a string require no special treatment. 
-	/// </summary>
-	public class PdfLiteralString : PdfObject
+    /// <summary>
+    /// A  literal string is written as an arbitrary number of characters enclosed in 
+    /// parentheses. Any characters may appear in a string except  unbalanced 
+    /// parentheses and the backslash, which must be treated specially. Balanced pairs of 
+    /// parentheses within a string require no special treatment. 
+    /// </summary>
+    public class PdfLiteralString : PdfObject
 	{
 		private PdfLiteralString(String text)
 			: base(PdfObjectType.LiteralString)

@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using SIO = System.IO;
 using System.Linq;
-using System.Text;
-
-using SafeRapidPdf.File;
+using SIO = System.IO;
 
 namespace SafeRapidPdf.File
 {
-	/// <summary>
-	/// Represents the physical structure of a PDF. Contains the objects present
-	/// in the file and allows direct retrieval of indirect references.
-	/// The file itself is considered as a PDF object.
-	/// </summary>
-	public class PdfFile : IPdfObject, IIndirectReferenceResolver
+    /// <summary>
+    /// Represents the physical structure of a PDF. Contains the objects present
+    /// in the file and allows direct retrieval of indirect references.
+    /// The file itself is considered as a PDF object.
+    /// </summary>
+    public class PdfFile : IPdfObject, IIndirectReferenceResolver
 	{
 		private PdfFile(ReadOnlyCollection<IPdfObject> objects)
 		{

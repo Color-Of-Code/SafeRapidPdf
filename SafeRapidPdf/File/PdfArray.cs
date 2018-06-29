@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfArray: PdfObject
+    public class PdfArray: PdfObject
 	{
 		private PdfArray(List<IPdfObject> items)
 			: base(PdfObjectType.Array)
