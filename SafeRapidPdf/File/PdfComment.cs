@@ -18,17 +18,11 @@ namespace SafeRapidPdf.File
 			return new PdfComment(lexer.ReadUntilEol());
 		}
 
-		private String _text;
+		private readonly string _text;
 
-		public bool IsEOF
-		{
-			get
-			{
-				return _text == "%EOF";
-			}
-		}
+        public bool IsEOF => _text == "%EOF";
 
-		public override string ToString()
+        public override string ToString()
 		{
             return $"%{_text}";
 		}

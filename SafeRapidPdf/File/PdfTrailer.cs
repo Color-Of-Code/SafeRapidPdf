@@ -14,9 +14,6 @@
 			return new PdfTrailer(dictionary);
 		}
 
-		public override string ToString()
-		{
-			return "trailer";
-		}
-	}
+        public override string ToString() => "trailer";
+    }
 }

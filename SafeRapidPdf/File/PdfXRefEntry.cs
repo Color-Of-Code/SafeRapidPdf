@@ -33,8 +33,11 @@ namespace SafeRapidPdf.File
 		}
 
 		public int ObjectNumber { get; private set; }
+
 		public int GenerationNumber { get; private set; }
+
 		public bool InUse { get; private set; }
+
 		public long Offset { get; private set; }
 
 		public override string ToString()

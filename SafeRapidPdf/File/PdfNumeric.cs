@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace SafeRapidPdf.File
 {
@@ -17,26 +18,17 @@ namespace SafeRapidPdf.File
 
 		public static PdfNumeric Parse(String token)
 		{
-			var value = decimal.Parse(token, System.Globalization.CultureInfo.InvariantCulture);
+			var value = decimal.Parse(token, CultureInfo.InvariantCulture);
 			return new PdfNumeric(value);
 		}
 
-		public Decimal Value
-		{
-			get; private set; 
-		}
+		public Decimal Value { get; private set; }
 
-		public Boolean IsInteger
-		{
-			get
-			{
-				return (Value % 1) == 0;
-			}
-		}
+		public Boolean IsInteger => (Value % 1) == 0;
 
-		public override string ToString()
+        public override string ToString()
 		{
-			return Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			return Value.ToString(CultureInfo.InvariantCulture);
 		}
 	}
 }

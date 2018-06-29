@@ -120,7 +120,7 @@ namespace SafeRapidPdf.Lexical
 
 		public String ReadUntilEol()
 		{
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 			while (true)
 			{
 				int c = ReadByte();
@@ -157,7 +157,7 @@ namespace SafeRapidPdf.Lexical
 
 		private String ParseToken(int b)
 		{
-			StringBuilder token = new StringBuilder();
+			var token = new StringBuilder();
 			if (_delimiterTable[b+1])
 			{
 				token.Append((char)b);

@@ -10,11 +10,7 @@ namespace SafeRapidPdf.File
 			ObjectType = type;
 		}
 
-		public PdfObjectType ObjectType
-		{
-			get;
-			private set;
-		}
+		public PdfObjectType ObjectType { get; private set; }
 
 		public static PdfObject ParseAny(Lexical.ILexer lexer)
 		{
@@ -23,11 +19,11 @@ namespace SafeRapidPdf.File
 
 		public static PdfObject ParseAny(Lexical.ILexer lexer, String endToken)
 		{
-			String token = lexer.ReadToken();
+			string token = lexer.ReadToken();
 			if (token == null)
 				return null;
 
-			File.PdfObject obj = null;
+			PdfObject obj = null;
 			switch (token)
 			{
 				// null object
@@ -126,19 +122,9 @@ namespace SafeRapidPdf.File
 			return obj;
 		}
 
-		public bool IsContainer
-		{
-			get;
-			protected set;
-		}
+		public bool IsContainer { get; protected set; }
 
-		public String Text
-		{
-			get
-			{
-				return ToString();
-			}
-		}
+        public string Text => ToString();
 
 		public virtual ReadOnlyCollection<IPdfObject> Items
 		{

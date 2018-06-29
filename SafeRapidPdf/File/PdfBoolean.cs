@@ -17,11 +17,11 @@ namespace SafeRapidPdf.File
 			return new PdfBoolean(token == "true");
 		}
 
-		public Boolean Value { get; private set; }
+		public bool Value { get; private set; }
 
 		public override string ToString()
 		{
-			return String.Format("{0}", Value ? "true" : "false");
+            return Value ? "true" : "false";
 		}
 	}
 }

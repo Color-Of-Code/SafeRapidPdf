@@ -29,16 +29,14 @@ namespace SafeRapidPdf.File
 		}
 
 		public int FirstId { get; private set; }
+
 		public int Size { get; private set; }
 
 		private List<IPdfObject> _entries;
 		public override ReadOnlyCollection<IPdfObject> Items 
 		{
-			get
-			{
-				return _entries.AsReadOnly(); 
-			}
-		}
+            get => _entries.AsReadOnly();
+        }
 
 		public override string ToString()
 		{

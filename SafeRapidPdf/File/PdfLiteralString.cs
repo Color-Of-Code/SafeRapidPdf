@@ -20,7 +20,7 @@ namespace SafeRapidPdf.File
 		public static PdfLiteralString Parse(Lexical.ILexer lexer)
 		{
 			int parenthesisCount = 0;
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 			char c = lexer.ReadChar();
 			while (parenthesisCount != 0 || c != ')')
 			{
@@ -60,7 +60,7 @@ namespace SafeRapidPdf.File
 
 						default:
 							// \ddd Character code ddd (octal)
-							StringBuilder octalNumber = new StringBuilder();
+							var octalNumber = new StringBuilder();
 							octalNumber.Append(c);
 							char c2 = lexer.ReadChar();
 							if (!Char.IsDigit(c2))
