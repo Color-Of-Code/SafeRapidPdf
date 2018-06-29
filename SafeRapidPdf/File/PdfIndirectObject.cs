@@ -49,9 +49,12 @@ namespace SafeRapidPdf.File
 		{
 			get
 			{
-				var list = new List<IPdfObject>();
-				list.Add(Object);
-				return list.AsReadOnly();
+                var list = new List<IPdfObject>(1)
+                {
+                    Object
+                };
+
+                return list.AsReadOnly();
 			}
 		}
 	}
