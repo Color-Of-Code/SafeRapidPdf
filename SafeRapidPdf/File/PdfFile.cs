@@ -44,7 +44,7 @@ namespace SafeRapidPdf.File
 			}
 		}
 
-		public static File.PdfFile Parse(String pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
+		public static PdfFile Parse(String pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
 		{
 			using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
 			{
@@ -82,9 +82,8 @@ namespace SafeRapidPdf.File
                     progress?.Invoke(null, new ProgressChangedEventArgs(lexer.Percentage, null));
 
                     lastObjectWasOEF = false;
-					if (obj is PdfComment)
+					if (obj is PdfComment cmt)
 					{
-						PdfComment cmt = obj as PdfComment;
 						if (cmt.IsEOF)
 						{
 							// a linearized or updated document might contain several EOF markers
@@ -94,9 +93,13 @@ namespace SafeRapidPdf.File
 				}
                 progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
                 watch.Stop();
-				PdfFile file = new File.PdfFile(objects.AsReadOnly());
-				file.ParsingTime = watch.Elapsed.TotalSeconds;
-				return file;
+
+                PdfFile file = new PdfFile(objects.AsReadOnly())
+                {
+                    ParsingTime = watch.Elapsed.TotalSeconds
+                };
+
+                return file;
 			}
 		}
 
@@ -105,32 +108,17 @@ namespace SafeRapidPdf.File
 		/// </summary>
 		public Double ParsingTime { get; private set; }
 
-		public String Version
-		{
-			get
-			{
-				return Items.First().ToString();
-			}
-		}
+        public String Version => Items.First().ToString();
 
-		public ReadOnlyCollection<IPdfObject> Items { get; private set; }
+        public ReadOnlyCollection<IPdfObject> Items { get; private set; }
 
-		public string Text
-		{
-			get { return "File"; }
-		}
+        public string Text => "File";
 
-		public bool IsContainer
-		{
-			get { return true; }
-		}
+        public bool IsContainer => true;
 
-		public PdfObjectType ObjectType
-		{
-			get { return PdfObjectType.File; }
-		}
+        public PdfObjectType ObjectType => PdfObjectType.File;
 
-		private IDictionary<String, PdfIndirectObject> _indirectObjects;
+        private IDictionary<String, PdfIndirectObject> _indirectObjects;
 
 		private void InsertObject(PdfIndirectObject obj)
 		{
