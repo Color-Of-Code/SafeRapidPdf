@@ -48,6 +48,6 @@
 
 		Count,
 
-		Contents,
+		Contents
 	}
 }

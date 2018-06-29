@@ -17,9 +17,9 @@ namespace SafeRapidPdf.File
 			Value = value;
 		}
 
-		public PdfName Key { get; private set; }
+		public PdfName Key { get; }
 
-		public PdfObject Value { get; private set; }
+		public PdfObject Value { get; }
 
 		public override string ToString()
 		{

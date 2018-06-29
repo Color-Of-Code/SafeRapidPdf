@@ -31,7 +31,8 @@ namespace SafeRapidPdf.Document
 		}
 
 		private List<IPdfObject> _items;
-		public PdfPageTree Pages { get; private set; }
+
+		public PdfPageTree Pages { get; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
@@ -44,9 +45,6 @@ namespace SafeRapidPdf.Document
 			}
 		}
 
-		public override string ToString ()
-		{
-			return "/";
-		}
+        public override string ToString() => "/";
 	}
 }

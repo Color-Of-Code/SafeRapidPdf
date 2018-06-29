@@ -17,21 +17,21 @@ namespace SafeRapidPdf.Attributes
 		/// <summary>
 		/// Required or Optional
 		/// </summary>
-		public Boolean Required { get; private set; }
+		public Boolean Required { get; }
 
 		/// <summary>
 		/// Inheritable attribute
 		/// </summary>
-		public Boolean Inheritable { get; private set; }
+		public Boolean Inheritable { get; }
 
 		/// <summary>
 		/// PDF version from which this parameter is allowed
 		/// </summary>
-		public String Version { get; private set; }
+		public String Version { get; }
 
 		/// <summary>
 		/// Was this parameter obsoleted?
 		/// </summary>
-		public Boolean Obsolete { get; private set; }
+		public Boolean Obsolete { get; }
 	}
 }

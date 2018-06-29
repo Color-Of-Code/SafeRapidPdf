@@ -23,7 +23,7 @@ namespace SafeRapidPdf.File
 			return new PdfArray(list);
 		}
 
-		private List<IPdfObject> _items;
+		private readonly List<IPdfObject> _items;
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
             get => _items.AsReadOnly();

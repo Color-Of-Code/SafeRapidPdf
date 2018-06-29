@@ -32,17 +32,17 @@ namespace SafeRapidPdf.File
 			return new PdfXRefEntry(objectNumber, generationNumber, offset, inUse);
 		}
 
-		public int ObjectNumber { get; private set; }
+		public int ObjectNumber { get; }
 
-		public int GenerationNumber { get; private set; }
+		public int GenerationNumber { get; }
 
-		public bool InUse { get; private set; }
+		public bool InUse { get; }
 
-		public long Offset { get; private set; }
+		public long Offset { get; }
 
 		public override string ToString()
 		{
-			return String.Format("{0:0000000000} {1:00000} {2}", Offset, GenerationNumber, InUse ? "n" : "f");
+			return string.Format("{0:0000000000} {1:00000} {2}", Offset, GenerationNumber, InUse ? "n" : "f");
 		}
 	}
 }

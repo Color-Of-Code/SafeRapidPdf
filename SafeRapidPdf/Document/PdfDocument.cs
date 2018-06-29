@@ -53,9 +53,6 @@ namespace SafeRapidPdf.Document
 			}
 		}
 
-		public override string ToString ()
-		{
-			return "Document";
-		}
-	}
+        public override string ToString() => "Document";
+    }
 }

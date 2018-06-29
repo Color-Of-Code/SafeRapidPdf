@@ -10,7 +10,7 @@ namespace SafeRapidPdf.Document
 			ObjectType = type;
 		}
 
-		public PdfObjectType ObjectType { get; private set; }
+		public PdfObjectType ObjectType { get; }
 
         public bool IsContainer { get; protected set; }
 

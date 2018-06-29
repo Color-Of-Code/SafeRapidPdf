@@ -30,11 +30,11 @@ namespace SafeRapidPdf.File
 			return new PdfIndirectObject(objectNumber, generationNumber, obj);
 		}
 
-		public int ObjectNumber { get; private set; }
+		public int ObjectNumber { get; }
 
-		public int GenerationNumber { get; private set; }
+		public int GenerationNumber { get; }
 
-		public IPdfObject Object { get; private set; }
+		public IPdfObject Object { get; }
 
 		public override string ToString()
 		{
