@@ -2,7 +2,7 @@
 
 namespace SafeRapidPdf.File
 {
-    public class PdfXRefEntry : PdfObject
+    public sealed class PdfXRefEntry : PdfObject
 	{
 		private PdfXRefEntry(int objectNumber, int generationNumber, long offset, bool inUse)
 			: base(PdfObjectType.XRefEntry)

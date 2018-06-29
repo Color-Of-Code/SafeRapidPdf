@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfStream : PdfObject
+    public sealed class PdfStream : PdfObject
 	{
 		private PdfStream(PdfDictionary dictionary, PdfData data)
 			: base(PdfObjectType.Stream)

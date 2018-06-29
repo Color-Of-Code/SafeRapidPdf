@@ -2,7 +2,7 @@
 
 namespace SafeRapidPdf.File
 {
-    public class PdfNumeric : PdfObject
+    public sealed class PdfNumeric : PdfObject
 	{
 		private PdfNumeric(decimal value)
 			: base(PdfObjectType.Numeric)

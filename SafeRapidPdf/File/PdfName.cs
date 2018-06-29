@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfName : PdfObject
+    public sealed class PdfName : PdfObject
 	{
 		private PdfName(String name)
 			: base(PdfObjectType.Name)

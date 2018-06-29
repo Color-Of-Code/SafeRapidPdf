@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.Attributes
 {
-	[AttributeUsage(AttributeTargets.Property)]
-	public class ParameterTypeAttribute : Attribute 
+    [AttributeUsage(AttributeTargets.Property)]
+	public sealed class ParameterTypeAttribute : Attribute 
 	{
 		public ParameterTypeAttribute(Boolean required, Boolean inheritable = false,
 			String version = "", Boolean obsolete = false)

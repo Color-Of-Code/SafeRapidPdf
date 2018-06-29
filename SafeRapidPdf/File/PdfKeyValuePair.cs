@@ -7,7 +7,7 @@ namespace SafeRapidPdf.File
     /// Object not described in the specification but eases use and
     /// implementation in .NET
     /// </summary>
-    public class PdfKeyValuePair : PdfObject
+    public sealed class PdfKeyValuePair : PdfObject
 	{
 		public PdfKeyValuePair(PdfName key, PdfObject value)
 			: base(PdfObjectType.KeyValuePair)

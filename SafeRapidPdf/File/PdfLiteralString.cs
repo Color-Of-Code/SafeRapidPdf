@@ -9,7 +9,7 @@ namespace SafeRapidPdf.File
     /// parentheses and the backslash, which must be treated specially. Balanced pairs of 
     /// parentheses within a string require no special treatment. 
     /// </summary>
-    public class PdfLiteralString : PdfObject
+    public sealed class PdfLiteralString : PdfObject
 	{
 		private PdfLiteralString(String text)
 			: base(PdfObjectType.LiteralString)
