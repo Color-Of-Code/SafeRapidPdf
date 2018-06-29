@@ -2,7 +2,7 @@
 
 namespace SafeRapidPdf.File
 {
-    public class PdfBoolean : PdfObject
+    public sealed class PdfBoolean : PdfObject
 	{
 		private PdfBoolean(Boolean value)
 			: base(PdfObjectType.Boolean)

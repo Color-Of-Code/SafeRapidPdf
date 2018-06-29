@@ -5,7 +5,7 @@ namespace SafeRapidPdf.File
     /// <summary>
     /// Comments start with % and end on EOL char (CR or LF)
     /// </summary>
-    public class PdfComment : PdfObject
+    public sealed class PdfComment : PdfObject
 	{
 		private PdfComment(String text)
 			: base(PdfObjectType.Comment)

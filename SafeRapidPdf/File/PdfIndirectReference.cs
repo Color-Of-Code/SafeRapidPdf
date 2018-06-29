@@ -2,11 +2,10 @@ using System;
 
 namespace SafeRapidPdf.File
 {
-
     /// <summary>
     /// Immutable type
     /// </summary>
-    public class PdfIndirectReference : PdfObject
+    public sealed class PdfIndirectReference : PdfObject
     {
         private PdfIndirectReference(int objectNumber, int generationNumber)
 			: base(PdfObjectType.IndirectReference)

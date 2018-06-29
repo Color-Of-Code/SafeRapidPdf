@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfIndirectObject : PdfObject
+    public sealed class PdfIndirectObject : PdfObject
 	{
 		private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
 			: base(PdfObjectType.IndirectObject)

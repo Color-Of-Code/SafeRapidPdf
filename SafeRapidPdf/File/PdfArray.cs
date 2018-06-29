@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfArray: PdfObject
+    public sealed class PdfArray: PdfObject
 	{
 		private PdfArray(List<IPdfObject> items)
 			: base(PdfObjectType.Array)

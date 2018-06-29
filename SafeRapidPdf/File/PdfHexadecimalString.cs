@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfHexadecimalString : PdfObject
+    public sealed class PdfHexadecimalString : PdfObject
 	{
 		private PdfHexadecimalString(String hexString)
 			: base(PdfObjectType.HexadecimalString)

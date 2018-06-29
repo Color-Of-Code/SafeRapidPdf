@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfStartXRef : PdfObject
+    public sealed class PdfStartXRef : PdfObject
 	{
 		private PdfStartXRef(PdfNumeric value)
 			: base(PdfObjectType.StartXRef)

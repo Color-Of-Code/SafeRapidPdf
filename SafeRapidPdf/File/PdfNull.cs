@@ -1,6 +1,6 @@
 ﻿namespace SafeRapidPdf.File
 {
-    public class PdfNull : PdfObject
+    public sealed class PdfNull : PdfObject
 	{
 		private PdfNull()
 			: base(PdfObjectType.Null)

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfXRefSection : PdfObject
+    public sealed class PdfXRefSection : PdfObject
 	{
 		private PdfXRefSection(int firstId, int size, List<IPdfObject> entries)
 			: base(PdfObjectType.XRefSection)

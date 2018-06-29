@@ -1,6 +1,6 @@
 ﻿namespace SafeRapidPdf.File
 {
-    public class PdfData : PdfObject
+    public sealed class PdfData : PdfObject
 	{
 		private PdfData(byte[] data)
 			: base(PdfObjectType.Data)
