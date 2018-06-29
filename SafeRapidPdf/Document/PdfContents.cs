@@ -16,26 +16,28 @@ namespace SafeRapidPdf.Document
 			{
 				obj = (obj as PdfIndirectReference).ReferencedObject.Object;
 			}
-			PdfArray array = obj as PdfArray;
-			PdfStream stream = obj as PdfStream;
-			if (array != null)
-			{
-				Streams = array.Items;
-			}
-			else
-			{
-				if (stream != null)
-				{
-					var list = new List<IPdfObject>();
-					list.Add(stream);
-					Streams = list.AsReadOnly();
-				}
-				else
-				{
-					throw new Exception("Contents must be either a stream or an array of streams");
-				}
-			}
-		}
+            
+            if (obj is PdfArray array)
+            {
+                Streams = array.Items;
+            }
+            else
+            {
+                if (obj is PdfStream stream)
+                {
+                    var list = new List<IPdfObject>(1)
+                    {
+                        stream
+                    };
+
+                    Streams = list.AsReadOnly();
+                }
+                else
+                {
+                    throw new Exception("Contents must be either a stream or an array of streams");
+                }
+            }
+        }
 
 		public ReadOnlyCollection<IPdfObject> Streams
 		{
