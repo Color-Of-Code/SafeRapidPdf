@@ -10,7 +10,7 @@ namespace SafeRapidPdf.File
 			ObjectType = type;
 		}
 
-		public PdfObjectType ObjectType { get; private set; }
+		public PdfObjectType ObjectType { get; }
 
 		public static PdfObject ParseAny(Lexical.ILexer lexer)
 		{

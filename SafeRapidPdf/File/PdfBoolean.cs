@@ -17,7 +17,7 @@ namespace SafeRapidPdf.File
 			return new PdfBoolean(token == "true");
 		}
 
-		public bool Value { get; private set; }
+		public bool Value { get; }
 
 		public override string ToString()
 		{

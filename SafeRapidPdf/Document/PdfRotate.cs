@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 using SafeRapidPdf.File;
 
@@ -13,11 +12,11 @@ namespace SafeRapidPdf.Document
 			Value = Convert.ToInt32(value.Value);
 		}
 
-		public int Value { get ; private set; }
+		public int Value { get; }
 
 		public override string ToString ()
 		{
-			return String.Format(CultureInfo.InvariantCulture, "Rotate {0} degrees", Value);
+            return $"Rotate {Value} degrees";
 		}
 	}
 }

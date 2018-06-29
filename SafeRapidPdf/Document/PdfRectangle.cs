@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 using SafeRapidPdf.File;
 
@@ -18,14 +17,14 @@ namespace SafeRapidPdf.Document
 			ury = (box.Items[3] as PdfNumeric).Value;
 		}
 
-		public decimal llx { get; private set; }
-		public decimal lly { get; private set; }
-		public decimal urx { get; private set; }
-		public decimal ury { get; private set; }
+		public decimal llx { get; }
+		public decimal lly { get; }
+		public decimal urx { get; }
+		public decimal ury { get; }
 
 		public override string ToString ()
 		{
-			return String.Format(CultureInfo.InvariantCulture, "{4} [{0}; {1}; {2}; {3}]", llx, lly, urx, ury, ObjectType);
+            return $"{ObjectType} [{llx}; {lly}; {urx}; {ury}]";
 		}
 	}
 }

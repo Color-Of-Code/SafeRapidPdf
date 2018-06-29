@@ -5,7 +5,7 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfHexadecimalString : PdfObject
 	{
-		private PdfHexadecimalString(String hexString)
+		private PdfHexadecimalString(string hexString)
 			: base(PdfObjectType.HexadecimalString)
 		{
 			_text = hexString;

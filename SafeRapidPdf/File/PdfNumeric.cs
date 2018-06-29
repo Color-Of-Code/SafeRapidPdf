@@ -16,15 +16,15 @@ namespace SafeRapidPdf.File
 			return Parse(lexer.ReadToken());
 		}
 
-		public static PdfNumeric Parse(String token)
+		public static PdfNumeric Parse(string token)
 		{
 			var value = decimal.Parse(token, CultureInfo.InvariantCulture);
 			return new PdfNumeric(value);
 		}
 
-		public Decimal Value { get; private set; }
+		public decimal Value { get; }
 
-		public Boolean IsInteger => (Value % 1) == 0;
+		public bool IsInteger => (Value % 1) == 0;
 
         public override string ToString()
 		{

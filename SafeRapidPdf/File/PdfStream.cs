@@ -62,7 +62,7 @@ namespace SafeRapidPdf.File
 				PdfIndirectObject lenobj = lexer.IndirectReferenceResolver
 					.GetObject(reference.ObjectNumber, reference.GenerationNumber);
 
-				PdfNumeric len = lenobj.Object as PdfNumeric;
+				PdfNumeric len = (PdfNumeric)lenobj.Object;
 				length = int.Parse(len.ToString());
 			}
 			else
@@ -76,9 +76,9 @@ namespace SafeRapidPdf.File
 			return new PdfStream(dictionary, data);
 		}
 
-		public PdfDictionary StreamDictionary { get; private set; }
+		public PdfDictionary StreamDictionary { get; }
 
-		public PdfData Data { get; private set; }
+		public PdfData Data { get; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{

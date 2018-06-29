@@ -28,9 +28,9 @@ namespace SafeRapidPdf.File
 			return new PdfXRefSection(firstId, size, entries);
 		}
 
-		public int FirstId { get; private set; }
+		public int FirstId { get; }
 
-		public int Size { get; private set; }
+		public int Size { get; }
 
 		private List<IPdfObject> _entries;
 		public override ReadOnlyCollection<IPdfObject> Items 

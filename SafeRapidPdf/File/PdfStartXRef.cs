@@ -18,7 +18,7 @@ namespace SafeRapidPdf.File
 			return new PdfStartXRef(n);
 		}
 
-		public PdfNumeric Numeric { get; private set; }
+		public PdfNumeric Numeric { get; }
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{

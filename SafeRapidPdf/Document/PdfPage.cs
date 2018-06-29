@@ -95,7 +95,7 @@ namespace SafeRapidPdf.Document
 
         public PdfDictionary Resources { get; private set; }
 
-        [ParameterType(required : true, inheritable : true)]
+		[ParameterType(required : true, inheritable : true)]
 		public PdfMediaBox MediaBox { get; private set; }
 
 		[ParameterType(required : false, inheritable : true)]

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf
 {
@@ -18,7 +17,7 @@ namespace SafeRapidPdf
 		/// <summary>
 		/// Description of this object
 		/// </summary>
-		String Text { get; }
+		string Text { get; }
 
 		/// <summary>
 		/// Does this object have descendants

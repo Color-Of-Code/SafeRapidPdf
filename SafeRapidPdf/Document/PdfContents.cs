@@ -39,7 +39,7 @@ namespace SafeRapidPdf.Document
             }
         }
 
-		public ReadOnlyCollection<IPdfObject> Streams { get; private set; }
+		public ReadOnlyCollection<IPdfObject> Streams { get; }
 
         public override ReadOnlyCollection<IPdfObject> Items => Streams;
 

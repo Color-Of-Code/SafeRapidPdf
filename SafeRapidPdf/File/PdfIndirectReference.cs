@@ -31,9 +31,9 @@ namespace SafeRapidPdf.File
 			return new PdfIndirectReference(objectNumber, generationNumber);
 		}
 
-		public int ObjectNumber { get; private set; }
+		public int ObjectNumber { get; }
 
-        public int GenerationNumber { get; private set; }
+        public int GenerationNumber { get; }
 
 		internal IIndirectReferenceResolver Resolver { get; set;}
 

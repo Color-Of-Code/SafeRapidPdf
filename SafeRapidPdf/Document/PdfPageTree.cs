@@ -31,7 +31,7 @@ namespace SafeRapidPdf.Document
 					foreach (PdfIndirectReference item in kids.Items)
 					{
 						var dic = item.Dereference<PdfDictionary>();
-						String type = dic["Type"].Text;
+						string type = dic["Type"].Text;
 						if (type == "Pages")
 							Kids.Add(new PdfPageTree(item, this));
 						else if (type == "Page")
@@ -56,7 +56,7 @@ namespace SafeRapidPdf.Document
 		private List<IPdfObject> Kids { get; set; }
 
 		[ParameterType(required:true, inheritable:false)]
-		public PdfCount Count { get; private set; }
+		public PdfCount Count { get; }
 
 		public override string ToString ()
 		{

@@ -54,11 +54,8 @@ namespace SafeRapidPdf.File
 
 		public override ReadOnlyCollection<IPdfObject> Items
 		{
-			get
-			{
-				return _sections.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
-			}
-		}
+            get => _sections.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
+        }
 
 		public override string ToString()
 		{
