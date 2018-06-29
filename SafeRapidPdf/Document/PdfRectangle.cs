@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-	public abstract class PdfRectangle : PdfBaseObject
+    public abstract class PdfRectangle : PdfBaseObject
 	{
 		protected PdfRectangle(PdfObjectType type, PdfArray box)
 			: base(type)

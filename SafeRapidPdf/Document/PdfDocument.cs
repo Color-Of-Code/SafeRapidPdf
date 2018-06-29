@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-	/// <summary>
-	/// Represents the document structure of a PDF document. It uses the low-
-	/// level physical structure to extract the document objects.
-	/// </summary>
-	public class PdfDocument : PdfBaseObject
+    /// <summary>
+    /// Represents the document structure of a PDF document. It uses the low-
+    /// level physical structure to extract the document objects.
+    /// </summary>
+    public class PdfDocument : PdfBaseObject
 	{
 		public PdfDocument(PdfFile file)
 			: base(PdfObjectType.Document)

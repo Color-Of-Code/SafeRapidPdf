@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfName : PdfObject
+    public class PdfName : PdfObject
 	{
 		private PdfName(String name)
 			: base(PdfObjectType.Name)

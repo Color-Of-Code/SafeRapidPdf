@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using SafeRapidPdf.Document;
+﻿using SafeRapidPdf.Document;
 
 namespace SafeRapidPdf.Logical
 {
-	public class PdfStructure : PdfBaseObject
+    public class PdfStructure : PdfBaseObject
 	{
 		public PdfStructure()
 			: base(PdfObjectType.Structure)

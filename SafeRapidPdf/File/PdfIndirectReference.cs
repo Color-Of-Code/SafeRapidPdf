@@ -1,15 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
 
-	/// <summary>
-	/// Immutable type
-	/// </summary>
+    /// <summary>
+    /// Immutable type
+    /// </summary>
     public class PdfIndirectReference : PdfObject
     {
         private PdfIndirectReference(int objectNumber, int generationNumber)

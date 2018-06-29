@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-
-	public class PdfIndirectObject : PdfObject
+    public class PdfIndirectObject : PdfObject
 	{
 		private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
 			: base(PdfObjectType.IndirectObject)

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	/// <summary>
-	/// Object not described in the specification but eases use and
-	/// implementation in .NET
-	/// </summary>
-	public class PdfKeyValuePair : PdfObject
+    /// <summary>
+    /// Object not described in the specification but eases use and
+    /// implementation in .NET
+    /// </summary>
+    public class PdfKeyValuePair : PdfObject
 	{
 		public PdfKeyValuePair(PdfName key, PdfObject value)
 			: base(PdfObjectType.KeyValuePair)

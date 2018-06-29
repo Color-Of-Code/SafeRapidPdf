@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SafeRapidPdf.Document 
+﻿namespace SafeRapidPdf.Document
 {
-	public class PdfFont 
+    public class PdfFont 
 	{
 	}
 }

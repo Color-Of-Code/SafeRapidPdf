@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.Lexical
 {
-	public interface ILexer
+    public interface ILexer
 	{
 		/// <summary>
 		/// Read next token

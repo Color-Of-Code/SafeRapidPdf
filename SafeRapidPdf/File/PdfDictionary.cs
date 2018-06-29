@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	/// <summary>
-	/// A PDF Dictionary type, a collection of named objects
-	/// </summary>
-	public class PdfDictionary : PdfObject
+    /// <summary>
+    /// A PDF Dictionary type, a collection of named objects
+    /// </summary>
+    public class PdfDictionary : PdfObject
     {
         private PdfDictionary(IList<PdfKeyValuePair> dictionary)
 			: base(PdfObjectType.Dictionary)

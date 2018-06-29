@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	/// <summary>
-	/// Comments start with % and end on EOL char (CR or LF)
-	/// </summary>
-	public class PdfComment : PdfObject
+    /// <summary>
+    /// Comments start with % and end on EOL char (CR or LF)
+    /// </summary>
+    public class PdfComment : PdfObject
 	{
 		private PdfComment(String text)
 			: base(PdfObjectType.Comment)

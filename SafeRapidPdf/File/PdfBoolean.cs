@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SafeRapidPdf.File
 {
-	public class PdfBoolean : PdfObject
+    public class PdfBoolean : PdfObject
 	{
 		private PdfBoolean(Boolean value)
 			: base(PdfObjectType.Boolean)

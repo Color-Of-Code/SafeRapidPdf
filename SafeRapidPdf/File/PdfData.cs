@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SafeRapidPdf.File 
+﻿namespace SafeRapidPdf.File
 {
-	public class PdfData : PdfObject
+    public class PdfData : PdfObject
 	{
 		private PdfData(byte[] data)
 			: base(PdfObjectType.Data)

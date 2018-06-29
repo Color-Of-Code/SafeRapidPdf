@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-	public class PdfCount : PdfBaseObject
+    public class PdfCount : PdfBaseObject
 	{
 		public PdfCount(PdfNumeric count)
 			: base(PdfObjectType.Count)
