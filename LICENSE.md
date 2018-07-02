@@ -1,6 +1,6 @@
 Unless otherwise stated in the source file, the code is release under the MIT License
 
-Copyright (c) 2011-2012 SafeRapidPdf contributors
+Copyright (c) 2011-2018 SafeRapidPdf contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
