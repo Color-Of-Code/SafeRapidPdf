@@ -14,6 +14,8 @@ namespace SafeRapidPdf.ObjectResolver
 		{
 			_lexer = lexer;
 
+            // in the case of linearized PDFs there are additional linearized structures added
+            // to the PDF.
 			RetrieveXRef();
 		}
 
@@ -35,10 +37,23 @@ namespace SafeRapidPdf.ObjectResolver
 			StartXRef = RetrieveStartXRef();
 
 			_lexer.PushPosition(StartXRef);
-			_lexer.Expects("xref");
-			_xref = PdfXRef.Parse(_lexer);
-			_lexer.PopPosition();
-		}
+            var token = _lexer.ReadToken();
+            if (token == "xref")
+            {
+                // we have an uncompressed xref table
+                _xref = PdfXRef.Parse(_lexer);
+            }
+            else
+            {
+                // the xref is inside a compressed stream...
+                _lexer.PopPosition();
+                _lexer.PushPosition(StartXRef);
+                // decode the object
+                var xrefStream = PdfObject.ParseAny(_lexer);
+                _xref = PdfXRef.Parse(xrefStream);
+            }
+            _lexer.PopPosition();
+        }
 
 		private long RetrieveStartXRef()
 		{

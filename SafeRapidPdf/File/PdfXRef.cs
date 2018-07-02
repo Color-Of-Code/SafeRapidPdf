@@ -26,6 +26,11 @@ namespace SafeRapidPdf.File
 			}
 		}
 
+        /// <summary>
+        /// Parse an uncompressed xref dictionary
+        /// </summary>
+        /// <param name="lexer"></param>
+        /// <returns></returns>
 		public static PdfXRef Parse(Lexical.ILexer lexer)
 		{
 			var sections = new List<PdfXRefSection>();
@@ -38,7 +43,27 @@ namespace SafeRapidPdf.File
 			return new PdfXRef(sections);
 		}
 
-		private IList<PdfXRefSection> _sections;
+        /// <summary>
+        /// Parse the xref table out of a compressed stream
+        /// </summary>
+        /// <param name="xrefStream"></param>
+        /// <returns></returns>
+        public static PdfXRef Parse(PdfObject xrefStream)
+        {
+            throw new NotImplementedException("Work in Progress");
+            /*
+            var sections = new List<PdfXRefSection>();
+            String token = lexer.PeekToken1();
+            while (Char.IsDigit(token[0]))
+            {
+                sections.Add(PdfXRefSection.Parse(lexer));
+                token = lexer.PeekToken1();
+            }
+            return new PdfXRef(sections);
+             */
+        }
+
+        private IList<PdfXRefSection> _sections;
 
 		public long GetOffset(int objectNumber, int generationNumber)
 		{

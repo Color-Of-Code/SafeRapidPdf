@@ -55,8 +55,17 @@ namespace SafeRapidPdf.Lexical
 		/// </summary>
 		IIndirectReferenceResolver IndirectReferenceResolver { get; }
 
+        /// <summary>
+        /// Push the current position and seek to the new position
+        /// - if newPosition is <0, seek from end of file
+        /// - else seek from the beginning of the file
+        /// </summary>
+        /// <param name="newPosition"></param>
 		void PushPosition(long newPosition);
 
+        /// <summary>
+        /// Get back to the last pushed position
+        /// </summary>
 		void PopPosition();
 
 		/// <summary>
