@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.IO;
+using ComponentAce.Compression.Libs.zlib;
+using SafeRapidPdf.Filters;
+
 
 namespace SafeRapidPdf.File
 {
@@ -50,6 +54,8 @@ namespace SafeRapidPdf.File
         /// <returns></returns>
         public static PdfXRef Parse(PdfObject xrefStream)
         {
+            var stream = xrefStream.Items[0] as PdfStream;
+            var decoded = FilterDecoder.Decode(stream);
             throw new NotImplementedException("Work in Progress");
             /*
             var sections = new List<PdfXRefSection>();

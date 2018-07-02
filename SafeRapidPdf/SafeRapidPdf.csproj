@@ -69,7 +69,7 @@
     <Compile Include="Filters\Flate\ZOutputStream.cs" />
     <Compile Include="Filters\Flate\ZStream.cs" />
     <Compile Include="Filters\Flate\ZStreamException.cs" />
-    <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Filters\FilterDecoder.cs" />
     <Compile Include="Logical\PdfStructure.cs" />
     <Compile Include="ObjectResolver\IIndirectReferenceResolver.cs" />
     <Compile Include="Lexical\ILexer.cs" />
