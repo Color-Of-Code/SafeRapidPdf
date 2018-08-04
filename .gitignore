@@ -1,4 +1,6 @@
 *.suo
+/PdfInfoTool/obj
+/PdfInfoTool/bin
 /SafeRapidPdf/obj
 /SafeRapidPdf/bin
 /SafeRapidPdf.UnitTests/bin
