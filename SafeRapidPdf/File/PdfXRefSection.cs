@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
@@ -23,6 +24,15 @@ namespace SafeRapidPdf.File
 			for (int i = 0; i < size; i++)
 			{
 				PdfXRefEntry entry = PdfXRefEntry.Parse(firstId + i, lexer);
+				// first entry must be free and have a gen 65535
+				// = head of the linked list of free objects
+				if (i == 0)
+				{
+					if (entry.GenerationNumber != 65535)
+						throw new Exception("The first xref entry must have generation number 65535");
+					if (entry.InUse)
+						throw new Exception("The first xref entry must be free");
+				}
 				entries.Add(entry);
 			}
 			return new PdfXRefSection(firstId, size, entries);
