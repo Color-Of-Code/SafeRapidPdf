@@ -44,62 +44,66 @@ namespace SafeRapidPdf.File
 			}
 		}
 
+		public static PdfFile Parse(SIO.Stream reader, EventHandler<ProgressChangedEventArgs> progress = null)
+		{
+			progress?.Invoke(null, new ProgressChangedEventArgs(0, null));
+
+			Stopwatch watch = new Stopwatch();
+			watch.Start();
+			var lexer = new Lexical.LexicalParser (reader);
+
+			List<IPdfObject> objects = new List<IPdfObject>();
+
+			// check that this stuff is really looking like a PDF
+			lexer.Expects("%");
+			PdfComment comment = PdfComment.Parse(lexer);
+			if (!comment.Text.StartsWith("%PDF-"))
+				throw new Exception("PDF header missing");
+			objects.Add(comment);
+
+			bool lastObjectWasOEF = false;
+			while (true)
+			{
+				var obj = PdfObject.ParseAny(lexer);
+
+				if (obj == null)
+				{
+					if (lastObjectWasOEF)
+						break;
+					else
+						throw new Exception("End of file reached without EOF marker");
+				}
+
+				objects.Add(obj);
+
+				progress?.Invoke(null, new ProgressChangedEventArgs(lexer.Percentage, null));
+
+				lastObjectWasOEF = false;
+				if (obj is PdfComment cmt)
+				{
+					if (cmt.IsEOF)
+					{
+						// a linearized or updated document might contain several EOF markers
+						lastObjectWasOEF = true;
+					}
+				}
+			}
+			progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
+			watch.Stop();
+
+			PdfFile file = new PdfFile(objects.AsReadOnly())
+			{
+				ParsingTime = watch.Elapsed.TotalSeconds
+			};
+
+			return file;
+		}
+
 		public static PdfFile Parse(String pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
 		{
 			using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
 			{
-                //SIO.BufferedStream reader = new SIO.BufferedStream(rawReader, 256*1024); 
-                progress?.Invoke(null, new ProgressChangedEventArgs(0, null));
-
-                Stopwatch watch = new Stopwatch();
-				watch.Start();
-				var lexer = new Lexical.LexicalParser (reader);
-
-				List<IPdfObject> objects = new List<IPdfObject>();
-
-				// check that this stuff is really looking like a PDF
-				lexer.Expects("%");
-				PdfComment comment = PdfComment.Parse(lexer);
-				if (!comment.Text.StartsWith("%PDF-"))
-					throw new Exception("PDF header missing");
-				objects.Add(comment);
-
-				bool lastObjectWasOEF = false;
-				while (true)
-				{
-					var obj = PdfObject.ParseAny(lexer);
-
-					if (obj == null)
-					{
-						if (lastObjectWasOEF)
-							break;
-						else
-							throw new Exception("End of file reached without EOF marker");
-					}
-
-					objects.Add(obj);
-
-                    progress?.Invoke(null, new ProgressChangedEventArgs(lexer.Percentage, null));
-
-                    lastObjectWasOEF = false;
-					if (obj is PdfComment cmt)
-					{
-						if (cmt.IsEOF)
-						{
-							// a linearized or updated document might contain several EOF markers
-							lastObjectWasOEF = true;
-						}
-					}
-				}
-                progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
-                watch.Stop();
-
-                PdfFile file = new PdfFile(objects.AsReadOnly())
-                {
-                    ParsingTime = watch.Elapsed.TotalSeconds
-                };
-
-                return file;
+				return Parse(reader, progress);
 			}
 		}
 
