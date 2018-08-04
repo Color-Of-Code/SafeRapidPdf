@@ -26,8 +26,10 @@ namespace SafeRapidPdf.ObjectResolver
 			return obj;
 		}
 
-		private void RetrieveXRef()
+		// returns true if an xref was found false otherwise
+		private bool RetrieveXRef()
 		{
+			_xref = null;
 			StartXRef = RetrieveStartXRef();
 
 			_lexer.PushPosition(StartXRef);
@@ -39,19 +41,25 @@ namespace SafeRapidPdf.ObjectResolver
             }
             else
             {
+				/*
+				TODO: double check that there is a compressed stream with the xref
                 // the xref is inside a compressed stream...
                 _lexer.PopPosition();
                 _lexer.PushPosition(StartXRef);
                 // decode the object
                 var xrefStream = PdfObject.ParseAny(_lexer);
                 _xref = PdfXRef.Parse(xrefStream);
+				*/
             }
             _lexer.PopPosition();
+			return _xref != null;
         }
 
 		private long RetrieveStartXRef()
 		{
-			_lexer.PushPosition(-100);
+			long position = -100; // look from end, might go wrong for very small documents
+			position = System.Math.Max(position, -_lexer.Size); // avoid underflow
+			_lexer.PushPosition(position);
 			// determine StartXRef
 			long result = -1;
 			string t = null;

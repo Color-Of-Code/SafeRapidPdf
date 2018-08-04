@@ -72,5 +72,13 @@ namespace SafeRapidPdf.Lexical
 		{
 			get;
 		}
+
+		/// <summary>
+		/// Size in bytes of the file
+		/// </summary>
+		long Size
+		{
+			get;
+		}
 	}
 }

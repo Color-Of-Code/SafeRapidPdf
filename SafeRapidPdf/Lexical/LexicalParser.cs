@@ -265,6 +265,11 @@ namespace SafeRapidPdf.Lexical
 		private Stack<long> _positions = new Stack<long>();
 		private long _size;
 
+		public long Size
+		{
+			get { return _size; }
+		}
+
 		public void PushPosition(long newPosition)
 		{
 			_positions.Push(_reader.Position);

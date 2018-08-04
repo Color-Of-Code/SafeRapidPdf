@@ -11,7 +11,18 @@ namespace SafeRapidPdf.UnitTests.File
         [Fact]
         public void Parsing_TinyFile()
         {
-            PdfFile.Parse("%PDF-trailer<</Root<</Pages<<>>>>>>".ToStream());
+            var r = PdfFile.Parse(@"%PDF-
+trailer<</Root<</Pages<<>>>>>>
+%%EOF".ToStream());
+            Assert.True(r.Items.Count == 3);
+        }
+
+        [Fact]
+        public void Parsing_TinyFile_Without_EOF_YieldsException()
+        {
+            var exception = Assert.Throws<Exception>(() => { PdfFile.Parse(@"%PDF-
+trailer<</Root<</Pages<<>>>>>>".ToStream()); });
+            Assert.Equal("End of file reached without EOF marker", exception.Message);
         }
 
         [Fact]
