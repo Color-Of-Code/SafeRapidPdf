@@ -1,4 +1,5 @@
-﻿using SafeRapidPdf.File;
+﻿using System;
+using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.ObjectResolver
 {
@@ -8,13 +9,40 @@ namespace SafeRapidPdf.ObjectResolver
 		{
 			_lexer = lexer;
 
+			TryParseLinearizationHeader();
+
             // in the case of linearized PDFs there are additional linearized structures added
-            // to the PDF.
-			RetrieveXRef();
+            // to the PDF. Otherwise we take the non linearized approach
+			if (_linearizationHeader != null)
+				RetrieveXRefLinearized();
+			else
+				RetrieveXRef();
 		}
 
-		private Lexical.ILexer _lexer;
+        private void TryParseLinearizationHeader()
+        {
+			_linearizationHeader = null;
+
+			// we fetch the first object we see and try to parse it
+			var o = PdfObject.ParseAny(_lexer);
+			while (o.ObjectType == PdfObjectType.Comment)
+				o = PdfObject.ParseAny(_lexer);
+			if (o.ObjectType == PdfObjectType.IndirectObject)
+			{
+				var d = (o as PdfIndirectObject).Object;
+				if (d.ObjectType == PdfObjectType.Dictionary)
+				{
+					var dict = d as PdfDictionary;
+					var linearizedVersion = dict["Linearized"].Text;
+					if (!String.IsNullOrWhiteSpace(linearizedVersion))
+						_linearizationHeader = dict;
+				}
+			}
+        }
+
+        private Lexical.ILexer _lexer;
 		private PdfXRef _xref;
+		private PdfDictionary _linearizationHeader;
 
 		public PdfIndirectObject GetObject(int objectNumber, int generationNumber)
 		{
@@ -26,10 +54,19 @@ namespace SafeRapidPdf.ObjectResolver
 			return obj;
 		}
 
+		private void RetrieveXRefLinearized()
+		{
+			// if we get here we can read the next object as the first xref
+			// use the linearized header to jump to the main table /T offset
+			// parse the xref there too
+		}
+
 		// returns true if an xref was found false otherwise
-		private bool RetrieveXRef()
+		private void RetrieveXRef()
 		{
 			_xref = null;
+
+			// only necessary if not linearized
 			StartXRef = RetrieveStartXRef();
 
 			_lexer.PushPosition(StartXRef);
@@ -41,6 +78,7 @@ namespace SafeRapidPdf.ObjectResolver
             }
             else
             {
+				throw new NotImplementedException();
 				/*
 				TODO: double check that there is a compressed stream with the xref
                 // the xref is inside a compressed stream...
@@ -52,7 +90,6 @@ namespace SafeRapidPdf.ObjectResolver
 				*/
             }
             _lexer.PopPosition();
-			return _xref != null;
         }
 
 		private long RetrieveStartXRef()

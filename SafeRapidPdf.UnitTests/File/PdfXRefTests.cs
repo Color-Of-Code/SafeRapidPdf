@@ -29,6 +29,18 @@ namespace SafeRapidPdf.UnitTests.File
         [Fact]
         public void Parsing_CompressedXRef()
         {
+//703 0 obj
+//<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
+
+            /* 43 0 obj
+<< /Linearized   1.0   % Version
+ /L   54567 % File length
+ /H   [ 475 598 ]  % Primary hint stream offset and length (part 5)
+ /O   45    % Object number of first page’s page object (part 6)
+ /E   5437  % Offset of end of first page
+ /N   11    % Number of pages in document
+ /T   52786 % Offset of first entry in main cross-reference table (part 11)
+*/
             var base64XrefStream =
 @"NzExIDAgb2JqDTw8L0RlY29kZVBhcm1zPDwvQ29sdW1ucyA0L1ByZWRpY3RvciAxMj4+L0ZpbHRl
 ci9GbGF0ZURlY29kZS9JRFs8ODgyNkQ3RkI0OUQ2RDVBMDM5QTY1MTU0RjMwOUMyQUI+PDk5RjA0
