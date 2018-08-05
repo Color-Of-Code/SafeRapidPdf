@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
-//using ComponentAce.Compression.Libs.zlib;
+using System.IO;
+using ComponentAce.Compression.Libs.zlib;
 
 namespace SafeRapidPdf.File
 {
@@ -14,28 +15,39 @@ namespace SafeRapidPdf.File
 			IsContainer = true;
 			StreamDictionary = dictionary;
 			Data = data;
+		}
 
-			//IPdfObject filter = StreamDictionary["Filter"];
-			//if (filter.Text == "FlateDecode")
-			//{
-			//    ZInputStream zin = new ZInputStream(new MemoryStream(Data));
-			//    //zin.
-			//    int r;
-			//    IList<char> output = new List<char>(data.Length*10);
-			//    while ((r = zin.Read()) != -1)
-			//    {
-			//        output.Add((char)r);
-			//    }
-			//    char[] decompressed = output.ToArray();
-			//    String test = new String(decompressed);
-			//    zin.Close();
-			//}
+		public Byte[] Decode()
+		{
+			//TODO: multiple filter in order can be specified
+			IPdfObject filter = StreamDictionary["Filter"];
+			if (filter.Text == "FlateDecode")
+			{
+				PdfDictionary parameters = StreamDictionary["DecodeParms"] as PdfDictionary;
+				var samplesPerRow = parameters["Columns"] as PdfNumeric;
+				//12 = PNG prediction (on encoding, PNG Up on all rows)
+				var predictor = parameters["Predictor"] as PdfNumeric;
+
+			    var zin = new ZInputStream(new MemoryStream(Data.Data));
+			    int r;
+			    var output = new List<Byte>(2000);
+			    while ((r = zin.Read()) != -1)
+			    {
+			        output.Add((Byte)r);
+			    }
+			    byte[] decompressed = output.ToArray();
+				zin.Close();
+
+				// oh well now we have to handle the predictors...
+
+				return decompressed;
+			}
 			//else if (filter.Text == "DCTDecode")
 			//{
 			//    // JPEG image
 			//}
 			//else
-			//    throw new NotImplementedException("Implement Filter");
+			throw new NotImplementedException("Implement Filter: " + filter.Text);
 		}
 
 		public static PdfStream Parse(PdfDictionary dictionary, Lexical.ILexer lexer)
