@@ -74,9 +74,19 @@ qWNgRCL+/xf6CxBgAO9WCPMNCmVuZHN0cmVhbQ1lbmRvYmo=";
             //02 00 00 00 01 -> 02 02 c2 01 -> int 2 706 1
             //02 00 00 00 01 -> 02 02 c2 02 -> int 2 706 2
             //02 00 00 00 01 -> 02 02 c2 03 -> int 2 706 3
-            //02 ff ff 12 fd -> 01 01 d4 00 -> int 1 468 0 // is this the CRC?
-            //                              -> int flag offset generation (why is this different from uncompressed variant...??)
-            //                              -> looks like 1 means in use, 2 free here.
+            //02 ff ff 12 fd -> 01 01 d4 00 -> int 1 468 0 
+
+            // Meaning of types and fields within an xref stream
+            // type  field
+            // 0     0 = f
+            //       2 -> object number of next free object
+            //       3 -> generation number (if used again)
+            // 1     1 = n (uncompressed)
+            //       2 -> byte offset in file
+            //       3 -> generation number
+            // 2     1 = n (compressed)
+            //       2 -> object number where the data is stored
+            //       3 -> index of object in the stream
 
 /* Right offsets for the objects:
 00703: 0000000016 00000 n 
