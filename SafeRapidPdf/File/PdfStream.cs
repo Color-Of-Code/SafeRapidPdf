@@ -30,7 +30,7 @@ namespace SafeRapidPdf.File
 
 			    var zin = new ZInputStream(new MemoryStream(Data.Data));
 			    int r;
-			    var output = new List<Byte>(2000);
+			    var output = new List<Byte>(32*1024); // avoid too many reallocs
 			    while ((r = zin.Read()) != -1)
 			    {
 			        output.Add((Byte)r);
@@ -38,9 +38,31 @@ namespace SafeRapidPdf.File
 			    byte[] decompressed = output.ToArray();
 				zin.Close();
 
-				// oh well now we have to handle the predictors...
+				// now we have to handle the predictors...
+				if (predictor.Value != 12)
+					throw new NotImplementedException("Sorry at the moment only PNG prediction all UP is implemented");
+				int samples = (int)samplesPerRow.Value;
+				if (samples<=0)
+					throw new NotImplementedException("The sample count must be greater than 0");
 
-				return decompressed;
+			    output.Clear();
+				var previousRow = new Byte[samples];
+				for (int i = 0; i < samples; i++)
+					previousRow[i] = 0;
+				int rows = decompressed.Length / (samples+1); // we have an additional predictor byte in the source
+				for (r = 0; r < rows; r++)
+				{
+					var currentRow = new Byte[samples];
+					for (int i = 0; i < samples; i++)
+					{
+						// the leading predictor is ignored, assuming it's always UP
+						currentRow[i] = (Byte)(decompressed[r*(samples+1) + i+1] + previousRow[i]);
+						output.Add(currentRow[i]);
+					}
+					previousRow = currentRow;
+				}
+
+				return output.ToArray();
 			}
 			//else if (filter.Text == "DCTDecode")
 			//{
