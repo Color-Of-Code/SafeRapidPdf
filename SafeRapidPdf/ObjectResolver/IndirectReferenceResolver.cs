@@ -71,11 +71,19 @@ namespace SafeRapidPdf.ObjectResolver
             // if we get here we can read the next object as the first xref
             // use the linearized header to jump to the main table /T offset
             // parse the xref there too
-            var firstPageXRef = PdfObject.ParseAny(_lexer);
+            var firstPageXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             var mainXRefPosition = _linearizationHeader["T"] as PdfNumeric;
             _lexer.PushPosition((long)mainXRefPosition.Value);
-            var mainXRef = PdfObject.ParseAny(_lexer);
+            var mainXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             _lexer.PopPosition();
+
+            var pdfStream = firstPageXRef.Object as PdfStream;
+            var firstPageDecodedXRef = pdfStream.Decode();
+			// Use W[...] to build up the xref
+
+            pdfStream = mainXRef.Object as PdfStream;
+            var mainDecodedXRef = pdfStream.Decode();
+			// Use W[...] to build up the xref
         }
 
         // returns true if an xref was found false otherwise
