@@ -77,13 +77,7 @@ namespace SafeRapidPdf.ObjectResolver
             var mainXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             _lexer.PopPosition();
 
-            var pdfStream = firstPageXRef.Object as PdfStream;
-            var firstPageDecodedXRef = pdfStream.Decode();
-			// Use W[...] to build up the xref
-
-            pdfStream = mainXRef.Object as PdfStream;
-            var mainDecodedXRef = pdfStream.Decode();
-			// Use W[...] to build up the xref
+			_xref = PdfXRef.Parse(firstPageXRef.Object as PdfStream, mainXRef.Object as PdfStream);
         }
 
         // returns true if an xref was found false otherwise
