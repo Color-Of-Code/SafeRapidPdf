@@ -17,20 +17,20 @@ namespace SafeRapidPdf.UnitTests.Util
         // used to inject a lexer into low level parsers from a string
         public static ILexer ToLexer(this String input)
         {
-            return new LexicalParser(input.ToStream());
+            return new LexicalParser(input.ToStream(), true);
         }
 
         // used to inject a lexer into low level parsers from a byte array
         public static ILexer ToLexer(this Byte[] input)
         {
             var s = new SIO.MemoryStream(input);
-            return new LexicalParser(s);
+            return new LexicalParser(s, true);
         }
         public static ILexer Base64ToLexer(this String input)
         {
             var bytes = Convert.FromBase64String(input);
             var s = new SIO.MemoryStream(bytes);
-            return new LexicalParser(s);
+            return new LexicalParser(s, true);
         }
 
         public static string ToHexString(this byte[] ba)

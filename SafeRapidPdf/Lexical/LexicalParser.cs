@@ -23,13 +23,14 @@ namespace SafeRapidPdf.Lexical
 			}
 		}
 
-		public LexicalParser(Stream stream)
+		public LexicalParser(Stream stream, bool withoutResolver = false)
 		{
 			_reader = stream;
 			_reader.Seek(0, SeekOrigin.End);
 			_size = _reader.Position;
 			_reader.Seek(0, SeekOrigin.Begin);
-			IndirectReferenceResolver = new ObjectResolver.IndirectReferenceResolver(this);
+			if (!withoutResolver)
+				IndirectReferenceResolver = new ObjectResolver.IndirectReferenceResolver(this);
 		}
 
 		public void Expects(String expectedToken)
