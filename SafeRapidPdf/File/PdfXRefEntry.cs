@@ -32,6 +32,56 @@ namespace SafeRapidPdf.File
             return new PdfXRefEntry(objectNumber, generationNumber, offset, inUse);
         }
 
+        internal static PdfXRefEntry Parse(int objectNumber, byte[] decodedXRef, int[] sizes, int row, int bytesPerEntry)
+        {
+            int position = 0;
+            long[] result = new long[3];
+            for (int column = 0; column < 3; column++)
+            {
+                long v = 0;
+                for (int bytes = 0; bytes < sizes[column]; bytes++) 
+                {
+                    v += v*256 + decodedXRef[row*bytesPerEntry + position];
+                    position++;
+                }
+                result[column] = v;
+            }
+            // Meaning of types and fields within an xref stream
+            // type  field
+            var inUse = true;
+            long offset = 0;
+            int generationNumber = 0;
+            switch (result[0])
+            {
+                // 0     0 = f
+                //       2 -> object number of next free object
+                //       3 -> generation number (if used again)
+                case 0:
+                    inUse = false;
+                    offset = result[1];
+                    generationNumber = (int)result[2];
+                    break;
+                // 1     1 = n (uncompressed)
+                //       2 -> byte offset in file
+                //       3 -> generation number
+                case 1:
+                    offset = result[1];
+                    generationNumber = (int)result[2];
+                    break;
+                // 2     1 = n (compressed)
+                //       2 -> object number where the data is stored
+                //       3 -> index of object in the stream
+                case 2:
+                    //TODO: access the file at that position and decode
+                    offset = result[1]; // object
+                    generationNumber = (int)result[2]; //index
+                    break;
+                default:
+                    throw new Exception($"Invalid type numeric id inside xref item: {result[0]}");
+            }
+            return new PdfXRefEntry(objectNumber, generationNumber, offset, inUse);
+        }
+
         public int ObjectNumber { get; }
 
         public int GenerationNumber { get; }
@@ -46,5 +96,6 @@ namespace SafeRapidPdf.File
         {
             return string.Format("{0:0000000000} {1:00000} {2}", Offset, GenerationNumber, InUse ? "n" : "f");
         }
+
     }
 }

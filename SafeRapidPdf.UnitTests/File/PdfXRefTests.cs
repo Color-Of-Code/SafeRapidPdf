@@ -29,6 +29,8 @@ namespace SafeRapidPdf.UnitTests.File
         [Fact]
         public void Parsing_CompressedXRef()
         {
+            PdfFile.Parse("/home/data/projects/Current/SafeRapidPdf/TestData/14219209.pdf");
+
 //703 0 obj
 //<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
 

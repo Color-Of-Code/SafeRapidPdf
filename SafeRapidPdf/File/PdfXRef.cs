@@ -52,43 +52,12 @@ namespace SafeRapidPdf.File
         /// <returns></returns>
         public static PdfXRef Parse(params PdfStream[] xrefStream)
         {
+            var sections = new List<PdfXRefSection>();
             foreach (var pdfStream in xrefStream)
             {
-                // W[1 2 1] (4 columns) 
-                // W[1 3 1] (5 columns, larger indexes)
-                var w = pdfStream.StreamDictionary["W"] as PdfArray;
-                int items = w.Items.Count;
-                // for xref this shall always be 3
-                if (items != 3)
-                    throw new Exception("The W[] parameter must contain 3 columns for an XRef");
-                int[] sizes = new int[w.Items.Count];
-                int bytesPerEntry = 0;
-                for (int i = 0; i < items; i++)
-                {
-                    sizes[i] = (int)(w.Items[i] as PdfNumeric).Value;
-                    bytesPerEntry += sizes[i];
-                }
-                var decodedXRef = pdfStream.Decode();
-                // Use W[...] to build up the xref
-                int rows = decodedXRef.Length / bytesPerEntry;
-                for (int r = 0; r < rows; r++)
-                {
-                    throw new NotImplementedException("Work in Progress: Parse entries");
-                    // Meaning of types and fields within an xref stream
-                    // type  field
-                    // 0     0 = f
-                    //       2 -> object number of next free object
-                    //       3 -> generation number (if used again)
-                    // 1     1 = n (uncompressed)
-                    //       2 -> byte offset in file
-                    //       3 -> generation number
-                    // 2     1 = n (compressed)
-                    //       2 -> object number where the data is stored
-                    //       3 -> index of object in the stream
-                }
+                sections.Add(PdfXRefSection.Parse(pdfStream));
             }
-
-            throw new NotImplementedException("Work in Progress");
+            return new PdfXRef(sections);
         }
 
         private IList<PdfXRefSection> _sections;
