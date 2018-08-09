@@ -96,8 +96,13 @@ namespace SafeRapidPdf.File
                 ParsingTime = watch.Elapsed.TotalSeconds
             };
 
+            // copy over xref
+            file.XRef = lexer.IndirectReferenceResolver.XRef;
+
             return file;
         }
+
+        public PdfXRef XRef { get; private set; }
 
         public static PdfFile Parse(String pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
         {

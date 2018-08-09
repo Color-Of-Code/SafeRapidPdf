@@ -126,5 +126,7 @@ namespace SafeRapidPdf.ObjectResolver
 
 
         private long StartXRef;
+
+        public PdfXRef XRef => _xref;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -19,12 +20,25 @@ namespace SafeRapidPdf.File
 		public static PdfXRefSection Parse(PdfStream pdfStream)
 		{
 			var dictionary = pdfStream.StreamDictionary;
+			var type = dictionary["Type"] as PdfName;
+			if (type.Name != "XRef")
+				throw new Exception("A stream of type XRef is expected");
+
 			// W[1 2 1] (4 columns) 
 			// W[1 3 1] (5 columns, larger indexes)
 			var w = dictionary["W"] as PdfArray;
-			var index = dictionary["Index"] as PdfArray;
-			var firstId = (int)(index.Items[0] as PdfNumeric).Value;
-			var size = (int)(index.Items[1] as PdfNumeric).Value;
+			var firstId = 0;
+			var size = 0;
+			if (dictionary.Keys.Contains("Index"))
+			{
+				var index = dictionary["Index"] as PdfArray;
+				firstId = (int)(index.Items[0] as PdfNumeric).Value;
+				size = (int)(index.Items[1] as PdfNumeric).Value;
+			}
+			else if (dictionary.Keys.Contains("Size"))
+			{
+				size = (int)( dictionary["Size"] as PdfNumeric).Value;
+			}
 			int items = w.Items.Count;
 			// for xref this shall always be 3
 			if (items != 3)
