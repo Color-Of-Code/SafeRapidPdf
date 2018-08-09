@@ -4,13 +4,13 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfXRefEntry : PdfObject
     {
-        private PdfXRefEntry(int objectNumber, int generationNumber, long offset, bool inUse)
+        private PdfXRefEntry(int objectNumber, int generationNumber, long offset, char type)
             : base(PdfObjectType.XRefEntry)
         {
             ObjectNumber = objectNumber;
             GenerationNumber = generationNumber;
             Offset = offset;
-            InUse = inUse;
+            EntryType = type;
         }
 
         public static PdfXRefEntry Parse(int objectNumber, Lexical.ILexer lexer)
@@ -28,8 +28,8 @@ namespace SafeRapidPdf.File
             string inuse = lexer.ReadToken();
             if (inuse != "f" && inuse != "n")
                 throw new Exception("Parser error: only 'f' and 'n' are valid flags in xref");
-            bool inUse = (inuse == "n");
-            return new PdfXRefEntry(objectNumber, generationNumber, offset, inUse);
+            char entryType = (inuse == "f") ? 'f' : 'n';
+            return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 
         internal static PdfXRefEntry Parse(int objectNumber, byte[] decodedXRef, int[] sizes, int row, int bytesPerEntry)
@@ -48,7 +48,7 @@ namespace SafeRapidPdf.File
             }
             // Meaning of types and fields within an xref stream
             // type  field
-            var inUse = true;
+            var entryType = 'f';
             long offset = 0;
             int generationNumber = 0;
             switch (result[0])
@@ -57,7 +57,7 @@ namespace SafeRapidPdf.File
                 //       2 -> object number of next free object
                 //       3 -> generation number (if used again)
                 case 0:
-                    inUse = false;
+                    entryType = 'f';
                     offset = result[1];
                     generationNumber = (int)result[2];
                     break;
@@ -65,6 +65,7 @@ namespace SafeRapidPdf.File
                 //       2 -> byte offset in file
                 //       3 -> generation number
                 case 1:
+                    entryType = 'n';
                     offset = result[1];
                     generationNumber = (int)result[2];
                     break;
@@ -72,6 +73,7 @@ namespace SafeRapidPdf.File
                 //       2 -> object number where the data is stored
                 //       3 -> index of object in the stream
                 case 2:
+                    entryType = 'o';
                     //TODO: access the file at that position and decode
                     offset = result[1]; // object
                     generationNumber = (int)result[2]; //index
@@ -79,7 +81,7 @@ namespace SafeRapidPdf.File
                 default:
                     throw new Exception($"Invalid type numeric id inside xref item: {result[0]}");
             }
-            return new PdfXRefEntry(objectNumber, generationNumber, offset, inUse);
+            return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 
         public int ObjectNumber { get; }
@@ -88,13 +90,16 @@ namespace SafeRapidPdf.File
 
         // 'f': free (deleted objects)
 		// 'n': in use
-        public bool InUse { get; }
+        // 'o': in use (compressed in stream)
+        public bool InUse => EntryType != 'f';
+
+        public char EntryType { get; private set; }
 
         public long Offset { get; }
 
         public override string ToString()
         {
-            return string.Format("{0:0000000000} {1:00000} {2}", Offset, GenerationNumber, InUse ? "n" : "f");
+            return string.Format("{0:0000000000} {1:00000} {2}", Offset, GenerationNumber, EntryType);
         }
 
     }
