@@ -53,10 +53,14 @@ namespace SafeRapidPdf.File
 				for (r = 0; r < rows; r++)
 				{
 					var currentRow = new Byte[samples];
+					byte rowPredictor = (Byte)decompressed[r*(samples+1)];
+					if (rowPredictor != 2)
+						throw new Exception("Only up predictor is supported at the moment");
 					for (int i = 0; i < samples; i++)
 					{
 						// the leading predictor is ignored, assuming it's always UP
-						currentRow[i] = (Byte)(decompressed[r*(samples+1) + i+1] + previousRow[i]);
+						var inputByte = (Byte)decompressed[r*(samples+1) + i+1];
+						currentRow[i] = (Byte)(inputByte + previousRow[i]);
 						output.Add(currentRow[i]);
 					}
 					previousRow = currentRow;

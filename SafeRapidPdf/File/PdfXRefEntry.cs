@@ -41,7 +41,8 @@ namespace SafeRapidPdf.File
                 long v = 0;
                 for (int bytes = 0; bytes < sizes[column]; bytes++) 
                 {
-                    v += v*256 + decodedXRef[row*bytesPerEntry + position];
+                    var b = decodedXRef[row*bytesPerEntry + position];
+                    v = v*256 + b;
                     position++;
                 }
                 result[column] = v;
