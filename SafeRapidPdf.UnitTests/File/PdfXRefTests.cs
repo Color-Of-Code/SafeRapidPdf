@@ -29,30 +29,6 @@ namespace SafeRapidPdf.UnitTests.File
         [Fact]
         public void Parsing_CompressedXRef()
         {
-            var f = PdfFile.Parse("/home/data/projects/Current/SafeRapidPdf/TestData/14219209.pdf");
-
-            // this is the information coming from the interpreted xref
-            var xref = f.XRef;
-            foreach (var section in xref.Items)
-            {
-                foreach (var entry in section.Items)
-                {
-                    var xrefEntry = entry as PdfXRefEntry;
-                    var obj = xrefEntry.ObjectNumber.ToString("D5");
-                    Console.WriteLine($"{obj}: {entry}");
-                }
-            }
-
-            // the information coming from the objects itselves
-            foreach (var item in f.Items)
-            {
-                /*foreach (var obj in Items.OfType<PdfIndirectObject>())
-                var xrefEntry = entry as PdfXRefEntry;
-                var obj = xrefEntry.ObjectNumber.ToString("D5");
-                Console.WriteLine($"{obj}: {entry}");
-                */
-            }
-
 //703 0 obj
 //<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
 

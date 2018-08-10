@@ -1,4 +1,5 @@
 ﻿using System;
+using CommandLine;
 using SafeRapidPdf;
 using SafeRapidPdf.File;
 
@@ -6,25 +7,53 @@ namespace PdfInfoTool
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            if (args.Length > 0)
+            return Parser.Default.ParseArguments<DumpOptions, ShowOptions>(args)
+              .MapResult(
+                (DumpOptions opts) => RunDumpAndReturnExitCode(opts),
+                (ShowOptions opts) => RunShowAndReturnExitCode(opts),
+                _ => 1);
+        }
+
+        private static int RunShowAndReturnExitCode(ShowOptions opts)
+        {
+            var file = PdfFile.Parse(opts.FileName);
+            Console.WriteLine("PDF Version: {0}", file.Version);
+
+            if (opts.What == "xref")
             {
-                var file = PdfFile.Parse(args[0]);
-                Console.WriteLine("PDF Version: {0}", file.Version);
-                foreach (var item in file.Items)
+                // this is the information coming from the interpreted xref
+                var xref = file.XRef;
+                foreach (var section in xref.Items)
                 {
-                    var type = item.ObjectType;
-                    if (item.ObjectType == PdfObjectType.IndirectObject)
+                    foreach (var entry in section.Items)
                     {
-                        var iobj = item as PdfIndirectObject;
-                        type = iobj.Object.ObjectType;
+                        var xrefEntry = entry as PdfXRefEntry;
+                        var obj = xrefEntry.ObjectNumber.ToString("D5");
+                        Console.WriteLine($"{obj}: {entry}");
                     }
-                    Console.WriteLine(" - {0}: {1}", item, type);
                 }
             }
-            else
-                Console.WriteLine("Usage: PdfInfoTool <path to pdf>");
+            // the information coming from the objects itselves
+            /*
+            foreach (var item in file.Items)
+            {
+                var type = item.ObjectType;
+                if (item.ObjectType == PdfObjectType.IndirectObject)
+                {
+                    var iobj = item as PdfIndirectObject;
+                    type = iobj.Object.ObjectType;
+                }
+                Console.WriteLine(" - {0}: {1}", item, type);
+            }
+            */
+            return 0;
+        }
+
+        private static int RunDumpAndReturnExitCode(DumpOptions opts)
+        {
+            throw new NotImplementedException();
         }
     }
 }
