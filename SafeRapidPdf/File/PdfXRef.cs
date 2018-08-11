@@ -21,7 +21,7 @@ namespace SafeRapidPdf.File
                     PdfXRefEntry entry = entryItem as PdfXRefEntry;
                     if (entry.InUse)
                     {
-                        String key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
+                        string key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
                         _offsets.Add(key, entry.Offset);
                     }
                 }
@@ -36,8 +36,8 @@ namespace SafeRapidPdf.File
 		public static PdfXRef Parse(Lexical.ILexer lexer)
         {
             var sections = new List<PdfXRefSection>();
-            String token = lexer.PeekToken1();
-            while (token != null && Char.IsDigit(token[0]))
+            string token = lexer.PeekToken1();
+            while (token != null && char.IsDigit(token[0]))
             {
                 sections.Add(PdfXRefSection.Parse(lexer));
                 token = lexer.PeekToken1();
@@ -52,7 +52,7 @@ namespace SafeRapidPdf.File
         /// <returns></returns>
         public static PdfXRef Parse(params PdfStream[] xrefStream)
         {
-            var sections = new List<PdfXRefSection>();
+            var sections = new List<PdfXRefSection>(xrefStream.Length);
             foreach (var pdfStream in xrefStream)
             {
                 sections.Add(PdfXRefSection.Parse(pdfStream));
@@ -64,16 +64,16 @@ namespace SafeRapidPdf.File
 
         public long GetOffset(int objectNumber, int generationNumber)
         {
-            String key = BuildKey(objectNumber, generationNumber);
+            string key = BuildKey(objectNumber, generationNumber);
             return _offsets[key];
         }
 
-        public static String BuildKey(int objectNumber, int generationNumber)
+        public static string BuildKey(int objectNumber, int generationNumber)
         {
-            return String.Format("{0:0000000000}_{1:00000}", objectNumber, generationNumber);
+            return string.Format("{0:0000000000}_{1:00000}", objectNumber, generationNumber);
         }
 
-        private Dictionary<String, long> _offsets = new Dictionary<string, long>();
+        private Dictionary<string, long> _offsets = new Dictionary<string, long>();
 
         public override ReadOnlyCollection<IPdfObject> Items
         {

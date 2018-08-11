@@ -59,7 +59,7 @@ namespace SafeRapidPdf.File
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T Resolve<T>(String name) where T : class
+        public T Resolve<T>(string name) where T : class
         {
             IPdfObject value = this[name];
             if (value is PdfIndirectReference reference)
@@ -78,7 +78,7 @@ namespace SafeRapidPdf.File
 
         private IList<PdfKeyValuePair> _dictionary;
 
-        public IEnumerable<String> Keys
+        public IEnumerable<string> Keys
         {
             get
             {

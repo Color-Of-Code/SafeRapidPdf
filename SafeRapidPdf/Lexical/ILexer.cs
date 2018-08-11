@@ -8,14 +8,14 @@ namespace SafeRapidPdf.Lexical
         /// Read next token
         /// </summary>
         /// <returns></returns>
-        String ReadToken();
+        string ReadToken();
 
         /// <summary>
         /// Preview the next token without advancing in the stream
         /// </summary>
         /// <returns></returns>
-        String PeekToken1();
-        String PeekToken2();
+        string PeekToken1();
+        string PeekToken2();
 
         /// <summary>
         /// One step back in the stream
@@ -26,13 +26,13 @@ namespace SafeRapidPdf.Lexical
         /// Consume and check for the specified token
         /// </summary>
         /// <param name="token"></param>
-        void Expects(String token);
+        void Expects(string token);
 
         /// <summary>
         /// Read all chars until an EOL char
         /// </summary>
         /// <returns></returns>
-        String ReadUntilEol();
+        string ReadUntilEol();
 
         /// <summary>
         /// Read a block of bytes from the stream (used for stream objects)
@@ -68,17 +68,11 @@ namespace SafeRapidPdf.Lexical
         /// <summary>
         /// Relative position in % inside the file
         /// </summary>
-        int Percentage
-        {
-            get;
-        }
+        int Percentage { get; }
 
         /// <summary>
         /// Size in bytes of the file
         /// </summary>
-        long Size
-        {
-            get;
-        }
+        long Size { get; }
     }
 }

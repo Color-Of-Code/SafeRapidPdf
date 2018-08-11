@@ -20,7 +20,7 @@ namespace SafeRapidPdf.File
             Items = objects;
 
             // build up the fast object lookup dictionary
-            _indirectObjects = new Dictionary<String, PdfIndirectObject>();
+            _indirectObjects = new Dictionary<string, PdfIndirectObject>();
             foreach (var obj in Items.OfType<PdfIndirectObject>())
                 InsertObject(obj);
             SetResolver(this);
@@ -104,7 +104,7 @@ namespace SafeRapidPdf.File
 
         public PdfXRef XRef { get; private set; }
 
-        public static PdfFile Parse(String pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
+        public static PdfFile Parse(string pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
         {
             using (SIO.Stream reader = SIO.File.Open(pdfFilePath, SIO.FileMode.Open, SIO.FileAccess.Read, SIO.FileShare.Read))
             {
@@ -117,7 +117,7 @@ namespace SafeRapidPdf.File
         /// </summary>
         public Double ParsingTime { get; private set; }
 
-        public String Version => Items.First().ToString();
+        public string Version => Items.First().ToString();
 
         public ReadOnlyCollection<IPdfObject> Items { get; private set; }
 
@@ -127,19 +127,19 @@ namespace SafeRapidPdf.File
 
         public PdfObjectType ObjectType => PdfObjectType.File;
 
-        private IDictionary<String, PdfIndirectObject> _indirectObjects;
+        private IDictionary<string, PdfIndirectObject> _indirectObjects;
 
         private void InsertObject(PdfIndirectObject obj)
         {
             if (obj == null)
                 throw new Exception("This object must be an indirect object");
-            String key = PdfXRef.BuildKey(obj.ObjectNumber, obj.GenerationNumber);
+            string key = PdfXRef.BuildKey(obj.ObjectNumber, obj.GenerationNumber);
             _indirectObjects[key] = obj;
         }
 
         public PdfIndirectObject GetObject(int objectNumber, int generationNumber)
         {
-            String key = PdfXRef.BuildKey(objectNumber, generationNumber);
+            string key = PdfXRef.BuildKey(objectNumber, generationNumber);
             return _indirectObjects[key];
         }
     }

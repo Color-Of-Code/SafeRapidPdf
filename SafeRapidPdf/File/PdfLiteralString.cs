@@ -11,7 +11,7 @@ namespace SafeRapidPdf.File
     /// </summary>
     public sealed class PdfLiteralString : PdfObject
     {
-        private PdfLiteralString(String text)
+        private PdfLiteralString(string text)
             : base(PdfObjectType.LiteralString)
         {
             _text = text;
@@ -63,13 +63,13 @@ namespace SafeRapidPdf.File
                             var octalNumber = new StringBuilder();
                             octalNumber.Append(c);
                             char c2 = lexer.ReadChar();
-                            if (!Char.IsDigit(c2))
+                            if (!char.IsDigit(c2))
                                 lexer.Putc();
                             else
                             {
                                 octalNumber.Append(c2);
                                 char c3 = lexer.ReadChar();
-                                if (!Char.IsDigit(c3))
+                                if (!char.IsDigit(c3))
                                     lexer.Putc();
                                 else
                                     octalNumber.Append(c2);
@@ -88,7 +88,7 @@ namespace SafeRapidPdf.File
             return new PdfLiteralString(sb.ToString());
         }
 
-        private String _text;
+        private string _text;
 
         public override string ToString()
         {
