@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using SafeRapidPdf.File;
 
@@ -23,12 +22,7 @@ namespace SafeRapidPdf.Document
             }
             else if (obj is PdfStream stream)
             {
-                var list = new List<IPdfObject>(1)
-                {
-                    stream
-                };
-
-                Streams = list.AsReadOnly();
+                Streams = new[] { stream };
             }
             else
             {
@@ -36,9 +30,9 @@ namespace SafeRapidPdf.Document
             }
         }
 
-        public ReadOnlyCollection<IPdfObject> Streams { get; }
+        public IReadOnlyList<IPdfObject> Streams { get; }
 
-        public override ReadOnlyCollection<IPdfObject> Items => Streams;
+        public override IReadOnlyList<IPdfObject> Items => Streams;
 
         public override string ToString() => "Contents";
     }

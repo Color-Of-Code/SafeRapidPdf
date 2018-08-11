@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SafeRapidPdf.File
@@ -74,9 +73,9 @@ namespace SafeRapidPdf.File
 
         private Dictionary<string, long> _offsets = new Dictionary<string, long>();
 
-        public override ReadOnlyCollection<IPdfObject> Items
+        public override IReadOnlyList<IPdfObject> Items
         {
-            get => _sections.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
+            get => _sections.ToList().ConvertAll(x => x as IPdfObject).ToArray();
         }
 
         public override string ToString() => "xref";

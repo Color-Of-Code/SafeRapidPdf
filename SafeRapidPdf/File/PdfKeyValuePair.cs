@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
@@ -23,17 +22,9 @@ namespace SafeRapidPdf.File
 
         public override string ToString() => Key.Text;
 
-        public override ReadOnlyCollection<IPdfObject> Items
+        public override IReadOnlyList<IPdfObject> Items
         {
-            get
-            {
-                var list = new List<IPdfObject>(1)
-                {
-                    Value
-                };
-
-                return list.AsReadOnly();
-            }
+            get => new[] { Value };
         }
     }
 }

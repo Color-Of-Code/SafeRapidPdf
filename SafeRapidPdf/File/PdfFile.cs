@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace SafeRapidPdf.File
     /// </summary>
     public class PdfFile : IPdfObject, IIndirectReferenceResolver
     {
-        private PdfFile(ReadOnlyCollection<IPdfObject> objects)
+        private PdfFile(IReadOnlyList<IPdfObject> objects)
         {
             Items = objects;
 
@@ -119,7 +118,7 @@ namespace SafeRapidPdf.File
 
         public string Version => Items.First().ToString();
 
-        public ReadOnlyCollection<IPdfObject> Items { get; private set; }
+        public IReadOnlyList<IPdfObject> Items { get; private set; }
 
         public string Text => "File";
 

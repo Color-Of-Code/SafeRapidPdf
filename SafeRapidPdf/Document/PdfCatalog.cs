@@ -34,11 +34,11 @@ namespace SafeRapidPdf.Document
 
         public PdfPageTree Pages { get; }
 
-        public override ReadOnlyCollection<IPdfObject> Items
+        public override IReadOnlyList<IPdfObject> Items
         {
             get
             {
-                var list = new List<IPdfObject>();
+                var list = new List<IPdfObject>(_items.Count + 1);
                 list.AddRange(_items);
                 list.Add(Pages);
                 return list.AsReadOnly();

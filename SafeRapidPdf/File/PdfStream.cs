@@ -115,11 +115,11 @@ namespace SafeRapidPdf.File
 
         public PdfData Data { get; }
 
-        public override ReadOnlyCollection<IPdfObject> Items
+        public override IReadOnlyList<IPdfObject> Items
         {
             get
             {
-                var list = new List<IPdfObject>();
+                var list = new List<IPdfObject>(StreamDictionary.Items.Count + 1);
                 list.AddRange(StreamDictionary.Items);
                 list.Add(Data);
                 return list.AsReadOnly();

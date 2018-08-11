@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace SafeRapidPdf.File
 {
     public sealed class PdfXRefSection : PdfObject
     {
-        private PdfXRefSection(int firstId, int size, List<IPdfObject> entries)
+        private readonly IPdfObject[] _entries;
+
+        private PdfXRefSection(int firstId, int size, IPdfObject[] entries)
             : base(PdfObjectType.XRefSection)
         {
             IsContainer = true;
@@ -56,12 +57,14 @@ namespace SafeRapidPdf.File
             int rowCount = decodedXRef.Length / bytesPerEntry;
             if (size != rowCount)
                 throw new Exception("The number of refs inside the Index value must match the actual refs count present in the stream");
-            var entries = new List<IPdfObject>(rowCount);
+            var entries = new IPdfObject[rowCount];
+
             for (int row = 0; row < rowCount; row++)
             {
                 var entry = PdfXRefEntry.Parse(firstId + row, decodedXRef, sizes, row, bytesPerEntry);
-                entries.Add(entry);
+                entries[row] = entry;
             }
+
             return new PdfXRefSection(firstId, size, entries);
         }
 
@@ -69,7 +72,9 @@ namespace SafeRapidPdf.File
         {
             int firstId = int.Parse(lexer.ReadToken());
             int size = int.Parse(lexer.ReadToken());
-            var entries = new List<IPdfObject>(size);
+
+            var entries = new IPdfObject[size];
+
             for (int i = 0; i < size; i++)
             {
                 var entry = PdfXRefEntry.Parse(firstId + i, lexer);
@@ -82,7 +87,7 @@ namespace SafeRapidPdf.File
                     if (entry.InUse)
                         throw new Exception("The first xref entry must be free");
                 }
-                entries.Add(entry);
+                entries[i] = entry;
             }
             return new PdfXRefSection(firstId, size, entries);
         }
@@ -91,11 +96,7 @@ namespace SafeRapidPdf.File
 
         public int Size { get; }
 
-        private List<IPdfObject> _entries;
-        public override ReadOnlyCollection<IPdfObject> Items
-        {
-            get => _entries.AsReadOnly();
-        }
+        public override IReadOnlyList<IPdfObject> Items => _entries;
 
         public override string ToString() => $"{FirstId} {Size}";
     }

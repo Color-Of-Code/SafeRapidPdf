@@ -137,7 +137,7 @@ namespace SafeRapidPdf.Document
         //public PdfNumeric UserUnit { get; private set; }
         //public PdfDictionary VP { get; private set; }
 
-        public override ReadOnlyCollection<IPdfObject> Items => _items.AsReadOnly();
+        public override IReadOnlyList<IPdfObject> Items => _items.AsReadOnly();
 
         public override string ToString() => "Page";
     }
