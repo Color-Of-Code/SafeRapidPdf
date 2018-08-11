@@ -26,6 +26,27 @@
           "lib/netstandard1.5/CommandLine.dll": {}
         }
       },
+      "Microsoft.CodeAnalysis.FxCopAnalyzers/2.6.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CodeQuality.Analyzers": "2.6.1",
+          "Microsoft.NetCore.Analyzers": "2.6.1",
+          "Microsoft.NetFramework.Analyzers": "2.6.1",
+          "Text.Analyzers": "2.6.1"
+        }
+      },
+      "Microsoft.CodeQuality.Analyzers/2.6.1": {
+        "type": "package",
+        "build": {
+          "build/_._": {}
+        }
+      },
+      "Microsoft.NetCore.Analyzers/2.6.1": {
+        "type": "package",
+        "build": {
+          "build/_._": {}
+        }
+      },
       "Microsoft.NETCore.App/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -206,6 +227,12 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Microsoft.NetFramework.Analyzers/2.6.1": {
+        "type": "package",
+        "build": {
+          "build/_._": {}
+        }
+      },
       "NETStandard.Library/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -220,6 +247,9 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "StyleCop.Analyzers/1.0.2": {
+        "type": "package"
       },
       "System.Collections/4.0.11-rc2-24027": {
         "type": "package",
@@ -475,9 +505,19 @@
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
+      "Text.Analyzers/2.6.1": {
+        "type": "package",
+        "build": {
+          "build/_._": {}
+        }
+      },
       "SafeRapidPdf/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Microsoft.CodeAnalysis.FxCopAnalyzers": "2.6.1",
+          "StyleCop.Analyzers": "1.0.2"
+        },
         "compile": {
           "bin/placeholder/SafeRapidPdf.dll": {}
         },
@@ -502,6 +542,57 @@
         "lib/netstandard1.5/CommandLine.dll",
         "lib/netstandard1.5/CommandLine.xml",
         "readme.md"
+      ]
+    },
+    "Microsoft.CodeAnalysis.FxCopAnalyzers/2.6.1": {
+      "sha512": "yj50vqJQCsLv3sd8vxgFbTtCNlsEmHcdJNLOP6EvomnmBIma/6ixvqxPe0aJ5JA/GdeK/uz9EeQLNBbUyD/HnQ==",
+      "type": "package",
+      "path": "microsoft.codeanalysis.fxcopanalyzers/2.6.1",
+      "files": [
+        ".signature.p7s",
+        "ThirdPartyNotices.rtf",
+        "microsoft.codeanalysis.fxcopanalyzers.2.6.1.nupkg.sha512",
+        "microsoft.codeanalysis.fxcopanalyzers.nuspec"
+      ]
+    },
+    "Microsoft.CodeQuality.Analyzers/2.6.1": {
+      "sha512": "ZuKgh40rx9ZkeGbV7sfhbiEUUxdRErjv7GF0BGoBvP744+hJ4Unvob8MMswQZOkegAIqnzWaM382yf4p0EdrJg==",
+      "type": "package",
+      "path": "microsoft.codequality.analyzers/2.6.1",
+      "files": [
+        ".signature.p7s",
+        "ThirdPartyNotices.rtf",
+        "analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll",
+        "analyzers/dotnet/cs/Microsoft.CodeQuality.CSharp.Analyzers.dll",
+        "analyzers/dotnet/vb/Microsoft.CodeQuality.Analyzers.dll",
+        "analyzers/dotnet/vb/Microsoft.CodeQuality.VisualBasic.Analyzers.dll",
+        "build/Microsoft.CodeQuality.Analyzers.props",
+        "build/Microsoft.CodeQuality.CSharp.Analyzers.props",
+        "build/Microsoft.CodeQuality.VisualBasic.Analyzers.props",
+        "microsoft.codequality.analyzers.2.6.1.nupkg.sha512",
+        "microsoft.codequality.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "Microsoft.NetCore.Analyzers/2.6.1": {
+      "sha512": "ppyW1jzmlCixOkMBR/p4EOwcD15Q8YaoxKPRDhS48tkoXS1hhQ3ZxqZcj5sUKIdWfVK0MzpDqImNyyxHNg1ooQ==",
+      "type": "package",
+      "path": "microsoft.netcore.analyzers/2.6.1",
+      "files": [
+        ".signature.p7s",
+        "ThirdPartyNotices.rtf",
+        "analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll",
+        "analyzers/dotnet/cs/Microsoft.NetCore.CSharp.Analyzers.dll",
+        "analyzers/dotnet/vb/Microsoft.NetCore.Analyzers.dll",
+        "analyzers/dotnet/vb/Microsoft.NetCore.VisualBasic.Analyzers.dll",
+        "build/Microsoft.NetCore.Analyzers.props",
+        "build/Microsoft.NetCore.CSharp.Analyzers.props",
+        "build/Microsoft.NetCore.VisualBasic.Analyzers.props",
+        "microsoft.netcore.analyzers.2.6.1.nupkg.sha512",
+        "microsoft.netcore.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "Microsoft.NETCore.App/2.0.0": {
@@ -833,6 +924,26 @@
         "version.txt"
       ]
     },
+    "Microsoft.NetFramework.Analyzers/2.6.1": {
+      "sha512": "XwFXhlBQTgNoao8ORrBnwRJNACMo2JOj/y34KDDE3J/cTPE6x9abZOCJ1GogazBm88rztTVGVA/Sxee8I7N9aw==",
+      "type": "package",
+      "path": "microsoft.netframework.analyzers/2.6.1",
+      "files": [
+        ".signature.p7s",
+        "ThirdPartyNotices.rtf",
+        "analyzers/dotnet/cs/Microsoft.NetFramework.Analyzers.dll",
+        "analyzers/dotnet/cs/Microsoft.NetFramework.CSharp.Analyzers.dll",
+        "analyzers/dotnet/vb/Microsoft.NetFramework.Analyzers.dll",
+        "analyzers/dotnet/vb/Microsoft.NetFramework.VisualBasic.Analyzers.dll",
+        "build/Microsoft.NetFramework.Analyzers.props",
+        "build/Microsoft.NetFramework.CSharp.Analyzers.props",
+        "build/Microsoft.NetFramework.VisualBasic.Analyzers.props",
+        "microsoft.netframework.analyzers.2.6.1.nupkg.sha512",
+        "microsoft.netframework.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "NETStandard.Library/2.0.0": {
       "sha512": "7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
       "type": "package",
@@ -959,6 +1070,19 @@
         "lib/netstandard1.0/_._",
         "netstandard.library.2.0.0.nupkg.sha512",
         "netstandard.library.nuspec"
+      ]
+    },
+    "StyleCop.Analyzers/1.0.2": {
+      "sha512": "3xD87lafnVhsSEtJKk50G7FGutvaXkFz4XrrLrxnk/DhZU42dnCGWUsvKuBv4mTS0XdIgTY88tLhxW/8Vi3Pow==",
+      "type": "package",
+      "path": "stylecop.analyzers/1.0.2",
+      "files": [
+        "analyzers/dotnet/cs/StyleCop.Analyzers.CodeFixes.dll",
+        "analyzers/dotnet/cs/StyleCop.Analyzers.dll",
+        "stylecop.analyzers.1.0.2.nupkg.sha512",
+        "stylecop.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "System.Collections/4.0.11-rc2-24027": {
@@ -2237,6 +2361,26 @@
         "ref/xamarinwatchos10/_._",
         "system.threading.tasks.4.0.11-rc2-24027.nupkg.sha512",
         "system.threading.tasks.nuspec"
+      ]
+    },
+    "Text.Analyzers/2.6.1": {
+      "sha512": "Oaj5PCqt5OmaKn0oJoM7ArlahdKbfAuciUJp8kNQg36iP7kEM3pkrDW5vstJAi19ndKK8r6msIfINDQNRflwyQ==",
+      "type": "package",
+      "path": "text.analyzers/2.6.1",
+      "files": [
+        ".signature.p7s",
+        "ThirdPartyNotices.rtf",
+        "analyzers/dotnet/cs/Text.Analyzers.dll",
+        "analyzers/dotnet/cs/Text.CSharp.Analyzers.dll",
+        "analyzers/dotnet/vb/Text.Analyzers.dll",
+        "analyzers/dotnet/vb/Text.VisualBasic.Analyzers.dll",
+        "build/Text.Analyzers.props",
+        "build/Text.CSharp.Analyzers.props",
+        "build/Text.VisualBasic.Analyzers.props",
+        "text.analyzers.2.6.1.nupkg.sha512",
+        "text.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "SafeRapidPdf/1.0.0": {
