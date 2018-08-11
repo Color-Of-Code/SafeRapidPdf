@@ -58,12 +58,12 @@ namespace SafeRapidPdf.Lexical
         /// - else seek from the beginning of the file
         /// </summary>
         /// <param name="newPosition"></param>
-		void PushPosition(long newPosition);
+        void PushPosition(long newPosition);
 
         /// <summary>
         /// Get back to the last pushed position
         /// </summary>
-		void PopPosition();
+        void PopPosition();
 
         /// <summary>
         /// Relative position in % inside the file

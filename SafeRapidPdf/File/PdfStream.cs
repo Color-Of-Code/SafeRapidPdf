@@ -45,21 +45,21 @@ namespace SafeRapidPdf.File
                     throw new NotImplementedException("The sample count must be greater than 0");
 
                 output.Clear();
-                var previousRow = new Byte[samples];
+                var previousRow = new byte[samples];
                 for (int i = 0; i < samples; i++)
                     previousRow[i] = 0;
                 int rows = decompressed.Length / (samples + 1); // we have an additional predictor byte in the source
                 for (r = 0; r < rows; r++)
                 {
-                    var currentRow = new Byte[samples];
-                    byte rowPredictor = (Byte)decompressed[r * (samples + 1)];
+                    var currentRow = new byte[samples];
+                    byte rowPredictor = (byte)decompressed[r * (samples + 1)];
                     if (rowPredictor != 2)
                         throw new Exception("Only up predictor is supported at the moment");
                     for (int i = 0; i < samples; i++)
                     {
                         // the leading predictor is ignored, assuming it's always UP
-                        var inputByte = (Byte)decompressed[r * (samples + 1) + i + 1];
-                        currentRow[i] = (Byte)(inputByte + previousRow[i]);
+                        var inputByte = (byte)decompressed[r * (samples + 1) + i + 1];
+                        currentRow[i] = (byte)(inputByte + previousRow[i]);
                         output.Add(currentRow[i]);
                     }
                     previousRow = currentRow;
@@ -105,7 +105,7 @@ namespace SafeRapidPdf.File
                 length = int.Parse(lengthObject.ToString());
             }
 
-            PdfData data = PdfData.Parse(lexer, length);
+            var data = PdfData.Parse(lexer, length);
             lexer.Expects("endstream");
 
             return new PdfStream(dictionary, data);

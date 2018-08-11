@@ -72,8 +72,13 @@
         <Rule Id="SA1305" Action="Warning" />
         <Rule Id="SA1412" Action="Warning" />
         <Rule Id="SA1600" Action="None" />
+        <Rule Id="SA1025" Action="None" /> <!-- Code must not contain multiple whitespace characters in a row -->
         <Rule Id="SA1101" Action="None" /> <!-- Prefix local calls with this -->
+        <Rule Id="SA1200" Action="None" /> <!-- Using directive must appear within a namespace declaration -->
+        <Rule Id="SA1309" Action="None" /> <!-- Field 'X' must not begin with an underscore -->
         <Rule Id="SA1503" Action="None" /> <!-- braces must not be omitted -->
+        <Rule Id="SA1513" Action="None" /> <!-- Closing brace must be followed by blank line -->
+        <Rule Id="SA1513" Action="None" /> <!-- Single-line comment must be preceded by blank line -->
         <Rule Id="SA1609" Action="Warning" />
     </Rules>
 </RuleSet>
