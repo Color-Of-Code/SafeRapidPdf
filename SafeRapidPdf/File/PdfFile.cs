@@ -51,7 +51,7 @@ namespace SafeRapidPdf.File
             watch.Start();
             var lexer = new Lexical.LexicalParser(reader);
 
-            List<IPdfObject> objects = new List<IPdfObject>();
+            var objects = new List<IPdfObject>();
 
             // check that this stuff is really looking like a PDF
             lexer.Expects("%");

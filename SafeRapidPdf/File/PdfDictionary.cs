@@ -120,10 +120,7 @@ namespace SafeRapidPdf.File
 
         public override IReadOnlyList<IPdfObject> Items
         {
-            get
-            {
-                return _dictionary.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
-            }
+            get => _dictionary.ToList().ConvertAll(x => x as IPdfObject).ToArray();
         }
 
         public string Type

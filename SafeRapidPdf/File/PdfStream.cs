@@ -29,10 +29,10 @@ namespace SafeRapidPdf.File
 
                 var zin = new ZInputStream(new MemoryStream(Data.Data));
                 int r;
-                var output = new List<Byte>(32 * 1024); // avoid too many reallocs
+                var output = new List<byte>(32 * 1024); // avoid too many reallocs
                 while ((r = zin.Read()) != -1)
                 {
-                    output.Add((Byte)r);
+                    output.Add((byte)r);
                 }
                 byte[] decompressed = output.ToArray();
                 zin.Close();
@@ -122,7 +122,7 @@ namespace SafeRapidPdf.File
                 var list = new List<IPdfObject>(StreamDictionary.Items.Count + 1);
                 list.AddRange(StreamDictionary.Items);
                 list.Add(Data);
-                return list.AsReadOnly();
+                return list;
             }
         }
 
