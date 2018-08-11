@@ -5,7 +5,7 @@ using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-    public class PdfPageTree : PdfPage
+    public sealed class PdfPageTree : PdfPage
     {
         public PdfPageTree(PdfIndirectReference pages)
             : this(pages, null)

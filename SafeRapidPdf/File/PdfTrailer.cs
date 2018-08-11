@@ -1,6 +1,6 @@
 ﻿namespace SafeRapidPdf.File
 {
-    public class PdfTrailer : PdfDictionary
+    public sealed class PdfTrailer : PdfDictionary
     {
         private PdfTrailer(PdfDictionary dictionary)
             : base(dictionary, PdfObjectType.Trailer)

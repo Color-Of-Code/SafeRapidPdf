@@ -3,7 +3,7 @@
 namespace SafeRapidPdf.Document
 {
     /// <summary>
-    /// extent of the page’s meaningful content
+    /// Extent of the page’s meaningful content
     /// </summary>
     public sealed class PdfArtBox : PdfRectangle
     {
