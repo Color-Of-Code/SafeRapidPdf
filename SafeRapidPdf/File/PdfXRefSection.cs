@@ -96,9 +96,6 @@ namespace SafeRapidPdf.File
             get => _entries.AsReadOnly();
         }
 
-        public override string ToString()
-        {
-            return $"{FirstId} {Size}";
-        }
+        public override string ToString() => $"{FirstId} {Size}";
     }
 }

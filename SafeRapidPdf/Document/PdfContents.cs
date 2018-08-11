@@ -40,9 +40,6 @@ namespace SafeRapidPdf.Document
 
         public override ReadOnlyCollection<IPdfObject> Items => Streams;
 
-        public override string ToString()
-        {
-            return "Contents";
-        }
+        public override string ToString() => "Contents";
     }
 }
