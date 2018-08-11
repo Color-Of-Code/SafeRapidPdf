@@ -4,7 +4,10 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfBoolean : PdfObject
     {
-        private PdfBoolean(Boolean value)
+        public static readonly PdfBoolean True = new PdfBoolean(true);
+        public static readonly PdfBoolean False = new PdfBoolean(false);
+
+        private PdfBoolean(bool value)
             : base(PdfObjectType.Boolean)
         {
             Value = value;
@@ -12,16 +15,20 @@ namespace SafeRapidPdf.File
 
         public static PdfBoolean Parse(string token)
         {
-            if (token != "true" && token != "false")
-                throw new Exception("Parser error: invalid boolean value");
-            return new PdfBoolean(token == "true");
+            switch (token)
+            {
+                case "true":
+                    return True;
+                case "false":
+                    return False;
+                default:
+                    throw new Exception("Parser error: invalid boolean value");
+            }
+
         }
 
         public bool Value { get; }
 
-        public override string ToString()
-        {
-            return Value ? "true" : "false";
-        }
+        public override string ToString() => Value ? "true" : "false";
     }
 }
