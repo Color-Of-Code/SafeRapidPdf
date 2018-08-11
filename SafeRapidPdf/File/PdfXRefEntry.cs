@@ -100,7 +100,7 @@ namespace SafeRapidPdf.File
 
         public override string ToString()
         {
-            return string.Format("{0:0000000000} {1:00000} {2}", Offset, GenerationNumber, EntryType);
+            return $"{Offset:0000000000} {GenerationNumber:00000} {EntryType}";
         }
 
     }
