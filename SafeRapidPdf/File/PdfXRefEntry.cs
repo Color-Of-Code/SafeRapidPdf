@@ -39,10 +39,10 @@ namespace SafeRapidPdf.File
             for (int column = 0; column < 3; column++)
             {
                 long v = 0;
-                for (int bytes = 0; bytes < sizes[column]; bytes++) 
+                for (int bytes = 0; bytes < sizes[column]; bytes++)
                 {
-                    var b = decodedXRef[row*bytesPerEntry + position];
-                    v = v*256 + b;
+                    var b = decodedXRef[row * bytesPerEntry + position];
+                    v = v * 256 + b;
                     position++;
                 }
                 result[column] = v;
@@ -90,7 +90,7 @@ namespace SafeRapidPdf.File
         public int GenerationNumber { get; }
 
         // 'f': free (deleted objects)
-		// 'n': in use
+        // 'n': in use
         // 'o': in use (compressed in stream)
         public bool InUse => EntryType != 'f';
 

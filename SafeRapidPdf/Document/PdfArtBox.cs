@@ -6,10 +6,10 @@ namespace SafeRapidPdf.Document
     /// extent of the page’s meaningful content
     /// </summary>
     public sealed class PdfArtBox : PdfRectangle
-	{
-		public PdfArtBox(PdfArray box)
-			: base(PdfObjectType.ArtBox, box)
-		{
-		}
-	}
+    {
+        public PdfArtBox(PdfArray box)
+            : base(PdfObjectType.ArtBox, box)
+        {
+        }
+    }
 }

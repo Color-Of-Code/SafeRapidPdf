@@ -45,11 +45,11 @@ namespace SafeRapidPdf.ObjectResolver
                     }
                 }
             }
-			catch
-			{
-				// ignore... I know bad style
-				// in this case the linearization header is assume to not have been found
-			}
+            catch
+            {
+                // ignore... I know bad style
+                // in this case the linearization header is assume to not have been found
+            }
         }
 
         private Lexical.ILexer _lexer;
@@ -77,7 +77,7 @@ namespace SafeRapidPdf.ObjectResolver
             var mainXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             _lexer.PopPosition();
 
-			_xref = PdfXRef.Parse(firstPageXRef.Object as PdfStream, mainXRef.Object as PdfStream);
+            _xref = PdfXRef.Parse(firstPageXRef.Object as PdfStream, mainXRef.Object as PdfStream);
         }
 
         // returns true if an xref was found false otherwise

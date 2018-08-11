@@ -8,35 +8,35 @@ namespace SafeRapidPdf.File
     /// implementation in .NET
     /// </summary>
     public sealed class PdfKeyValuePair : PdfObject
-	{
-		public PdfKeyValuePair(PdfName key, PdfObject value)
-			: base(PdfObjectType.KeyValuePair)
-		{
-			IsContainer = true;
-			Key = key;
-			Value = value;
-		}
+    {
+        public PdfKeyValuePair(PdfName key, PdfObject value)
+            : base(PdfObjectType.KeyValuePair)
+        {
+            IsContainer = true;
+            Key = key;
+            Value = value;
+        }
 
-		public PdfName Key { get; }
+        public PdfName Key { get; }
 
-		public PdfObject Value { get; }
+        public PdfObject Value { get; }
 
-		public override string ToString()
-		{
-			return Key.Text;
-		}
+        public override string ToString()
+        {
+            return Key.Text;
+        }
 
-		public override ReadOnlyCollection<IPdfObject> Items
-		{
-			get
-			{
+        public override ReadOnlyCollection<IPdfObject> Items
+        {
+            get
+            {
                 var list = new List<IPdfObject>(1)
                 {
                     Value
                 };
 
                 return list.AsReadOnly();
-			}
-		}
-	}
+            }
+        }
+    }
 }

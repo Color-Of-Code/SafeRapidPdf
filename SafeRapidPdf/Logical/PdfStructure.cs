@@ -3,10 +3,10 @@
 namespace SafeRapidPdf.Logical
 {
     public class PdfStructure : PdfBaseObject
-	{
-		public PdfStructure()
-			: base(PdfObjectType.Structure)
-		{
-		}
-	}
+    {
+        public PdfStructure()
+            : base(PdfObjectType.Structure)
+        {
+        }
+    }
 }

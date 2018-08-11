@@ -7,10 +7,10 @@ namespace SafeRapidPdf.Document
     /// intended to be displayed or printed
     /// </summary>
     public class PdfMediaBox : PdfRectangle
-	{
-		public PdfMediaBox(PdfArray box)
-			: base(PdfObjectType.MediaBox, box)
-		{
-		}
-	}
+    {
+        public PdfMediaBox(PdfArray box)
+            : base(PdfObjectType.MediaBox, box)
+        {
+        }
+    }
 }

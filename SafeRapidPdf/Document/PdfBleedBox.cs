@@ -7,10 +7,10 @@ namespace SafeRapidPdf.Document
     /// when output in a production environment
     /// </summary>
     public class PdfBleedBox : PdfRectangle
-	{
-		public PdfBleedBox(PdfArray box)
-			: base(PdfObjectType.BleedBox, box)
-		{
-		}
-	}
+    {
+        public PdfBleedBox(PdfArray box)
+            : base(PdfObjectType.BleedBox, box)
+        {
+        }
+    }
 }
