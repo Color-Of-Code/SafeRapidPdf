@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SafeRapidPdf.File
@@ -49,7 +48,9 @@ namespace SafeRapidPdf.File
 
         public IPdfObject this[string name]
         {
-            get => _dictionary.First(x => x.Key.Text == name).Value;
+            get => TryGetValue(name, out IPdfObject value) 
+                ? value 
+                : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
         }
 
         public bool TryGetValue(string key, out IPdfObject value)
@@ -117,7 +118,7 @@ namespace SafeRapidPdf.File
             }
         }
 
-        public override ReadOnlyCollection<IPdfObject> Items
+        public override IReadOnlyList<IPdfObject> Items
         {
             get
             {
