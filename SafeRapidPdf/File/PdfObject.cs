@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace SafeRapidPdf.File
 {
@@ -126,7 +126,7 @@ namespace SafeRapidPdf.File
 
         public string Text => ToString();
 
-        public virtual ReadOnlyCollection<IPdfObject> Items
+        public virtual IReadOnlyList<IPdfObject> Items
         {
             get
             {

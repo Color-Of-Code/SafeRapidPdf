@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace SafeRapidPdf
 {
@@ -27,6 +27,6 @@ namespace SafeRapidPdf
         /// <summary>
         /// The children of this object
         /// </summary>
-        ReadOnlyCollection<IPdfObject> Items { get; }
+        IReadOnlyList<IPdfObject> Items { get; }
     }
 }
