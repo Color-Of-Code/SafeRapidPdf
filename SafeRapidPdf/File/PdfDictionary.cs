@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SafeRapidPdf.File
 {
@@ -120,7 +119,17 @@ namespace SafeRapidPdf.File
 
         public override IReadOnlyList<IPdfObject> Items
         {
-            get => _dictionary.ToList().ConvertAll(x => x as IPdfObject).ToArray();
+            get
+            {
+                var result = new IPdfObject[_dictionary.Count];
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = _dictionary[i];
+                }
+
+                return result;
+            }
         }
 
         public string Type
