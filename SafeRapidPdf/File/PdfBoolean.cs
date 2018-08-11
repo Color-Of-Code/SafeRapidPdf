@@ -10,7 +10,7 @@ namespace SafeRapidPdf.File
             Value = value;
         }
 
-        public static PdfBoolean Parse(String token)
+        public static PdfBoolean Parse(string token)
         {
             if (token != "true" && token != "false")
                 throw new Exception("Parser error: invalid boolean value");

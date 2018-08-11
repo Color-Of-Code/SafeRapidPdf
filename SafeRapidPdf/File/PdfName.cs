@@ -5,7 +5,7 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfName : PdfObject
     {
-        private PdfName(String name)
+        private PdfName(string name)
             : base(PdfObjectType.Name)
         {
             _rawName = name;

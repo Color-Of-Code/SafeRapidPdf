@@ -7,7 +7,7 @@ namespace SafeRapidPdf.File
     /// </summary>
     public sealed class PdfComment : PdfObject
 	{
-		private PdfComment(String text)
+		private PdfComment(string text)
 			: base(PdfObjectType.Comment)
 		{
 			_text = text;

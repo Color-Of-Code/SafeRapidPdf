@@ -33,17 +33,17 @@ namespace SafeRapidPdf.Lexical
                 IndirectReferenceResolver = new ObjectResolver.IndirectReferenceResolver(this);
         }
 
-        public void Expects(String expectedToken)
+        public void Expects(string expectedToken)
         {
             string actualToken = ReadToken();
             if (actualToken != expectedToken)
                 throw new Exception($"Parser error: expected '{expectedToken}', read '{actualToken}'");
         }
 
-        private String _peekedToken;
-        private String _peekedToken2;
+        private string _peekedToken;
+        private string _peekedToken2;
 
-        public String PeekToken2()
+        public string PeekToken2()
         {
             _peekedToken = _peekedToken ?? ReadTokenInternal();
             if (IsInteger(_peekedToken))
@@ -59,13 +59,13 @@ namespace SafeRapidPdf.Lexical
             return _peekedToken;
         }
 
-        public String PeekToken1()
+        public string PeekToken1()
         {
             _peekedToken = _peekedToken ?? ReadTokenInternal();
             return _peekedToken;
         }
 
-        public String ReadToken()
+        public string ReadToken()
         {
             if (_peekedToken != null)
             {
@@ -77,7 +77,7 @@ namespace SafeRapidPdf.Lexical
             return ReadTokenInternal();
         }
 
-        private String ReadTokenInternal()
+        private string ReadTokenInternal()
         {
             int b = SkipWhitespaces();
             if (b == -1)
@@ -119,7 +119,7 @@ namespace SafeRapidPdf.Lexical
 
         private int _byteRead = -1;
 
-        public String ReadUntilEol()
+        public string ReadUntilEol()
         {
             var sb = new StringBuilder();
             while (true)
@@ -156,7 +156,7 @@ namespace SafeRapidPdf.Lexical
             return (char)ReadByte();
         }
 
-        private String ParseToken(int b)
+        private string ParseToken(int b)
         {
             var token = new StringBuilder();
             if (_delimiterTable[b + 1])
@@ -176,7 +176,7 @@ namespace SafeRapidPdf.Lexical
             return token.ToString();
         }
 
-        private String ParseToken()
+        private string ParseToken()
         {
             int b = SkipWhitespaces();
             return ParseToken(b);
@@ -204,10 +204,7 @@ namespace SafeRapidPdf.Lexical
 
         private static bool IsInteger(string token)
         {
-            int result;
-            if (int.TryParse(token, out result))
-                return true;
-            return false;
+            return int.TryParse(token, out _);
         }
 
         private Stream _reader;

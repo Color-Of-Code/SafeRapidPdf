@@ -8,14 +8,14 @@ namespace SafeRapidPdf.UnitTests.Util
 {
     public static class StringExtensions
     {
-        public static SIO.Stream ToStream(this String input)
+        public static SIO.Stream ToStream(this string input)
         {
             byte[] byteArray = Encoding.UTF8.GetBytes(input);
             return new SIO.MemoryStream(byteArray);
         }
 
         // used to inject a lexer into low level parsers from a string
-        public static ILexer ToLexer(this String input)
+        public static ILexer ToLexer(this string input)
         {
             return new LexicalParser(input.ToStream(), true);
         }
@@ -26,7 +26,7 @@ namespace SafeRapidPdf.UnitTests.Util
             var s = new SIO.MemoryStream(input);
             return new LexicalParser(s, true);
         }
-        public static ILexer Base64ToLexer(this String input)
+        public static ILexer Base64ToLexer(this string input)
         {
             var bytes = Convert.FromBase64String(input);
             var s = new SIO.MemoryStream(bytes);
