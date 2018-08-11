@@ -1,10 +1,10 @@
-using System;
-using SafeRapidPdf.File;
-using SafeRapidPdf.UnitTests.Util;
-using Xunit;
-
 namespace SafeRapidPdf.UnitTests.File
 {
+    using System;
+    using SafeRapidPdf.File;
+    using SafeRapidPdf.UnitTests.Util;
+    using Xunit;
+
     public class PdfStreamTests
     {
         [Fact]

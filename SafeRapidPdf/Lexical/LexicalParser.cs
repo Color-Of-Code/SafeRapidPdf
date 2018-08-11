@@ -108,7 +108,7 @@ namespace SafeRapidPdf.Lexical
 
             string token = ParseToken(c);
 
-            if (token == String.Empty)
+            if (string.IsNullOrEmpty(token))
             {
                 if (ReadByte() == -1) // end of file
                     return null;

@@ -1,7 +1,7 @@
-using CommandLine;
-
 namespace PdfInfoTool
 {
+    using CommandLine;
+
     interface IOptions
     {
         [Option('v', "verbose",

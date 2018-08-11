@@ -1,11 +1,11 @@
-using System;
-using Xunit;
-
-using SafeRapidPdf.File;
-using SafeRapidPdf.UnitTests.Util;
-
 namespace SafeRapidPdf.UnitTests.File
 {
+    using System;
+
+    using SafeRapidPdf.File;
+    using SafeRapidPdf.UnitTests.Util;
+    using Xunit;
+
     public class PdfFileTests
     {
         [Fact]
@@ -28,7 +28,8 @@ trailer<</Root<</Pages<<>>>>>>".ToStream()); });
         [Fact]
         public void Parsing_Non_Pdf_Yields_Exception()
         {
-            Assert.Throws<Exception>(() => {
+            Assert.Throws<Exception>(() =>
+            {
                 PdfFile.Parse("Not a PDF".ToStream());
             });
         }

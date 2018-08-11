@@ -1,11 +1,11 @@
 
-using System;
-using System.Text;
-using SafeRapidPdf.Lexical;
-using SIO = System.IO;
-
 namespace SafeRapidPdf.UnitTests.Util
 {
+    using System;
+    using System.Text;
+    using SafeRapidPdf.Lexical;
+    using SIO = System.IO;
+
     public static class StringExtensions
     {
         public static SIO.Stream ToStream(this string input)

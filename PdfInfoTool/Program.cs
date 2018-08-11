@@ -1,10 +1,10 @@
-﻿using System;
-using CommandLine;
-using SafeRapidPdf;
-using SafeRapidPdf.File;
-
-namespace PdfInfoTool
+﻿namespace PdfInfoTool
 {
+    using System;
+    using CommandLine;
+    using SafeRapidPdf;
+    using SafeRapidPdf.File;
+
     class Program
     {
         static int Main(string[] args)

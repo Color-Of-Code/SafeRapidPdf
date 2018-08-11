@@ -1,11 +1,11 @@
-using System;
-using Xunit;
-
-using SafeRapidPdf.File;
-using SafeRapidPdf.UnitTests.Util;
-
 namespace SafeRapidPdf.UnitTests.File
 {
+    using System;
+
+    using SafeRapidPdf.File;
+    using SafeRapidPdf.UnitTests.Util;
+    using Xunit;
+
     public class PdfXRefTests
     {
         [Fact]
@@ -29,8 +29,8 @@ namespace SafeRapidPdf.UnitTests.File
         [Fact]
         public void Parsing_CompressedXRef()
         {
-//703 0 obj
-//<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
+            //703 0 obj
+            //<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
 
             /* 43 0 obj
 << /Linearized   1.0   % Version
