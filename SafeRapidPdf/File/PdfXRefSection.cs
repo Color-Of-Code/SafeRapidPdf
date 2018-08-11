@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -29,16 +28,18 @@ namespace SafeRapidPdf.File
             var w = dictionary["W"] as PdfArray;
             var firstId = 0;
             var size = 0;
-            if (dictionary.Keys.Contains("Index"))
+
+            if (dictionary.TryGetValue("Index", out IPdfObject indexObject))
             {
-                var index = dictionary["Index"] as PdfArray;
+                var index = (PdfArray)indexObject;
                 firstId = (int)(index.Items[0] as PdfNumeric).Value;
                 size = (int)(index.Items[1] as PdfNumeric).Value;
             }
-            else if (dictionary.Keys.Contains("Size"))
+            else if (dictionary.TryGetValue("Size", out IPdfObject sizeObject))
             {
-                size = (int)(dictionary["Size"] as PdfNumeric).Value;
+                size = (int)((PdfNumeric)sizeObject).Value;
             }
+
             int items = w.Items.Count;
             // for xref this shall always be 3
             if (items != 3)
