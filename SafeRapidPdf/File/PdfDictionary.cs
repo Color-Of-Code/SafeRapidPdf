@@ -52,6 +52,23 @@ namespace SafeRapidPdf.File
             get => _dictionary.First(x => x.Key.Text == name).Value;
         }
 
+        public bool TryGetValue(string key, out IPdfObject value)
+        {
+            foreach (PdfKeyValuePair pair in _dictionary)
+            {
+                if (pair.Key.Text == key)
+                {
+                    value = pair.Value;
+
+                    return true;
+                }
+            }
+
+            value = null;
+
+            return false;
+        }
+
         /// <summary>
         /// Automatically dereference indirect references or returns the Pdf object
         /// after checking that it is of the expected type
@@ -112,11 +129,13 @@ namespace SafeRapidPdf.File
         {
             get
             {
-                if (Keys.Contains("Type"))
+                if (TryGetValue("Type", out IPdfObject typeObject))
                 {
-                    PdfName type = this["Type"] as PdfName;
+                    PdfName type = (PdfName)typeObject;
+
                     return type.Name;
                 }
+
                 return null;
             }
         }

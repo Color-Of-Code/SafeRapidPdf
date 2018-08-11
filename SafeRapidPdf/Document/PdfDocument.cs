@@ -11,47 +11,47 @@ namespace SafeRapidPdf.Document
     /// level physical structure to extract the document objects.
     /// </summary>
     public class PdfDocument : PdfBaseObject
-	{
-		public PdfDocument(PdfFile file)
-			: base(PdfObjectType.Document)
-		{
-			_file = file;
-			IsContainer = true;
-		}
+    {
+        public PdfDocument(PdfFile file)
+            : base(PdfObjectType.Document)
+        {
+            _file = file;
+            IsContainer = true;
+        }
 
-		private PdfFile _file;
-		private PdfCatalog _root;
+        private PdfFile _file;
+        private PdfCatalog _root;
 
-		public PdfCatalog Root
-		{
-			get
-			{
-				if (_root == null)
-				{
-					var trailers = _file.Items.OfType<PdfTrailer>();
-					// this could happen for linearized documents
-					//if (trailers.Count() > 1)
-					//    throw new Exception("too many trailers found");
-					PdfTrailer trailer = trailers.First();
-					PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
-					PdfDictionary dic = root.Dereference<PdfDictionary>();
-					_root = new PdfCatalog(dic);
-				}
-				return _root;
-			}
-		}
+        public PdfCatalog Root
+        {
+            get
+            {
+                if (_root == null)
+                {
+                    var trailers = _file.Items.OfType<PdfTrailer>();
+                    // this could happen for linearized documents
+                    //if (trailers.Count() > 1)
+                    //    throw new Exception("too many trailers found");
+                    PdfTrailer trailer = trailers.First();
+                    PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
+                    PdfDictionary dic = root.Dereference<PdfDictionary>();
+                    _root = new PdfCatalog(dic);
+                }
+                return _root;
+            }
+        }
 
-		public override ReadOnlyCollection<IPdfObject> Items
-		{
-			get
-			{
+        public override ReadOnlyCollection<IPdfObject> Items
+        {
+            get
+            {
                 var list = new List<IPdfObject>(1)
                 {
                     Root
                 };
                 return list.AsReadOnly();
-			}
-		}
+            }
+        }
 
         public override string ToString() => "Document";
     }
