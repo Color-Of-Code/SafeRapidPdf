@@ -6,7 +6,7 @@ namespace SafeRapidPdf.Document
     /// boundaries of the physical medium on which the page is
     /// intended to be displayed or printed
     /// </summary>
-    public class PdfMediaBox : PdfRectangle
+    public sealed class PdfMediaBox : PdfRectangle
     {
         public PdfMediaBox(PdfArray box)
             : base(PdfObjectType.MediaBox, box)
