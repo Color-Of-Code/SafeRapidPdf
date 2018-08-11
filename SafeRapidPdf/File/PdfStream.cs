@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -17,7 +16,7 @@ namespace SafeRapidPdf.File
             Data = data;
         }
 
-        public Byte[] Decode()
+        public byte[] Decode()
         {
             //TODO: multiple filter in order can be specified
             IPdfObject filter = StreamDictionary["Filter"];
@@ -127,9 +126,6 @@ namespace SafeRapidPdf.File
             }
         }
 
-        public override string ToString()
-        {
-            return "stream";
-        }
+        public override string ToString() => "stream";
     }
 }
