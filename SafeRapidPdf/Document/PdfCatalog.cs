@@ -41,7 +41,7 @@ namespace SafeRapidPdf.Document
                 var list = new List<IPdfObject>(_items.Count + 1);
                 list.AddRange(_items);
                 list.Add(Pages);
-                return list.AsReadOnly();
+                return list;
             }
         }
 
