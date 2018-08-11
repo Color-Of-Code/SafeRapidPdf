@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SafeRapidPdf.File
 {
-    public class PdfXRef : PdfObject
+    public sealed class PdfXRef : PdfObject
     {
         private PdfXRef(IList<PdfXRefSection> sections)
             : base(PdfObjectType.XRef)
@@ -70,7 +69,7 @@ namespace SafeRapidPdf.File
 
         public static string BuildKey(int objectNumber, int generationNumber)
         {
-            return string.Format("{0:0000000000}_{1:00000}", objectNumber, generationNumber);
+            return $"{objectNumber:0000000000}_{generationNumber:00000}";
         }
 
         private Dictionary<string, long> _offsets = new Dictionary<string, long>();
@@ -80,9 +79,6 @@ namespace SafeRapidPdf.File
             get => _sections.ToList().ConvertAll(x => x as IPdfObject).AsReadOnly();
         }
 
-        public override string ToString()
-        {
-            return "xref";
-        }
+        public override string ToString() => "xref";
     }
 }
