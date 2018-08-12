@@ -1,5 +1,12 @@
 # SafeRapidPdf
 
+## CI-Status
+
+[![Travis build status](https://img.shields.io/travis/jdehaan/SafeRapidPdf/master.svg?label=master&style=flat-square)](https://travis-ci.org/jdehaan/SafeRapidPdf)
+
+
+## Introduction
+
 There is already a very good pdf parser and generator: [itextsharp] (http://itextpdf.com/).
 But it doesn't focus on parsing and its licensing model makes it inappropriate for some purposes.
 This designed and developped from scratch library is provided under the liberal MIT license.
