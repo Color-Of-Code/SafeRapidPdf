@@ -25,7 +25,7 @@ namespace PdfInfoTool
                         var obj = o.ToString("D5");
                         if (opts.Verbose)
                         {
-                            var type = "In-Stream";
+                            var type = "ref ObjStm";
                             if (xrefEntry.EntryType != 'o')
                             {
                                 var g = xrefEntry.GenerationNumber;
