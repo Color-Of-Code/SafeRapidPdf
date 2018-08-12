@@ -2,6 +2,7 @@
 namespace PdfInfoTool
 {
     using System;
+    using SafeRapidPdf;
     using SafeRapidPdf.File;
 
     internal static partial class Command
@@ -31,7 +32,32 @@ namespace PdfInfoTool
                                 try
                                 {
                                     var refObject = file.GetObject(o, g);
-                                    type = refObject.Object.ObjectType.ToString();
+                                    var objectType = refObject.Object.ObjectType;
+                                    if (objectType == PdfObjectType.Stream)
+                                    {
+                                        var stream = refObject.Object as PdfStream;
+                                        IPdfObject contentType;
+                                        if (stream.StreamDictionary.TryGetValue("Type", out contentType))
+                                        {
+                                            if (contentType.Text == "XObject")
+                                            {
+                                                stream.StreamDictionary.TryGetValue("Subtype", out contentType);
+                                                type = $"Stream(XObject: {contentType})";
+                                            }
+                                            else
+                                            {
+                                                type = $"Stream({contentType})";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            type = $"Stream(?)";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        type = objectType.ToString();
+                                    }
                                 }
                                 catch
                                 {
