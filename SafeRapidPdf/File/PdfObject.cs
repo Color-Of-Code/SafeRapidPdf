@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SafeRapidPdf.File
+﻿namespace SafeRapidPdf.File
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using SafeRapidPdf.Lexical;
+
     public abstract class PdfObject : IPdfObject
     {
         protected PdfObject(PdfObjectType type)
@@ -120,6 +123,17 @@ namespace SafeRapidPdf.File
             if (obj == null)
                 throw new Exception("Parse error, could not read object");
             return obj;
+        }
+
+        public static PdfObject ParseAny(PdfStream stream)
+        {
+            var decodedBytes = stream.Decode();
+            var s = Encoding.UTF8.GetString(decodedBytes);
+            // contents are not always pdf objects...
+            //var s = new MemoryStream(decodedBytes);
+            //var parser = new LexicalParser(s, true);
+            //return PdfObject.ParseAny(parser);
+            return null;
         }
 
         public bool IsContainer { get; protected set; }

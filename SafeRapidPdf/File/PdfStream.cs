@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using ComponentAce.Compression.Libs.zlib;
-
-namespace SafeRapidPdf.File
+﻿namespace SafeRapidPdf.File
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.IO;
+    using System.Linq;
+    using ComponentAce.Compression.Libs.zlib;
+
     public sealed class PdfStream : PdfObject
     {
         private PdfStream(PdfDictionary dictionary, PdfData data)
@@ -16,17 +17,62 @@ namespace SafeRapidPdf.File
             Data = data;
         }
 
+        private byte[] FlateDecodeWithPredictorNone(int columns, byte[] decompressed)
+        {
+            return decompressed;
+        }
+
+        private byte[] FlateDecodeWithPredictorPngUp(int columns, byte[] decompressed)
+        {
+            var output = new List<byte>(32*1024);
+            var previousRow = new byte[columns];
+            for (int i = 0; i < columns; i++)
+                previousRow[i] = 0;
+            int rows = decompressed.Length / (columns + 1); // we have an additional predictor byte in the source
+            for (int r = 0; r < rows; r++)
+            {
+                var currentRow = new byte[columns];
+                byte rowPredictor = (byte)decompressed[r * (columns + 1)];
+                if (rowPredictor != 2)
+                    throw new Exception("Only up predictor is supported at the moment");
+                for (int i = 0; i < columns; i++)
+                {
+                    // the leading predictor is ignored, assuming it's always UP
+                    var inputByte = (byte)decompressed[r * (columns + 1) + i + 1];
+                    currentRow[i] = (byte)(inputByte + previousRow[i]);
+                    output.Add(currentRow[i]);
+                }
+                previousRow = currentRow;
+            }
+            return output.ToArray();
+        }
+
+        private byte[] FlateDecodeWithPredictor(int predictor, int columns, byte[] input)
+        {
+            // now we have to handle the predictors...
+            switch (predictor)
+            {
+                case 1:  //1 = default: no prediction
+                    return FlateDecodeWithPredictorNone(columns, input);
+                case 12: //12 = PNG prediction (on encoding, PNG Up on all rows)
+                    return FlateDecodeWithPredictorPngUp(columns, input);
+                default:
+                    throw new NotImplementedException($"Sorry at the moment predictor {predictor} is not implemented. Please make a feature request on https://github.com/jdehaan/SafeRapidPdf/issues. Ideally provide an example pdf.");
+            }
+        }
+
         public byte[] Decode()
         {
+            IPdfObject filter;
+            if (!StreamDictionary.TryGetValue("Filter", out filter))
+            {
+                // filter is optional
+                // no filter provided= return the data as-is
+                return Data.Data;
+            }
             //TODO: multiple filter in order can be specified
-            IPdfObject filter = StreamDictionary["Filter"];
             if (filter.Text == "FlateDecode")
             {
-                PdfDictionary parameters = StreamDictionary["DecodeParms"] as PdfDictionary;
-                var samplesPerRow = parameters["Columns"] as PdfNumeric;
-                //12 = PNG prediction (on encoding, PNG Up on all rows)
-                var predictor = parameters["Predictor"] as PdfNumeric;
-
                 var zin = new ZInputStream(new MemoryStream(Data.Data));
                 int r;
                 var output = new List<byte>(32 * 1024); // avoid too many reallocs
@@ -37,35 +83,21 @@ namespace SafeRapidPdf.File
                 byte[] decompressed = output.ToArray();
                 zin.Close();
 
-                // now we have to handle the predictors...
-                if (predictor.Value != 12)
-                    throw new NotImplementedException("Sorry at the moment only PNG prediction all UP is implemented");
-                int samples = (int)samplesPerRow.Value;
-                if (samples <= 0)
-                    throw new NotImplementedException("The sample count must be greater than 0");
+                // set defaults
+                int predictor = 1; // no prediction
+                int columns = 1;
 
-                output.Clear();
-                var previousRow = new byte[samples];
-                for (int i = 0; i < samples; i++)
-                    previousRow[i] = 0;
-                int rows = decompressed.Length / (samples + 1); // we have an additional predictor byte in the source
-                for (r = 0; r < rows; r++)
+                if (StreamDictionary.Keys.Contains("DecodeParms"))
                 {
-                    var currentRow = new byte[samples];
-                    byte rowPredictor = (byte)decompressed[r * (samples + 1)];
-                    if (rowPredictor != 2)
-                        throw new Exception("Only up predictor is supported at the moment");
-                    for (int i = 0; i < samples; i++)
-                    {
-                        // the leading predictor is ignored, assuming it's always UP
-                        var inputByte = (byte)decompressed[r * (samples + 1) + i + 1];
-                        currentRow[i] = (byte)(inputByte + previousRow[i]);
-                        output.Add(currentRow[i]);
-                    }
-                    previousRow = currentRow;
+                    PdfDictionary parameters = StreamDictionary["DecodeParms"] as PdfDictionary;
+                    columns = (int)(parameters["Columns"] as PdfNumeric).Value;
+                    predictor = (int)(parameters["Predictor"] as PdfNumeric).Value;
                 }
 
-                return output.ToArray();
+                if (columns <= 0)
+                    throw new NotImplementedException("The sample count must be greater than 0");
+
+                return FlateDecodeWithPredictor(predictor, columns, decompressed);
             }
             //else if (filter.Text == "DCTDecode")
             //{

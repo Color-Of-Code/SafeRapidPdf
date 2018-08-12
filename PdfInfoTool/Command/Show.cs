@@ -51,6 +51,7 @@ namespace PdfInfoTool
                                         }
                                         else
                                         {
+                                            //var sObject = PdfObject.ParseAny(stream);
                                             type = $"Stream(?)";
                                         }
                                     }
