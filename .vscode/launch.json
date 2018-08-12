@@ -1,11 +1,43 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-   "version": "0.2.0",
-   "configurations": [
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Tool: show 14219209.pdf",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/PdfInfoTool/bin/Debug/netcoreapp2.0/PdfInfoTool.dll",
+            "args": [
+                "show",
+                "${workspaceRoot}/TestData/14219209.pdf",
+                "xref",
+                "--verbose"
+            ],
+            "cwd": "${workspaceRoot}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Tool: show 15424792.pdf",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/PdfInfoTool/bin/Debug/netcoreapp2.0/PdfInfoTool.dll",
+            "args": [
+                "show",
+                "${workspaceRoot}/TestData/15424792.pdf",
+                "xref",
+                "--verbose"
+            ],
+            "cwd": "${workspaceRoot}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Unit Tests",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -23,6 +55,6 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
-        }
-    ,]
+        },
+    ]
 }

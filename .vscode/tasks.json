@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/SafeRapidPdf.UnitTests/SafeRapidPdf.UnitTests.csproj"
+                "${workspaceFolder}/SafeRapidPdf.sln"
             ],
             "problemMatcher": "$msCompile"
         }
