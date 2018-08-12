@@ -55,6 +55,23 @@ namespace PdfInfoTool
                                             type = $"Stream(?)";
                                         }
                                     }
+                                    else if (objectType == PdfObjectType.Dictionary)
+                                    {
+                                        var dictionary = refObject.Object as PdfDictionary;
+                                        IPdfObject contentType;
+                                        if (dictionary.TryGetValue("Type", out contentType))
+                                        {
+                                            type = $"{contentType}";
+                                        }
+                                        else
+                                        {
+                                            if (dictionary.Items.Count > 0 &&
+                                                dictionary.Items[0].Text == "Linearized")
+                                                type = "Linearization Parameter";
+                                            else
+                                                type = $"Dictionary(?)";
+                                        }
+                                    }
                                     else
                                     {
                                         type = objectType.ToString();
