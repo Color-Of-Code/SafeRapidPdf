@@ -42,9 +42,6 @@ namespace SafeRapidPdf.File
             return new PdfIndirectReference(objectNumber, generationNumber);
         }
 
-        public override string ToString()
-        {
-            return $"{ObjectNumber} {GenerationNumber} R";
-        }
+        public override string ToString() => $"{ObjectNumber} {GenerationNumber} R";
     }
 }

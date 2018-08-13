@@ -11,6 +11,8 @@ namespace SafeRapidPdf.File
     /// </summary>
     public sealed class PdfLiteralString : PdfObject
     {
+        private readonly string _text;
+
         private PdfLiteralString(string text)
             : base(PdfObjectType.LiteralString)
         {
@@ -89,8 +91,6 @@ namespace SafeRapidPdf.File
             }
             return new PdfLiteralString(sb.ToString());
         }
-
-        private string _text;
 
         public override string ToString() => _text;
     }
