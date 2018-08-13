@@ -36,8 +36,7 @@ namespace PdfInfoTool
                                     if (objectType == PdfObjectType.Stream)
                                     {
                                         var stream = refObject.Object as PdfStream;
-                                        IPdfObject contentType;
-                                        if (stream.StreamDictionary.TryGetValue("Type", out contentType))
+                                        if (stream.StreamDictionary.TryGetValue("Type", out IPdfObject contentType))
                                         {
                                             if (contentType.Text == "XObject")
                                             {
@@ -58,18 +57,21 @@ namespace PdfInfoTool
                                     else if (objectType == PdfObjectType.Dictionary)
                                     {
                                         var dictionary = refObject.Object as PdfDictionary;
-                                        IPdfObject contentType;
-                                        if (dictionary.TryGetValue("Type", out contentType))
+                                        if (dictionary.TryGetValue("Type", out IPdfObject contentType))
                                         {
-                                            type = $"{contentType}";
+                                            type = contentType.ToString();
                                         }
                                         else
                                         {
                                             if (dictionary.Items.Count > 0 &&
                                                 dictionary.Items[0].Text == "Linearized")
+                                            {
                                                 type = "Linearization Parameter";
+                                            }
                                             else
+                                            {
                                                 type = $"Dictionary(?)";
+                                            }
                                         }
                                     }
                                     else

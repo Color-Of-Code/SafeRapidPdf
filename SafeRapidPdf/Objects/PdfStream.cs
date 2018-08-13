@@ -77,13 +77,13 @@ namespace SafeRapidPdf.Objects
 
         public byte[] Decode()
         {
-            IPdfObject filter;
-            if (!StreamDictionary.TryGetValue("Filter", out filter))
+            if (!StreamDictionary.TryGetValue("Filter", out IPdfObject filter))
             {
                 // filter is optional
                 // no filter provided= return the data as-is
                 return Data.Data;
             }
+
             // TODO: multiple filter in order can be specified
             if (filter.Text == "FlateDecode")
             {
