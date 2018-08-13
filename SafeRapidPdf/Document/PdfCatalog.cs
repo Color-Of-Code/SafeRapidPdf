@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-    public class PdfCatalog : PdfBaseObject
+    public sealed class PdfCatalog : PdfBaseObject
     {
+        private List<IPdfObject> _items;
+
         public PdfCatalog(PdfDictionary catalog)
             : base(PdfObjectType.Catalog)
         {
@@ -29,8 +30,6 @@ namespace SafeRapidPdf.Document
                 }
             }
         }
-
-        private List<IPdfObject> _items;
 
         public PdfPageTree Pages { get; }
 
