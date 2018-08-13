@@ -1,6 +1,6 @@
 ﻿using SafeRapidPdf.Document;
 
-namespace SafeRapidPdf.Logical
+namespace SafeRapidPdf.Objects
 {
     public class PdfStructure : PdfBaseObject
     {
