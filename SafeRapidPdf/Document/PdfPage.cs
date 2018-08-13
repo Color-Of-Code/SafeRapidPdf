@@ -7,6 +7,8 @@ namespace SafeRapidPdf.Document
 {
     public class PdfPage : PdfBaseObject
     {
+        protected List<IPdfObject> _items;
+
         public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
             : base(PdfObjectType.Page)
         {
@@ -35,8 +37,6 @@ namespace SafeRapidPdf.Document
         protected int GenerationNumber { get; private set; }
 
         protected int ObjectNumber { get; private set; }
-
-        protected List<IPdfObject> _items;
 
         // excepted in root node
         [ParameterType(required: true, inheritable: false)]
