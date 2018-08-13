@@ -1,7 +1,7 @@
 ﻿using System;
 using SafeRapidPdf.Objects;
 
-namespace SafeRapidPdf.ObjectResolver
+namespace SafeRapidPdf
 {
     internal class IndirectReferenceResolver : IIndirectReferenceResolver
     {
