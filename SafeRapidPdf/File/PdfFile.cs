@@ -14,6 +14,8 @@ namespace SafeRapidPdf.File
     /// </summary>
     public class PdfFile : IPdfObject, IIndirectReferenceResolver
     {
+        private readonly Dictionary<string, PdfIndirectObject> _indirectObjects;
+
         private PdfFile(IReadOnlyList<IPdfObject> objects)
         {
             Items = objects;
@@ -21,9 +23,26 @@ namespace SafeRapidPdf.File
             // build up the fast object lookup dictionary
             _indirectObjects = new Dictionary<string, PdfIndirectObject>();
             foreach (var obj in Items.OfType<PdfIndirectObject>())
+            {
                 InsertObject(obj);
+            }
             SetResolver(this);
         }
+
+        /// <summary>
+        /// Parsing time in seconds
+        /// </summary>
+        public double ParsingTime { get; private set; }
+
+        public string Version => Items.First().ToString();
+
+        public IReadOnlyList<IPdfObject> Items { get; private set; }
+
+        public string Text => "File";
+
+        public bool IsContainer => true;
+
+        public PdfObjectType ObjectType => PdfObjectType.File;
 
         private void SetResolver(IPdfObject obj)
         {
@@ -57,7 +76,10 @@ namespace SafeRapidPdf.File
             lexer.Expects("%");
             PdfComment comment = PdfComment.Parse(lexer);
             if (!comment.Text.StartsWith("%PDF-"))
+            {
                 throw new Exception("PDF header missing");
+            }
+
             objects.Add(comment);
 
             bool lastObjectWasOEF = false;
@@ -110,23 +132,6 @@ namespace SafeRapidPdf.File
                 return Parse(reader, progress);
             }
         }
-
-        /// <summary>
-        /// Parsing time in seconds
-        /// </summary>
-        public Double ParsingTime { get; private set; }
-
-        public string Version => Items.First().ToString();
-
-        public IReadOnlyList<IPdfObject> Items { get; private set; }
-
-        public string Text => "File";
-
-        public bool IsContainer => true;
-
-        public PdfObjectType ObjectType => PdfObjectType.File;
-
-        private IDictionary<string, PdfIndirectObject> _indirectObjects;
 
         private void InsertObject(PdfIndirectObject obj)
         {

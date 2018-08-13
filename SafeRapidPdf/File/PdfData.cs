@@ -16,9 +16,6 @@
             return new PdfData(data);
         }
 
-        public override string ToString()
-        {
-            return "Raw data";
-        }
+        public override string ToString() => "Raw data";
     }
 }
