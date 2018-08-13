@@ -20,6 +20,8 @@ namespace SafeRapidPdf.File
 
         public IPdfObject Object { get; }
 
+        public override IReadOnlyList<IPdfObject> Items => new[] { Object };
+
         public static PdfIndirectObject Parse(Lexical.ILexer lexer)
         {
             int objectNumber = int.Parse(lexer.ReadToken());
@@ -38,11 +40,6 @@ namespace SafeRapidPdf.File
         public override string ToString()
         {
             return $"{ObjectNumber} {GenerationNumber} obj";
-        }
-
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get => new[] { Object };
         }
     }
 }

@@ -47,8 +47,8 @@ namespace SafeRapidPdf.File
 
         public IPdfObject this[string name]
         {
-            get => TryGetValue(name, out IPdfObject value) 
-                ? value 
+            get => TryGetValue(name, out IPdfObject value)
+                ? value
                 : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
         }
 
