@@ -2,7 +2,7 @@ namespace SafeRapidPdf.UnitTests.File
 {
     using System;
 
-    using SafeRapidPdf.File;
+    using SafeRapidPdf.Objects;
     using SafeRapidPdf.UnitTests.Util;
     using Xunit;
 

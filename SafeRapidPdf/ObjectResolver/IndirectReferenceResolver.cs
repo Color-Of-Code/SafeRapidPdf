@@ -1,5 +1,5 @@
 ﻿using System;
-using SafeRapidPdf.File;
+using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.ObjectResolver
 {

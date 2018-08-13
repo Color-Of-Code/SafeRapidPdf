@@ -2,16 +2,16 @@
 namespace SafeRapidPdf.UnitTests.Util
 {
     using System;
+    using System.IO;
     using System.Text;
     using SafeRapidPdf.Lexical;
-    using SIO = System.IO;
 
     public static class StringExtensions
     {
-        public static SIO.Stream ToStream(this string input)
+        public static Stream ToStream(this string input)
         {
             byte[] byteArray = Encoding.UTF8.GetBytes(input);
-            return new SIO.MemoryStream(byteArray);
+            return new MemoryStream(byteArray);
         }
 
         // used to inject a lexer into low level parsers from a string
@@ -21,15 +21,15 @@ namespace SafeRapidPdf.UnitTests.Util
         }
 
         // used to inject a lexer into low level parsers from a byte array
-        public static ILexer ToLexer(this Byte[] input)
+        public static ILexer ToLexer(this byte[] input)
         {
-            var s = new SIO.MemoryStream(input);
+            var s = new MemoryStream(input);
             return new LexicalParser(s, true);
         }
         public static ILexer Base64ToLexer(this string input)
         {
             var bytes = Convert.FromBase64String(input);
-            var s = new SIO.MemoryStream(bytes);
+            var s = new MemoryStream(bytes);
             return new LexicalParser(s, true);
         }
 
@@ -37,7 +37,9 @@ namespace SafeRapidPdf.UnitTests.Util
         {
             var hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
+            {
                 hex.AppendFormat("{0:x2}", b);
+            }
             return hex.ToString();
         }
     }
