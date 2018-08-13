@@ -2,12 +2,12 @@
 {
     public sealed class PdfNull : PdfObject
     {
+        public static readonly PdfNull Null = new PdfNull();
+
         private PdfNull()
             : base(PdfObjectType.Null)
         {
         }
-
-        public static readonly PdfNull Null = new PdfNull();
 
         public static PdfNull Parse(Lexical.ILexer lexer)
         {
