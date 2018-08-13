@@ -4,7 +4,7 @@ using SafeRapidPdf.File;
 
 namespace SafeRapidPdf.Document
 {
-    public class PdfCount : PdfBaseObject
+    public sealed class PdfCount : PdfBaseObject
     {
         public PdfCount(PdfNumeric count)
             : base(PdfObjectType.Count)
