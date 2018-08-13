@@ -33,7 +33,9 @@ namespace SafeRapidPdf.Lexical
             _size = _reader.Position;
             _reader.Seek(0, SeekOrigin.Begin);
             if (!withoutResolver)
-                IndirectReferenceResolver = new ObjectResolver.IndirectReferenceResolver(this);
+            {
+                IndirectReferenceResolver = new IndirectReferenceResolver(this);
+            }
         }
 
         public void Expects(string expectedToken)
