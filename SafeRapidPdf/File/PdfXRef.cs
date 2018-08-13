@@ -5,6 +5,8 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfXRef : PdfObject
     {
+        private IList<PdfXRefSection> _sections;
+
         private PdfXRef(IList<PdfXRefSection> sections)
             : base(PdfObjectType.XRef)
         {
@@ -57,8 +59,6 @@ namespace SafeRapidPdf.File
             }
             return new PdfXRef(sections);
         }
-
-        private IList<PdfXRefSection> _sections;
 
         public long GetOffset(int objectNumber, int generationNumber)
         {

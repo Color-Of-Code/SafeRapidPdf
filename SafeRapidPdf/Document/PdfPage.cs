@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.File;
 
@@ -31,54 +30,6 @@ namespace SafeRapidPdf.Document
             ObjectNumber = pages.ObjectNumber;
             Parent = parent;
             _items = new List<IPdfObject>();
-        }
-
-        protected void HandleKeyValuePair(PdfKeyValuePair pair)
-        {
-            switch (pair.Key.Text)
-            {
-                case "Type": // skip type Page
-                    break;
-                case "ArtBox":
-                    ArtBox = new PdfArtBox(pair.Value as PdfArray);
-                    _items.Add(ArtBox);
-                    break;
-                case "BleedBox":
-                    BleedBox = new PdfBleedBox(pair.Value as PdfArray);
-                    _items.Add(BleedBox);
-                    break;
-                case "CropBox":
-                    CropBox = new PdfCropBox(pair.Value as PdfArray);
-                    _items.Add(CropBox);
-                    break;
-                case "MediaBox":
-                    MediaBox = new PdfMediaBox(pair.Value as PdfArray);
-                    _items.Add(MediaBox);
-                    break;
-                case "TrimBox":
-                    TrimBox = new PdfTrimBox(pair.Value as PdfArray);
-                    _items.Add(TrimBox);
-                    break;
-                case "Rotate":
-                    Rotate = new PdfRotate(pair.Value as PdfNumeric);
-                    _items.Add(Rotate);
-                    break;
-                case "Contents":
-                    Contents = new PdfContents(pair.Value);
-                    _items.Add(Contents);
-                    break;
-                case "Parent":
-                    PdfIndirectReference parent = pair.Value as PdfIndirectReference;
-                    if (parent.ObjectNumber != Parent.ObjectNumber)
-                        throw new Exception("Unexpected not matching parent object number!");
-                    if (parent.GenerationNumber != Parent.GenerationNumber)
-                        throw new Exception("Unexpected not matching parent generation number!");
-                    // ignore entry (parent is shown through the hierarchy
-                    break;
-                default:
-                    _items.Add(pair);
-                    break;
-            }
         }
 
         protected int GenerationNumber { get; private set; }
@@ -138,6 +89,54 @@ namespace SafeRapidPdf.Document
         //public PdfDictionary VP { get; private set; }
 
         public override IReadOnlyList<IPdfObject> Items => _items.AsReadOnly();
+
+        protected void HandleKeyValuePair(PdfKeyValuePair pair)
+        {
+            switch (pair.Key.Text)
+            {
+                case "Type": // skip type Page
+                    break;
+                case "ArtBox":
+                    ArtBox = new PdfArtBox(pair.Value as PdfArray);
+                    _items.Add(ArtBox);
+                    break;
+                case "BleedBox":
+                    BleedBox = new PdfBleedBox(pair.Value as PdfArray);
+                    _items.Add(BleedBox);
+                    break;
+                case "CropBox":
+                    CropBox = new PdfCropBox(pair.Value as PdfArray);
+                    _items.Add(CropBox);
+                    break;
+                case "MediaBox":
+                    MediaBox = new PdfMediaBox(pair.Value as PdfArray);
+                    _items.Add(MediaBox);
+                    break;
+                case "TrimBox":
+                    TrimBox = new PdfTrimBox(pair.Value as PdfArray);
+                    _items.Add(TrimBox);
+                    break;
+                case "Rotate":
+                    Rotate = new PdfRotate(pair.Value as PdfNumeric);
+                    _items.Add(Rotate);
+                    break;
+                case "Contents":
+                    Contents = new PdfContents(pair.Value);
+                    _items.Add(Contents);
+                    break;
+                case "Parent":
+                    PdfIndirectReference parent = pair.Value as PdfIndirectReference;
+                    if (parent.ObjectNumber != Parent.ObjectNumber)
+                        throw new Exception("Unexpected not matching parent object number!");
+                    if (parent.GenerationNumber != Parent.GenerationNumber)
+                        throw new Exception("Unexpected not matching parent generation number!");
+                    // ignore entry (parent is shown through the hierarchy
+                    break;
+                default:
+                    _items.Add(pair);
+                    break;
+            }
+        }
 
         public override string ToString() => "Page";
     }

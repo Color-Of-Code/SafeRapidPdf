@@ -13,6 +13,8 @@ namespace SafeRapidPdf.File
             Value = value;
         }
 
+        public bool Value { get; }
+
         public static PdfBoolean Parse(string token)
         {
             switch (token)
@@ -26,8 +28,6 @@ namespace SafeRapidPdf.File
             }
 
         }
-
-        public bool Value { get; }
 
         public override string ToString() => Value ? "true" : "false";
     }

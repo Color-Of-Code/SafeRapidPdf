@@ -17,6 +17,21 @@
             Data = data;
         }
 
+        public PdfDictionary StreamDictionary { get; }
+
+        public PdfData Data { get; }
+
+        public override IReadOnlyList<IPdfObject> Items
+        {
+            get
+            {
+                var list = new List<IPdfObject>(StreamDictionary.Items.Count + 1);
+                list.AddRange(StreamDictionary.Items);
+                list.Add(Data);
+                return list;
+            }
+        }
+
         private byte[] FlateDecodeWithPredictorNone(int columns, byte[] decompressed)
         {
             return decompressed;
@@ -24,7 +39,7 @@
 
         private byte[] FlateDecodeWithPredictorPngUp(int columns, byte[] decompressed)
         {
-            var output = new List<byte>(32*1024);
+            var output = new List<byte>(32 * 1024);
             var previousRow = new byte[columns];
             for (int i = 0; i < columns; i++)
                 previousRow[i] = 0;
@@ -70,7 +85,7 @@
                 // no filter provided= return the data as-is
                 return Data.Data;
             }
-            //TODO: multiple filter in order can be specified
+            // TODO: multiple filter in order can be specified
             if (filter.Text == "FlateDecode")
             {
                 var zin = new ZInputStream(new MemoryStream(Data.Data));
@@ -141,21 +156,6 @@
             lexer.Expects("endstream");
 
             return new PdfStream(dictionary, data);
-        }
-
-        public PdfDictionary StreamDictionary { get; }
-
-        public PdfData Data { get; }
-
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get
-            {
-                var list = new List<IPdfObject>(StreamDictionary.Items.Count + 1);
-                list.AddRange(StreamDictionary.Items);
-                list.Add(Data);
-                return list;
-            }
         }
 
         public override string ToString() => "stream";

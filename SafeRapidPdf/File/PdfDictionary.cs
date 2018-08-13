@@ -22,7 +22,7 @@ namespace SafeRapidPdf.File
             _dictionary = dictionary._dictionary;
         }
 
-        public void ExpectsType(String name)
+        public void ExpectsType(string name)
         {
             PdfName type = this["Type"] as PdfName;
             if (type.Name != name)

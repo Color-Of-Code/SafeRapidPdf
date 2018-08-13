@@ -7,7 +7,7 @@
         {
         }
 
-        public new static PdfTrailer Parse(Lexical.ILexer lexer)
+        public static new PdfTrailer Parse(Lexical.ILexer lexer)
         {
             lexer.Expects("<<");
             var dictionary = PdfDictionary.Parse(lexer);

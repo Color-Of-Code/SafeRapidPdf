@@ -5,19 +5,13 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfName : PdfObject
     {
+        private readonly string _rawName;
+
         private PdfName(string name)
             : base(PdfObjectType.Name)
         {
             _rawName = name;
         }
-
-        public static PdfName Parse(Lexical.ILexer lexer)
-        {
-            string name = lexer.ReadToken();
-            return new PdfName(name);
-        }
-
-        private readonly string _rawName;
 
         public string Name
         {
@@ -30,6 +24,12 @@ namespace SafeRapidPdf.File
                     return ((char)val).ToString();
                 });
             }
+        }
+
+        public static PdfName Parse(Lexical.ILexer lexer)
+        {
+            string name = lexer.ReadToken();
+            return new PdfName(name);
         }
 
         public override string ToString() => Name;

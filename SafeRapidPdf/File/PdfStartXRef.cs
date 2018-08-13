@@ -11,22 +11,16 @@ namespace SafeRapidPdf.File
             Numeric = value;
         }
 
+        public PdfNumeric Numeric { get; }
+
+        public override IReadOnlyList<IPdfObject> Items => new[] { Numeric };
+
         public static PdfStartXRef Parse(Lexical.ILexer lexer)
         {
             var n = PdfNumeric.Parse(lexer);
             return new PdfStartXRef(n);
         }
 
-        public PdfNumeric Numeric { get; }
-
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get => new[] { Numeric };
-        }
-
-        public override string ToString()
-        {
-            return "startxref";
-        }
+        public override string ToString() => "startxref";
     }
 }
