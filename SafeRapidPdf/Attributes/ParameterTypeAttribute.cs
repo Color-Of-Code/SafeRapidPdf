@@ -5,8 +5,11 @@ namespace SafeRapidPdf.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class ParameterTypeAttribute : Attribute
     {
-        public ParameterTypeAttribute(bool required, bool inheritable = false,
-            string version = "", bool obsolete = false)
+        public ParameterTypeAttribute(
+            bool required,
+            bool inheritable = false,
+            string version = "",
+            bool obsolete = false)
         {
             Required = required;
             Inheritable = inheritable;
