@@ -14,6 +14,12 @@ namespace SafeRapidPdf.File
             Object = obj;
         }
 
+        public int ObjectNumber { get; }
+
+        public int GenerationNumber { get; }
+
+        public IPdfObject Object { get; }
+
         public static PdfIndirectObject Parse(Lexical.ILexer lexer)
         {
             int objectNumber = int.Parse(lexer.ReadToken());
@@ -28,12 +34,6 @@ namespace SafeRapidPdf.File
             lexer.Expects("endobj");
             return new PdfIndirectObject(objectNumber, generationNumber, obj);
         }
-
-        public int ObjectNumber { get; }
-
-        public int GenerationNumber { get; }
-
-        public IPdfObject Object { get; }
 
         public override string ToString()
         {

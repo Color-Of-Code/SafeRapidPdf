@@ -4,11 +4,18 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfArray : PdfObject
     {
+        private readonly List<IPdfObject> _items;
+
         private PdfArray(List<IPdfObject> items)
             : base(PdfObjectType.Array)
         {
             IsContainer = true;
             _items = items;
+        }
+
+        public override IReadOnlyList<IPdfObject> Items
+        {
+            get => _items.AsReadOnly();
         }
 
         public static PdfArray Parse(Lexical.ILexer lexer)
@@ -22,15 +29,7 @@ namespace SafeRapidPdf.File
             return new PdfArray(list);
         }
 
-        private readonly List<IPdfObject> _items;
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get => _items.AsReadOnly();
-        }
 
-        public override string ToString()
-        {
-            return "[...]";
-        }
+        public override string ToString() => "[...]";
     }
 }

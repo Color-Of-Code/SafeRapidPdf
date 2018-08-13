@@ -1,7 +1,5 @@
 ﻿namespace SafeRapidPdf.File
 {
-    using System;
-
     /// <summary>
     /// Comments start with % and end on EOL char (CR or LF)
     /// </summary>
@@ -13,14 +11,14 @@
             _text = text;
         }
 
+        private readonly string _text;
+
+        public bool IsEOF => _text == "%EOF";
+
         public static PdfComment Parse(Lexical.ILexer lexer)
         {
             return new PdfComment(lexer.ReadUntilEol());
         }
-
-        private readonly string _text;
-
-        public bool IsEOF => _text == "%EOF";
 
         public override string ToString()
         {

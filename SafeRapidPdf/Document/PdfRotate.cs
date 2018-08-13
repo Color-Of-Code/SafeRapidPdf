@@ -14,9 +14,6 @@ namespace SafeRapidPdf.Document
 
         public int Value { get; }
 
-        public override string ToString()
-        {
-            return $"Rotate {Value} degrees";
-        }
+        public override string ToString() => $"Rotate {Value} degrees";
     }
 }

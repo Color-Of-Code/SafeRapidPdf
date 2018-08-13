@@ -17,6 +17,12 @@ namespace SafeRapidPdf.File
             _entries = entries;
         }
 
+        public int FirstId { get; }
+
+        public int Size { get; }
+
+        public override IReadOnlyList<IPdfObject> Items => _entries;
+
         public static PdfXRefSection Parse(PdfStream pdfStream)
         {
             var dictionary = pdfStream.StreamDictionary;
@@ -91,12 +97,6 @@ namespace SafeRapidPdf.File
             }
             return new PdfXRefSection(firstId, size, entries);
         }
-
-        public int FirstId { get; }
-
-        public int Size { get; }
-
-        public override IReadOnlyList<IPdfObject> Items => _entries;
 
         public override string ToString() => $"{FirstId} {Size}";
     }

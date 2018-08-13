@@ -13,6 +13,19 @@ namespace SafeRapidPdf.File
             EntryType = type;
         }
 
+        public int ObjectNumber { get; }
+
+        public int GenerationNumber { get; }
+
+        // 'f': free (deleted objects)
+        // 'n': in use
+        // 'o': in use (compressed in stream)
+        public bool InUse => EntryType != 'f';
+
+        public char EntryType { get; private set; }
+
+        public long Offset { get; }
+
         public static PdfXRefEntry Parse(int objectNumber, Lexical.ILexer lexer)
         {
             string offsetS = lexer.ReadToken();
@@ -85,23 +98,9 @@ namespace SafeRapidPdf.File
             return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 
-        public int ObjectNumber { get; }
-
-        public int GenerationNumber { get; }
-
-        // 'f': free (deleted objects)
-        // 'n': in use
-        // 'o': in use (compressed in stream)
-        public bool InUse => EntryType != 'f';
-
-        public char EntryType { get; private set; }
-
-        public long Offset { get; }
-
         public override string ToString()
         {
             return $"{Offset:0000000000} {GenerationNumber:00000} {EntryType}";
         }
-
     }
 }

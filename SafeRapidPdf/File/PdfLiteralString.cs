@@ -64,7 +64,9 @@ namespace SafeRapidPdf.File
                             octalNumber.Append(c);
                             char c2 = lexer.ReadChar();
                             if (!char.IsDigit(c2))
+                            {
                                 lexer.Putc();
+                            }
                             else
                             {
                                 octalNumber.Append(c2);

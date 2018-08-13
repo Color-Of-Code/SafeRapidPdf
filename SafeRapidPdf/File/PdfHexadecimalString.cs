@@ -5,6 +5,8 @@ namespace SafeRapidPdf.File
 {
     public sealed class PdfHexadecimalString : PdfObject
     {
+        private readonly string _text;
+
         private PdfHexadecimalString(string hexString)
             : base(PdfObjectType.HexadecimalString)
         {
@@ -32,8 +34,6 @@ namespace SafeRapidPdf.File
                 hexString.Append('0');
             return new PdfHexadecimalString(hexString.ToString());
         }
-
-        private string _text;
 
         public override string ToString() => _text;
     }

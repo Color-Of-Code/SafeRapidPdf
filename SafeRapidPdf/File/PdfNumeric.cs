@@ -11,6 +11,10 @@ namespace SafeRapidPdf.File
             Value = value;
         }
 
+        public decimal Value { get; }
+
+        public bool IsInteger => (Value % 1) == 0;
+
         public static PdfNumeric Parse(Lexical.ILexer lexer)
         {
             return Parse(lexer.ReadToken());
@@ -21,10 +25,6 @@ namespace SafeRapidPdf.File
             var value = decimal.Parse(token, CultureInfo.InvariantCulture);
             return new PdfNumeric(value);
         }
-
-        public decimal Value { get; }
-
-        public bool IsInteger => (Value % 1) == 0;
 
         public override string ToString()
         {

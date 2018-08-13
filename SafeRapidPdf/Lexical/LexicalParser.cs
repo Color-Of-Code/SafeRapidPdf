@@ -13,6 +13,9 @@ namespace SafeRapidPdf.Lexical
         private static bool[] _regularTable = new bool[257];
         private static bool[] _whitespaceTable = new bool[257];
         private static bool[] _delimiterTable = new bool[257];
+
+        private Stream _reader;
+
         static LexicalParser()
         {
             for (int c = 0; c < 257; c++)
@@ -69,7 +72,7 @@ namespace SafeRapidPdf.Lexical
         {
             if (_peekedToken != null)
             {
-                String peekedToken = _peekedToken;
+                string peekedToken = _peekedToken;
                 _peekedToken = _peekedToken2;
                 _peekedToken2 = null;
                 return peekedToken;
@@ -206,8 +209,6 @@ namespace SafeRapidPdf.Lexical
         {
             return int.TryParse(token, out _);
         }
-
-        private Stream _reader;
 
         /// <summary>
         /// Whitespace as defined by PDF
