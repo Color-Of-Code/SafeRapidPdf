@@ -17,17 +17,17 @@ namespace SafeRapidPdf.Document
             : base(pages, parent, PdfObjectType.PageTree)
         {
             IsContainer = true;
-            var pagetree = pages.Dereference<PdfDictionary>();
-            pagetree.ExpectsType("Pages");
+            var pageTree = pages.Dereference<PdfDictionary>();
+            pageTree.ExpectsType("Pages");
 
-            foreach (PdfKeyValuePair pair in pagetree.Items)
+            foreach (PdfKeyValuePair pair in pageTree.Items)
             {
                 switch (pair.Key.Text)
                 {
                     case "Type": // skip Type Pages
                         break;
                     case "Kids":
-                        PdfArray kids = pair.Value as PdfArray;
+                        var kids = (PdfArray)pair.Value;
                         Kids = new List<IPdfObject>();
                         foreach (PdfIndirectReference item in kids.Items)
                         {
@@ -54,14 +54,11 @@ namespace SafeRapidPdf.Document
         }
 
         [ParameterType(required: true, inheritable: false)]
-        private List<IPdfObject> Kids { get; set; }
-
-        [ParameterType(required: true, inheritable: false)]
         public PdfCount Count { get; }
 
-        public override string ToString()
-        {
-            return $"Page Tree Node ({Count} kids)";
-        }
+        [ParameterType(required: true, inheritable: false)]
+        private List<IPdfObject> Kids { get; set; }
+
+        public override string ToString() => $"Page Tree Node ({Count} kids)";
     }
 }
