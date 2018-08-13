@@ -13,10 +13,7 @@ namespace SafeRapidPdf.File
             _items = items;
         }
 
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get => _items.AsReadOnly();
-        }
+        public override IReadOnlyList<IPdfObject> Items => _items;
 
         public static PdfArray Parse(Lexical.ILexer lexer)
         {
