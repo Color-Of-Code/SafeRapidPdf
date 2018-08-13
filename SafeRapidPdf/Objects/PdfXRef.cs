@@ -5,7 +5,8 @@ namespace SafeRapidPdf.Objects
 {
     public sealed class PdfXRef : PdfObject
     {
-        private IList<PdfXRefSection> _sections;
+        private readonly IList<PdfXRefSection> _sections;
+        private readonly Dictionary<string, long> _offsets = new Dictionary<string, long>();
 
         private PdfXRef(IList<PdfXRefSection> sections)
             : base(PdfObjectType.XRef)
@@ -70,8 +71,6 @@ namespace SafeRapidPdf.Objects
         {
             return $"{objectNumber:0000000000}_{generationNumber:00000}";
         }
-
-        private Dictionary<string, long> _offsets = new Dictionary<string, long>();
 
         public override IReadOnlyList<IPdfObject> Items
         {
