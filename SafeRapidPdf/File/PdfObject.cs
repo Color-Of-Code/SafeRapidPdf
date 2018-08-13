@@ -1,11 +1,9 @@
-﻿namespace SafeRapidPdf.File
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-    using SafeRapidPdf.Lexical;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
+namespace SafeRapidPdf.File
+{
     public abstract class PdfObject : IPdfObject
     {
         protected PdfObject(PdfObjectType type)
@@ -96,7 +94,7 @@
                     PdfNumeric num = PdfNumeric.Parse(token);
                     if (num.IsInteger)
                     {
-                        String token2 = lexer.PeekToken2();
+                        string token2 = lexer.PeekToken2();
                         switch (token2)
                         {
                             case "obj":
