@@ -7,7 +7,7 @@
 
 ## Introduction
 
-There is already a very good pdf parser and generator: [itextsharp] (https://itextpdf.com/).
+There is already a very good pdf parser and generator: [itextsharp](https://itextpdf.com/).
 But it doesn't focus on parsing and its licensing model makes it inappropriate for some purposes.
 This designed and developped from scratch library is provided under the liberal MIT license (Refer to details in the License section).
 
@@ -59,7 +59,7 @@ extracted such as the position and size of text and graphics for example.
 ## Online resources
 
  - Wikipedia explanations on [the PDF format](https://en.wikipedia.org/wiki/Portable_Document_Format)
- - A python library with similar goals:[pdf-parser] (https://blog.didierstevens.com/programs/pdf-tools/)
+ - A python library with similar goals: [pdf-parser](https://blog.didierstevens.com/programs/pdf-tools/)
 
 It is recommended to read the specification of the PDF language 1.7 for a deeper insight.
  
