@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using SafeRapidPdf.File;
+using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
 {

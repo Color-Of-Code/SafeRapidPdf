@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Filters
 {
-    using SafeRapidPdf.File;
-
     public interface IFilter
     {
         /// <summary>

@@ -3,7 +3,7 @@ namespace PdfInfoTool
 {
     using System;
     using SafeRapidPdf;
-    using SafeRapidPdf.File;
+    using SafeRapidPdf.Objects;
 
     internal static partial class Command
     {

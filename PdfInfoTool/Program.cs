@@ -3,7 +3,7 @@
     using System;
     using CommandLine;
     using SafeRapidPdf;
-    using SafeRapidPdf.File;
+    using SafeRapidPdf.Objects;
 
     class Program
     {
