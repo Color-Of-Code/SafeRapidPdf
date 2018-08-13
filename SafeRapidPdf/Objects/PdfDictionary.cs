@@ -8,6 +8,8 @@ namespace SafeRapidPdf.Objects
     /// </summary>
     public class PdfDictionary : PdfObject
     {
+        private readonly IList<PdfKeyValuePair> _dictionary;
+
         private PdfDictionary(IList<PdfKeyValuePair> dictionary)
             : base(PdfObjectType.Dictionary)
         {
@@ -35,12 +37,16 @@ namespace SafeRapidPdf.Objects
             PdfObject obj;
             while ((obj = PdfObject.ParseAny(lexer, ">>")) != null)
             {
-                PdfName name = obj as PdfName;
-                if (name == null)
-                    throw new Exception("Parser Error: the first item of a pair inside a dictionary must be a PDF name object");
-                PdfObject value = PdfObject.ParseAny(lexer);
+                if (obj is PdfName name)
+                {
+                    PdfObject value = PdfObject.ParseAny(lexer);
 
-                dictionary.Add(new PdfKeyValuePair(name, value));
+                    dictionary.Add(new PdfKeyValuePair(name, value));
+                }
+                else
+                {
+                    throw new Exception("Parser Error: the first item of a pair inside a dictionary must be a PDF name object");
+                }
             }
             return new PdfDictionary(dictionary);
         }
@@ -92,8 +98,6 @@ namespace SafeRapidPdf.Objects
                 throw new Exception($"Value is not of the expected type {typeof(T)}. Was {value.GetType()}'.");
             }
         }
-
-        private IList<PdfKeyValuePair> _dictionary;
 
         public IEnumerable<string> Keys
         {
