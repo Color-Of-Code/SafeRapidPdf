@@ -16,12 +16,12 @@ namespace SafeRapidPdf.File
 
         public int GenerationNumber { get; }
 
-        internal IIndirectReferenceResolver Resolver { get; set; }
-
         public PdfIndirectObject ReferencedObject
         {
             get => Resolver.GetObject(ObjectNumber, GenerationNumber);
         }
+
+        internal IIndirectReferenceResolver Resolver { get; set; }
 
         public T Dereference<T>()
             where T : class

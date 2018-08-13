@@ -13,6 +13,10 @@ namespace SafeRapidPdf.File
 
         public PdfObjectType ObjectType { get; }
 
+        public bool IsContainer { get; protected set; }
+
+        public string Text => ToString();
+
         public static PdfObject ParseAny(Lexical.ILexer lexer)
         {
             return ParseAny(lexer, string.Empty);
@@ -133,10 +137,6 @@ namespace SafeRapidPdf.File
             //return PdfObject.ParseAny(parser);
             return null;
         }
-
-        public bool IsContainer { get; protected set; }
-
-        public string Text => ToString();
 
         public virtual IReadOnlyList<IPdfObject> Items
         {
