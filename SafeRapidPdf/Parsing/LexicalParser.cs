@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -14,7 +13,12 @@ namespace SafeRapidPdf.Parsing
         private static bool[] _whitespaceTable = new bool[257];
         private static bool[] _delimiterTable = new bool[257];
 
-        private Stream _reader;
+        private readonly long _size;
+        private readonly Stream _reader;
+        private string _peekedToken;
+        private string _peekedToken2;
+        private int _byteRead = -1;
+        private Stack<long> _positions = new Stack<long>();
 
         static LexicalParser()
         {
@@ -32,11 +36,18 @@ namespace SafeRapidPdf.Parsing
             _reader.Seek(0, SeekOrigin.End);
             _size = _reader.Position;
             _reader.Seek(0, SeekOrigin.Begin);
+
             if (!withoutResolver)
             {
                 IndirectReferenceResolver = new IndirectReferenceResolver(this);
             }
         }
+
+        public IIndirectReferenceResolver IndirectReferenceResolver { get; private set; }
+
+        public int Percentage => (int)(_reader.Position * 100 / _size);
+
+        public long Size => _size;
 
         public void Expects(string expectedToken)
         {
@@ -47,9 +58,6 @@ namespace SafeRapidPdf.Parsing
                 throw new UnexpectedTokenException(expectedToken, actualToken);
             }
         }
-
-        private string _peekedToken;
-        private string _peekedToken2;
 
         public string PeekToken2()
         {
@@ -124,8 +132,6 @@ namespace SafeRapidPdf.Parsing
             }
             return token;
         }
-
-        private int _byteRead = -1;
 
         public string ReadUntilEol()
         {
@@ -268,16 +274,6 @@ namespace SafeRapidPdf.Parsing
             return b == 10 || b == 13 || b == -1;
         }
 
-        public IIndirectReferenceResolver IndirectReferenceResolver { get; private set; }
-
-        private Stack<long> _positions = new Stack<long>();
-        private long _size;
-
-        public long Size
-        {
-            get { return _size; }
-        }
-
         public void PushPosition(long newPosition)
         {
             _positions.Push(_reader.Position);
@@ -295,14 +291,5 @@ namespace SafeRapidPdf.Parsing
             _peekedToken = null;
             _peekedToken2 = null;
         }
-
-        public int Percentage
-        {
-            get
-            {
-                return (int)(_reader.Position * 100 / _size);
-            }
-        }
-
     }
 }
