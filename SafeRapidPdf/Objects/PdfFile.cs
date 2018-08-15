@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+
 using SafeRapidPdf.Parsing;
+using SafeRapidPdf.Services;
 
 namespace SafeRapidPdf.Objects
 {
@@ -23,10 +25,12 @@ namespace SafeRapidPdf.Objects
 
             // build up the fast object lookup dictionary
             _indirectObjects = new Dictionary<string, PdfIndirectObject>();
+
             foreach (var obj in Items.OfType<PdfIndirectObject>())
             {
                 InsertObject(obj);
             }
+
             SetResolver(this);
         }
 
@@ -85,6 +89,7 @@ namespace SafeRapidPdf.Objects
             objects.Add(comment);
 
             bool lastObjectWasOEF = false;
+
             while (true)
             {
                 var obj = PdfObject.ParseAny(lexer);
@@ -115,6 +120,7 @@ namespace SafeRapidPdf.Objects
                     }
                 }
             }
+
             progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
             watch.Stop();
 
