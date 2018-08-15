@@ -1,3 +1,5 @@
+using SafeRapidPdf.Services;
+
 namespace SafeRapidPdf.Objects
 {
     /// <summary>

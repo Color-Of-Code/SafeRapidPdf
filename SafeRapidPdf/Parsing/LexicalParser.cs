@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 
+using SafeRapidPdf.Services;
+
 namespace SafeRapidPdf.Parsing
 {
     /// <summary>

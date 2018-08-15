@@ -1,4 +1,6 @@
-﻿namespace SafeRapidPdf.Parsing
+﻿using SafeRapidPdf.Services;
+
+namespace SafeRapidPdf.Parsing
 {
     public interface ILexer
     {
