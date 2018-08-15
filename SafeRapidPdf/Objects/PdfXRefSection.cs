@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -28,7 +28,9 @@ namespace SafeRapidPdf.Objects
             var dictionary = pdfStream.StreamDictionary;
             var type = dictionary["Type"] as PdfName;
             if (type.Name != "XRef")
-                throw new Exception("A stream of type XRef is expected");
+            {
+                throw new ParsingException("A stream of type XRef is expected");
+            }
 
             // W[1 2 1] (4 columns) 
             // W[1 3 1] (5 columns, larger indexes)
@@ -50,7 +52,9 @@ namespace SafeRapidPdf.Objects
             int items = w.Items.Count;
             // for xref this shall always be 3
             if (items != 3)
-                throw new Exception("The W[] parameter must contain 3 columns for an XRef");
+            {
+                throw new ParsingException("The W[] parameter must contain 3 columns for an XRef");
+            }
             int[] sizes = new int[w.Items.Count];
             int bytesPerEntry = 0;
             for (int i = 0; i < items; i++)
@@ -62,7 +66,10 @@ namespace SafeRapidPdf.Objects
             // Use W[...] to build up the xref
             int rowCount = decodedXRef.Length / bytesPerEntry;
             if (size != rowCount)
-                throw new Exception("The number of refs inside the Index value must match the actual refs count present in the stream");
+            {
+                throw new ParsingException("The number of refs inside the Index value must match the actual refs count present in the stream");
+            }
+
             var entries = new IPdfObject[rowCount];
 
             for (int row = 0; row < rowCount; row++)
@@ -74,7 +81,7 @@ namespace SafeRapidPdf.Objects
             return new PdfXRefSection(firstId, size, entries);
         }
 
-        public static PdfXRefSection Parse(Lexical.ILexer lexer)
+        public static PdfXRefSection Parse(ILexer lexer)
         {
             int firstId = int.Parse(lexer.ReadToken());
             int size = int.Parse(lexer.ReadToken());
@@ -84,15 +91,23 @@ namespace SafeRapidPdf.Objects
             for (int i = 0; i < size; i++)
             {
                 var entry = PdfXRefEntry.Parse(firstId + i, lexer);
+                
                 // first entry must be free and have a gen 65535
-                // = head of the linked list of free objects
+                // head of the linked list of free objects
+
                 if (i == 0)
                 {
                     if (entry.GenerationNumber != 65535)
-                        throw new Exception("The first xref entry must have generation number 65535");
+                    {
+                        throw new ParsingException("The first xref entry must have generation number 65535");
+                    }
+
                     if (entry.InUse)
-                        throw new Exception("The first xref entry must be free");
+                    {
+                        throw new ParsingException("The first xref entry must be free");
+                    }
                 }
+
                 entries[i] = entry;
             }
             return new PdfXRefSection(firstId, size, entries);

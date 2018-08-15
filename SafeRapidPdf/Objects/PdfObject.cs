@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using SafeRapidPdf.Parsing;
+
 namespace SafeRapidPdf.Objects
 {
     public abstract class PdfObject : IPdfObject
@@ -17,12 +19,22 @@ namespace SafeRapidPdf.Objects
 
         public string Text => ToString();
 
-        public static PdfObject ParseAny(Lexical.ILexer lexer)
+        public virtual IReadOnlyList<IPdfObject> Items
+        {
+            get
+            {
+                if (!IsContainer)
+                    return null;
+                throw new NotImplementedException();
+            }
+        }
+
+        public static PdfObject ParseAny(ILexer lexer)
         {
             return ParseAny(lexer, string.Empty);
         }
 
-        public static PdfObject ParseAny(Lexical.ILexer lexer, string endToken)
+        public static PdfObject ParseAny(ILexer lexer, string endToken)
         {
             string token = lexer.ReadToken();
             if (token == null)
@@ -67,10 +79,14 @@ namespace SafeRapidPdf.Objects
 
                 case "<<":
                     obj = PdfDictionary.Parse(lexer);
+
                     // check for stream and combine put dictionary into stream object
                     token = lexer.PeekToken1();
                     if (token == "stream")
+                    {
                         obj = PdfStream.Parse(obj as PdfDictionary, lexer);
+                    }
+
                     break;
 
                 case "[":
@@ -90,8 +106,11 @@ namespace SafeRapidPdf.Objects
                 case "endstream":
                 case "endobj":
                     if (endToken == token)
+                    {
                         return null; // expected end
-                    throw new Exception("Parser error: out of sync");
+                    }
+
+                    throw new ParsingException("Out of sync");
 
                 default:
                     // must be an integer or double value
@@ -111,7 +130,7 @@ namespace SafeRapidPdf.Objects
                                 obj = ir;
                                 break;
                             default:
-                                //ignore;
+                                // ignore;
                                 obj = num;
                                 break;
                         }
@@ -122,8 +141,12 @@ namespace SafeRapidPdf.Objects
                     }
                     break;
             }
+
             if (obj == null)
-                throw new Exception("Parse error, could not read object");
+            {
+                throw new ParsingException("Could not read object");
+            }
+
             return obj;
         }
 
@@ -131,21 +154,12 @@ namespace SafeRapidPdf.Objects
         {
             var decodedBytes = stream.Decode();
             var s = Encoding.UTF8.GetString(decodedBytes);
-            // contents are not always pdf objects...
-            //var s = new MemoryStream(decodedBytes);
-            //var parser = new LexicalParser(s, true);
-            //return PdfObject.ParseAny(parser);
-            return null;
-        }
 
-        public virtual IReadOnlyList<IPdfObject> Items
-        {
-            get
-            {
-                if (!IsContainer)
-                    return null;
-                throw new NotImplementedException();
-            }
+            // contents are not always pdf objects...
+            // var s = new MemoryStream(decodedBytes);
+            // var parser = new LexicalParser(s, true);
+            // return PdfObject.ParseAny(parser);
+            return null;
         }
     }
 }

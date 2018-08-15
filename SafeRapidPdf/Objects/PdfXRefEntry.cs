@@ -1,4 +1,5 @@
 ﻿using System;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -26,21 +27,28 @@ namespace SafeRapidPdf.Objects
 
         public long Offset { get; }
 
-        public static PdfXRefEntry Parse(int objectNumber, Lexical.ILexer lexer)
+        public static PdfXRefEntry Parse(int objectNumber, ILexer lexer)
         {
             string offsetS = lexer.ReadToken();
             if (offsetS.Length != 10)
-                throw new Exception("Parser error: 10 digits expected for offset in xref");
+            {
+                throw new ParsingException("Expected 10 digits for offset in xref");
+            }
             long offset = long.Parse(offsetS);
 
             string generationS = lexer.ReadToken();
             if (generationS.Length != 5)
-                throw new Exception("Parser error: 5 digits expected for generation in xref");
+            {
+                throw new ParsingException("Expected 5 digits for generation in xref");
+            }
             int generationNumber = int.Parse(generationS);
 
             string inuse = lexer.ReadToken();
             if (inuse != "f" && inuse != "n")
-                throw new Exception("Parser error: only 'f' and 'n' are valid flags in xref");
+            {
+                throw new ParsingException($"xref flag must be 'f' or 'n'. Was {inuse}");
+            }
+
             char entryType = (inuse == "f") ? 'f' : 'n';
             return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
@@ -93,14 +101,11 @@ namespace SafeRapidPdf.Objects
                     generationNumber = (int)result[2]; //index
                     break;
                 default:
-                    throw new Exception($"Invalid type numeric id inside xref item: {result[0]}");
+                    throw new ParsingException($"Invalid type numeric id inside xref item: {result[0]}");
             }
             return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 
-        public override string ToString()
-        {
-            return $"{Offset:0000000000} {GenerationNumber:00000} {EntryType}";
-        }
+        public override string ToString() => $"{Offset:0000000000} {GenerationNumber:00000} {EntryType}";
     }
 }

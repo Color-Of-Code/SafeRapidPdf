@@ -10,7 +10,7 @@
 
         public byte[] Data { get; }
 
-        public static PdfData Parse(Lexical.ILexer lexer, int length)
+        public static PdfData Parse(Parsing.ILexer lexer, int length)
         {
             byte[] data = lexer.ReadBytes(length);
             return new PdfData(data);

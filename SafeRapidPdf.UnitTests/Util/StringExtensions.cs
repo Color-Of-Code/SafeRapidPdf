@@ -4,7 +4,7 @@ namespace SafeRapidPdf.UnitTests.Util
     using System;
     using System.IO;
     using System.Text;
-    using SafeRapidPdf.Lexical;
+    using SafeRapidPdf.Parsing;
 
     public static class StringExtensions
     {
@@ -26,6 +26,7 @@ namespace SafeRapidPdf.UnitTests.Util
             var s = new MemoryStream(input);
             return new LexicalParser(s, true);
         }
+
         public static ILexer Base64ToLexer(this string input)
         {
             var bytes = Convert.FromBase64String(input);

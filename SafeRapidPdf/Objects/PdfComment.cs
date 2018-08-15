@@ -15,7 +15,7 @@
 
         public bool IsEOF => _text == "%EOF";
 
-        public static PdfComment Parse(Lexical.ILexer lexer)
+        public static PdfComment Parse(Parsing.ILexer lexer)
         {
             return new PdfComment(lexer.ReadUntilEol());
         }

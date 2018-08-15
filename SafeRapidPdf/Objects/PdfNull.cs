@@ -9,7 +9,7 @@
         {
         }
 
-        public static PdfNull Parse(Lexical.ILexer lexer)
+        public static PdfNull Parse(Parsing.ILexer lexer)
         {
             lexer.Expects("null");
             return Null;

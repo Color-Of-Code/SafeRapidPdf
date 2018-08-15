@@ -5,6 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
+using SafeRapidPdf.Parsing;
+using SafeRapidPdf.Services;
+
 namespace SafeRapidPdf.Objects
 {
     /// <summary>
@@ -22,10 +25,12 @@ namespace SafeRapidPdf.Objects
 
             // build up the fast object lookup dictionary
             _indirectObjects = new Dictionary<string, PdfIndirectObject>();
+
             foreach (var obj in Items.OfType<PdfIndirectObject>())
             {
                 InsertObject(obj);
             }
+
             SetResolver(this);
         }
 
@@ -43,6 +48,8 @@ namespace SafeRapidPdf.Objects
         public bool IsContainer => true;
 
         public PdfObjectType ObjectType => PdfObjectType.File;
+
+        public PdfXRef XRef { get; private set; }
 
         private void SetResolver(IPdfObject obj)
         {
@@ -66,23 +73,25 @@ namespace SafeRapidPdf.Objects
         {
             progress?.Invoke(null, new ProgressChangedEventArgs(0, null));
 
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            var lexer = new Lexical.LexicalParser(reader);
+            var watch = Stopwatch.StartNew();
+
+            var lexer = new LexicalParser(reader);
+
+            lexer.Expects("%"); // Ensure the first byte matches the PDF marker
 
             var objects = new List<IPdfObject>();
 
-            // check that this stuff is really looking like a PDF
-            lexer.Expects("%");
             PdfComment comment = PdfComment.Parse(lexer);
+
             if (!comment.Text.StartsWith("%PDF-"))
             {
-                throw new Exception("PDF header missing");
+                throw new ParsingException("PDF header missing");
             }
 
             objects.Add(comment);
 
             bool lastObjectWasOEF = false;
+
             while (true)
             {
                 var obj = PdfObject.ParseAny(lexer);
@@ -90,9 +99,13 @@ namespace SafeRapidPdf.Objects
                 if (obj == null)
                 {
                     if (lastObjectWasOEF)
+                    {
                         break;
+                    }
                     else
-                        throw new Exception("End of file reached without EOF marker");
+                    {
+                        throw new ParsingException("End of file reached without EOF marker");
+                    }
                 }
 
                 objects.Add(obj);
@@ -109,10 +122,11 @@ namespace SafeRapidPdf.Objects
                     }
                 }
             }
+
             progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
             watch.Stop();
 
-            PdfFile file = new PdfFile(objects.AsReadOnly())
+            var file = new PdfFile(objects.AsReadOnly())
             {
                 ParsingTime = watch.Elapsed.TotalSeconds
             };
@@ -122,8 +136,6 @@ namespace SafeRapidPdf.Objects
 
             return file;
         }
-
-        public PdfXRef XRef { get; private set; }
 
         public static PdfFile Parse(string pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
         {

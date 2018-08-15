@@ -22,13 +22,13 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Object };
 
-        public static PdfIndirectObject Parse(Lexical.ILexer lexer)
+        public static PdfIndirectObject Parse(Parsing.ILexer lexer)
         {
             int objectNumber = int.Parse(lexer.ReadToken());
             return Parse(lexer, objectNumber);
         }
 
-        public static PdfIndirectObject Parse(Lexical.ILexer lexer, int objectNumber)
+        public static PdfIndirectObject Parse(Parsing.ILexer lexer, int objectNumber)
         {
             int generationNumber = int.Parse(lexer.ReadToken());
             lexer.Expects("obj");
