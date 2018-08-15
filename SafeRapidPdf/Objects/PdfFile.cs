@@ -49,6 +49,8 @@ namespace SafeRapidPdf.Objects
 
         public PdfObjectType ObjectType => PdfObjectType.File;
 
+        public PdfXRef XRef { get; private set; }
+
         private void SetResolver(IPdfObject obj)
         {
             if (obj.IsContainer)
@@ -134,8 +136,6 @@ namespace SafeRapidPdf.Objects
 
             return file;
         }
-
-        public PdfXRef XRef { get; private set; }
 
         public static PdfFile Parse(string pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
         {
