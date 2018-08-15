@@ -43,7 +43,7 @@ namespace SafeRapidPdf.Document
         [ParameterType(required: true, inheritable: false)]
         public PdfPageTree Parent { get; private set; }
 
-        //public PdfDate LastModified { get; private set; }
+        // public PdfDate LastModified { get; private set; }
 
         public PdfDictionary Resources { get; private set; }
 
@@ -62,7 +62,7 @@ namespace SafeRapidPdf.Document
         [ParameterType(required: false, inheritable: false, version: "1.3")]
         public PdfArtBox ArtBox { get; private set; }
 
-        //public PdfDictionary BoxColorInfo { get; private set; }
+        // public PdfDictionary BoxColorInfo { get; private set; }
 
         [ParameterType(required: false, inheritable: false)]
         public PdfContents Contents { get; private set; }
@@ -70,24 +70,24 @@ namespace SafeRapidPdf.Document
         [ParameterType(required: false, inheritable: true)]
         public PdfRotate Rotate { get; private set; }
 
-        //public PdfDictionary Group { get; private set; }
-        //public PdfStream Thumb { get; private set; }
-        //public PdfArray B { get; private set; }
-        //public PdfNumeric Dur { get; private set; }
-        //public PdfDictionary Trans { get; private set; }
-        //public PdfArray Annots { get; private set; }
-        //public PdfDictionary AA { get; private set; }
-        //public PdfStream Metadata { get; private set; }
-        //public PdfDictionary PieceInfo { get; private set; }
-        //public PdfNumeric StructParents { get; private set; }
-        //public PdfStream ID { get; private set; }
-        //public PdfNumeric PZ { get; private set; }
-        //public PdfDictionary SeparationInfo { get; private set; }
-        //public PdfName Tabs { get; private set; }
-        //public PdfName TemplateInstantiated { get; private set; }
-        //public PdfDictionary PresSteps { get; private set; }
-        //public PdfNumeric UserUnit { get; private set; }
-        //public PdfDictionary VP { get; private set; }
+        // public PdfDictionary Group { get; private set; }
+        // public PdfStream Thumb { get; private set; }
+        // public PdfArray B { get; private set; }
+        // public PdfNumeric Dur { get; private set; }
+        // public PdfDictionary Trans { get; private set; }
+        // public PdfArray Annots { get; private set; }
+        // public PdfDictionary AA { get; private set; }
+        // public PdfStream Metadata { get; private set; }
+        // public PdfDictionary PieceInfo { get; private set; }
+        // public PdfNumeric StructParents { get; private set; }
+        // public PdfStream ID { get; private set; }
+        // public PdfNumeric PZ { get; private set; }
+        // public PdfDictionary SeparationInfo { get; private set; }
+        // public PdfName Tabs { get; private set; }
+        // public PdfName TemplateInstantiated { get; private set; }
+        // public PdfDictionary PresSteps { get; private set; }
+        // public PdfNumeric UserUnit { get; private set; }
+        // public PdfDictionary VP { get; private set; }
 
         public override IReadOnlyList<IPdfObject> Items => _items.AsReadOnly();
 
