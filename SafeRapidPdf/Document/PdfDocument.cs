@@ -11,15 +11,15 @@ namespace SafeRapidPdf.Document
     /// </summary>
     public class PdfDocument : PdfBaseObject
     {
+        private readonly PdfFile _file;
+        private PdfCatalog _root;
+
         public PdfDocument(PdfFile file)
             : base(PdfObjectType.Document)
         {
             _file = file;
             IsContainer = true;
         }
-
-        private PdfFile _file;
-        private PdfCatalog _root;
 
         public PdfCatalog Root
         {
@@ -29,7 +29,7 @@ namespace SafeRapidPdf.Document
                 {
                     var trailers = _file.Items.OfType<PdfTrailer>();
                     // this could happen for linearized documents
-                    //if (trailers.Count() > 1)
+                    // if (trailers.Count() > 1)
                     //    throw new Exception("too many trailers found");
                     PdfTrailer trailer = trailers.First();
                     PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
