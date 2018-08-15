@@ -26,7 +26,7 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        public static PdfName Parse(Lexical.ILexer lexer)
+        public static PdfName Parse(Parsing.ILexer lexer)
         {
             string name = lexer.ReadToken();
             return new PdfName(name);

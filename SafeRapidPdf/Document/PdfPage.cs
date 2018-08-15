@@ -128,9 +128,13 @@ namespace SafeRapidPdf.Document
                 case "Parent":
                     PdfIndirectReference parent = pair.Value as PdfIndirectReference;
                     if (parent.ObjectNumber != Parent.ObjectNumber)
+                    {
                         throw new Exception("Unexpected not matching parent object number!");
+                    }
                     if (parent.GenerationNumber != Parent.GenerationNumber)
+                    {
                         throw new Exception("Unexpected not matching parent generation number!");
+                    }
                     // ignore entry (parent is shown through the hierarchy
                     break;
                 default:

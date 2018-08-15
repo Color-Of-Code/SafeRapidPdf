@@ -15,7 +15,7 @@ namespace SafeRapidPdf.Objects
 
         public bool IsInteger => (Value % 1) == 0;
 
-        public static PdfNumeric Parse(Lexical.ILexer lexer)
+        public static PdfNumeric Parse(Parsing.ILexer lexer)
         {
             return Parse(lexer.ReadToken());
         }

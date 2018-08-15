@@ -34,7 +34,7 @@ namespace SafeRapidPdf.Objects
         /// </summary>
         /// <param name="lexer"></param>
         /// <returns></returns>
-        public static PdfXRef Parse(Lexical.ILexer lexer)
+        public static PdfXRef Parse(Parsing.ILexer lexer)
         {
             var sections = new List<PdfXRefSection>();
             string token = lexer.PeekToken1();

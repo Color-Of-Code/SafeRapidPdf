@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -66,18 +67,19 @@ namespace SafeRapidPdf.Objects
         {
             progress?.Invoke(null, new ProgressChangedEventArgs(0, null));
 
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            var lexer = new Lexical.LexicalParser(reader);
+            var watch = Stopwatch.StartNew();
+
+            var lexer = new LexicalParser(reader);
+
+            lexer.Expects("%"); // Ensure the first byte matches the PDF marker
 
             var objects = new List<IPdfObject>();
 
-            // check that this stuff is really looking like a PDF
-            lexer.Expects("%");
             PdfComment comment = PdfComment.Parse(lexer);
+
             if (!comment.Text.StartsWith("%PDF-"))
             {
-                throw new Exception("PDF header missing");
+                throw new ParsingException("PDF header missing");
             }
 
             objects.Add(comment);
@@ -90,9 +92,13 @@ namespace SafeRapidPdf.Objects
                 if (obj == null)
                 {
                     if (lastObjectWasOEF)
+                    {
                         break;
+                    }
                     else
-                        throw new Exception("End of file reached without EOF marker");
+                    {
+                        throw new ParsingException("End of file reached without EOF marker");
+                    }
                 }
 
                 objects.Add(obj);
@@ -112,7 +118,7 @@ namespace SafeRapidPdf.Objects
             progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
             watch.Stop();
 
-            PdfFile file = new PdfFile(objects.AsReadOnly())
+            var file = new PdfFile(objects.AsReadOnly())
             {
                 ParsingTime = watch.Elapsed.TotalSeconds
             };

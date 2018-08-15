@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ComponentAce.Compression.Libs.zlib;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -48,7 +49,9 @@ namespace SafeRapidPdf.Objects
                 var currentRow = new byte[columns];
                 byte rowPredictor = (byte)decompressed[r * (columns + 1)];
                 if (rowPredictor != 2)
-                    throw new Exception("Only up predictor is supported at the moment");
+                {
+                    throw new NotImplementedException("Only up predictor is supported at the moment");
+                }
                 for (int i = 0; i < columns; i++)
                 {
                     // the leading predictor is ignored, assuming it's always UP
@@ -121,21 +124,32 @@ namespace SafeRapidPdf.Objects
             throw new NotImplementedException("Implement Filter: " + filter.Text);
         }
 
-        public static PdfStream Parse(PdfDictionary dictionary, Lexical.ILexer lexer)
+        public static PdfStream Parse(PdfDictionary dictionary, ILexer lexer)
         {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
             lexer.Expects("stream");
             char eol = lexer.ReadChar();
-            if (eol == '\r')
-                eol = lexer.ReadChar();
-            if (eol != '\n')
-                throw new Exception(@"Parser error: stream needs to be followed by either \r\n or \n alone");
 
-            if (dictionary == null)
-                throw new Exception("Parser error: stream needs a dictionary");
+            if (eol == '\r')
+            {
+                eol = lexer.ReadChar();
+            }
+
+            if (eol != '\n')
+            {
+                throw new ParsingException($@"Stream must end with either \r\n or \n. Was '{eol}'");
+            }
 
             IPdfObject lengthObject = dictionary["Length"];
+
             if (lengthObject == null)
-                throw new Exception("Parser error: stream dictionary requires a Length entry");
+            {
+                throw new ParsingException("Stream dictionary is missing 'Length' entry");
+            }
 
             int length = 0;
             if (lengthObject is PdfIndirectReference reference)

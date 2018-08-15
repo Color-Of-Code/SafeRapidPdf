@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -24,7 +24,7 @@ namespace SafeRapidPdf.Objects
                 case "false":
                     return False;
                 default:
-                    throw new Exception("Parser error: invalid boolean value");
+                    throw new ParsingException($"Expected true or false. Was {token}.");
             }
 
         }

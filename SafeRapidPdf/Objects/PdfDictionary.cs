@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using SafeRapidPdf.Parsing;
+
 namespace SafeRapidPdf.Objects
 {
     /// <summary>
@@ -28,27 +30,32 @@ namespace SafeRapidPdf.Objects
         {
             PdfName type = this["Type"] as PdfName;
             if (type.Name != name)
-                throw new Exception($"Expected {name}, but got {type.Name}");
+            {
+                throw new ParsingException($"Expected {name}, but got {type.Name}");
+            }
         }
 
-        public static PdfDictionary Parse(Lexical.ILexer lexer)
+        public static PdfDictionary Parse(ILexer lexer)
         {
-            var dictionary = new List<PdfKeyValuePair>();
+            var dictionaryItems = new List<PdfKeyValuePair>();
+
             PdfObject obj;
+
             while ((obj = PdfObject.ParseAny(lexer, ">>")) != null)
             {
                 if (obj is PdfName name)
                 {
                     PdfObject value = PdfObject.ParseAny(lexer);
 
-                    dictionary.Add(new PdfKeyValuePair(name, value));
+                    dictionaryItems.Add(new PdfKeyValuePair(name, value));
                 }
                 else
                 {
-                    throw new Exception("Parser Error: the first item of a pair inside a dictionary must be a PDF name object");
+                    throw new ParsingException("The first item of a pair inside a dictionary must be a PDF name object");
                 }
             }
-            return new PdfDictionary(dictionary);
+
+            return new PdfDictionary(dictionaryItems);
         }
 
         public IPdfObject this[string name]
@@ -85,6 +92,7 @@ namespace SafeRapidPdf.Objects
         public T Resolve<T>(string name) where T : class
         {
             IPdfObject value = this[name];
+
             if (value is PdfIndirectReference reference)
             {
                 return reference.Dereference<T>();

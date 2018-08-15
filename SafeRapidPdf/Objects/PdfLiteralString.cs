@@ -19,7 +19,7 @@ namespace SafeRapidPdf.Objects
             _text = text;
         }
 
-        public static PdfLiteralString Parse(Lexical.ILexer lexer)
+        public static PdfLiteralString Parse(Parsing.ILexer lexer)
         {
             int parenthesisCount = 0;
             var sb = new StringBuilder();

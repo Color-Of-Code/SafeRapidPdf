@@ -4,7 +4,7 @@ namespace SafeRapidPdf.UnitTests.Util
     using System;
     using System.IO;
     using System.Text;
-    using SafeRapidPdf.Lexical;
+    using SafeRapidPdf.Parsing;
 
     public static class StringExtensions
     {
