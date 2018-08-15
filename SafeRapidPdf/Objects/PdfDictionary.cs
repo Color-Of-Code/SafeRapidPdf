@@ -26,6 +26,13 @@ namespace SafeRapidPdf.Objects
             _dictionary = dictionary._dictionary;
         }
 
+        public IPdfObject this[string name]
+        {
+            get => TryGetValue(name, out IPdfObject value)
+                ? value
+                : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
+        }
+
         public void ExpectsType(string name)
         {
             PdfName type = this["Type"] as PdfName;
@@ -58,13 +65,6 @@ namespace SafeRapidPdf.Objects
             return new PdfDictionary(dictionaryItems);
         }
 
-        public IPdfObject this[string name]
-        {
-            get => TryGetValue(name, out IPdfObject value)
-                ? value
-                : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
-        }
-
         public bool TryGetValue(string key, out IPdfObject value)
         {
             foreach (PdfKeyValuePair pair in _dictionary)
@@ -89,7 +89,8 @@ namespace SafeRapidPdf.Objects
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T Resolve<T>(string name) where T : class
+        public T Resolve<T>(string name)
+            where T : class
         {
             IPdfObject value = this[name];
 
