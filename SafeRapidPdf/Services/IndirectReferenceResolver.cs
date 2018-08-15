@@ -1,11 +1,18 @@
 ﻿using System;
+
 using SafeRapidPdf.Objects;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Services
 {
     internal class IndirectReferenceResolver : IIndirectReferenceResolver
     {
-        public IndirectReferenceResolver(Parsing.ILexer lexer)
+        private readonly ILexer _lexer;
+        private PdfXRef _xref;
+        private PdfDictionary _linearizationHeader;
+        private long startXRef;
+
+        public IndirectReferenceResolver(ILexer lexer)
         {
             _lexer = lexer;
 
@@ -16,12 +23,18 @@ namespace SafeRapidPdf.Services
             // in the case of linearized PDFs there are additional linearized structures added
             // to the PDF. Otherwise we take the non linearized approach
             if (_linearizationHeader != null)
+            {
                 RetrieveXRefLinearized();
+            }
             else
+            {
                 RetrieveXRef();
+            }
 
             _lexer.PopPosition();
         }
+
+        public PdfXRef XRef => _xref;
 
         private void TryParseLinearizationHeader()
         {
@@ -29,10 +42,14 @@ namespace SafeRapidPdf.Services
 
             try
             {
-                // we fetch the first object we see and try to parse it
+                // fetch the first object we see and try to parse it
                 var o = PdfObject.ParseAny(_lexer);
+
                 while (o.ObjectType == PdfObjectType.Comment)
+                {
                     o = PdfObject.ParseAny(_lexer);
+                }
+
                 if (o.ObjectType == PdfObjectType.IndirectObject)
                 {
                     var d = (o as PdfIndirectObject).Object;
@@ -40,8 +57,10 @@ namespace SafeRapidPdf.Services
                     {
                         var dict = d as PdfDictionary;
                         var linearizedVersion = dict["Linearized"].Text;
-                        if (!String.IsNullOrWhiteSpace(linearizedVersion))
+                        if (!string.IsNullOrWhiteSpace(linearizedVersion))
+                        {
                             _linearizationHeader = dict;
+                        }
                     }
                 }
             }
@@ -52,14 +71,11 @@ namespace SafeRapidPdf.Services
             }
         }
 
-        private Parsing.ILexer _lexer;
-        private PdfXRef _xref;
-        private PdfDictionary _linearizationHeader;
-
         public PdfIndirectObject GetObject(int objectNumber, int generationNumber)
         {
             // entry from XRef
             _lexer.PushPosition(_xref.GetOffset(objectNumber, generationNumber));
+
             // load the object if it was not yet found
             var obj = PdfIndirectObject.Parse(_lexer);
             _lexer.PopPosition();
@@ -86,12 +102,14 @@ namespace SafeRapidPdf.Services
             _xref = null;
 
             // only necessary if not linearized
-            StartXRef = RetrieveStartXRef();
+            startXRef = RetrieveStartXRef();
+
             // if the xref was not found, early exit
-            if (StartXRef == -1)
+            if (startXRef == -1)
                 return;
 
-            _lexer.PushPosition(StartXRef);
+            _lexer.PushPosition(startXRef);
+
             var token = _lexer.ReadToken();
             if (token == "xref")
             {
@@ -108,8 +126,9 @@ namespace SafeRapidPdf.Services
         private long RetrieveStartXRef()
         {
             long position = -100; // look from end, might go wrong for very small documents
-            position = System.Math.Max(position, -_lexer.Size); // avoid underflow
+            position = Math.Max(position, -_lexer.Size); // avoid underflow
             _lexer.PushPosition(position);
+
             // determine StartXRef
             long result = -1;
             string t = null;
@@ -118,15 +137,14 @@ namespace SafeRapidPdf.Services
                 t = _lexer.ReadToken();
             }
             while (t != null && t != "startxref");
+
             if (t == "startxref")
+            {
                 result = long.Parse(_lexer.ReadToken());
+            }
+
             _lexer.PopPosition();
             return result;
         }
-
-
-        private long StartXRef;
-
-        public PdfXRef XRef => _xref;
     }
 }
