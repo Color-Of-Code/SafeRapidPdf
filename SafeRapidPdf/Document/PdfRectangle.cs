@@ -36,7 +36,7 @@ namespace SafeRapidPdf.Document
 
         public double Height => Ury - Lly;
 
-        public RectangleF ToPixelBox()
+        public RectangleF ToPixels()
         {
             // NOTE: PDF dimensions are in points (1/72 in)
             const double ptToPxRatio = 4.0d / 3.0d; // 1.333

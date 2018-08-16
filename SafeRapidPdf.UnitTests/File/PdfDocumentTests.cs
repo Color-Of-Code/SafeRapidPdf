@@ -29,7 +29,7 @@
             Assert.Equal("MediaBox [0; 0; 612; 792]", pages[0].MediaBox.ToString());
             Assert.Null(pages[0].Rotate);
 
-            var mediaBox = pages[0].MediaBox.ToPixelBox();
+            var mediaBox = pages[0].MediaBox.ToPixels();
 
             Assert.Equal(0, mediaBox.X);
             Assert.Equal(0, mediaBox.Y);
