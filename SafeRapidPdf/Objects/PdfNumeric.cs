@@ -21,16 +21,6 @@ namespace SafeRapidPdf.Objects
             return double.Parse(numeric.text, CultureInfo.InvariantCulture);
         }
 
-        public static implicit operator long(PdfNumeric numeric)
-        {
-            return long.Parse(numeric.text, CultureInfo.InvariantCulture);
-        }
-
-        public static implicit operator int(PdfNumeric numeric)
-        {
-            return int.Parse(numeric.text, CultureInfo.InvariantCulture);
-        }
-
         public static PdfNumeric Parse(Parsing.ILexer lexer)
         {
             return new PdfNumeric(lexer.ReadToken());
@@ -39,6 +29,16 @@ namespace SafeRapidPdf.Objects
         public static PdfNumeric Parse(string token)
         {
             return new PdfNumeric(token);
+        }
+
+        public long ToInt64()
+        {
+            return long.Parse(text, CultureInfo.InvariantCulture);
+        }
+
+        public int ToInt32()
+        {
+            return int.Parse(text, CultureInfo.InvariantCulture);
         }
 
         public decimal ToDecimal()

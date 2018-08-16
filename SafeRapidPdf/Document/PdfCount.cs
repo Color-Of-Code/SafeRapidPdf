@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
@@ -9,7 +8,7 @@ namespace SafeRapidPdf.Document
         public PdfCount(PdfNumeric count)
             : base(PdfObjectType.Count)
         {
-            Value = Convert.ToInt32(count.Value);
+            Value = count.ToInt32();
         }
 
         public int Value { get; }

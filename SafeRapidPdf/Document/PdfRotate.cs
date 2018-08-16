@@ -7,7 +7,7 @@ namespace SafeRapidPdf.Document
         internal PdfRotate(PdfNumeric value)
             : base(PdfObjectType.Rotate)
         {
-            Value = value;
+            Value = value.ToInt32();
         }
 
         public int Value { get; }
