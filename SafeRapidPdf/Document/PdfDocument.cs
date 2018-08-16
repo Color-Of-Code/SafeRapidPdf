@@ -28,9 +28,11 @@ namespace SafeRapidPdf.Document
                 if (_root == null)
                 {
                     var trailers = _file.Items.OfType<PdfTrailer>();
+
                     // this could happen for linearized documents
                     // if (trailers.Count() > 1)
                     //    throw new Exception("too many trailers found");
+
                     PdfTrailer trailer = trailers.First();
                     PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
                     PdfDictionary dic = root.Dereference<PdfDictionary>();
@@ -40,10 +42,7 @@ namespace SafeRapidPdf.Document
             }
         }
 
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get => new[] { Root };
-        }
+        public override IReadOnlyList<IPdfObject> Items => new[] { Root };
 
         public override string ToString() => "Document";
     }
