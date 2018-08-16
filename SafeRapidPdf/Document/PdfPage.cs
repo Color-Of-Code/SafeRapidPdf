@@ -33,13 +33,13 @@ namespace SafeRapidPdf.Document
             Parent = parent;
         }
 
-        protected int GenerationNumber { get; private set; }
+        protected int GenerationNumber { get; }
 
-        protected int ObjectNumber { get; private set; }
+        protected int ObjectNumber { get;  }
 
         // excepted in root node
         [ParameterType(required: true, inheritable: false)]
-        public PdfPageTree Parent { get; private set; }
+        public PdfPageTree Parent { get; }
 
         // public PdfDate LastModified { get; private set; }
 
