@@ -8,18 +8,17 @@ namespace SafeRapidPdf.Document
 {
     public class PdfPage : PdfBaseObject
     {
-        protected List<IPdfObject> _items;
+        protected readonly List<IPdfObject> _items = new List<IPdfObject>();
 
         public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
-            : base(PdfObjectType.Page)
+            : this(pages, parent, PdfObjectType.Page)
         {
             IsContainer = true;
+
             var page = pages.Dereference<PdfDictionary>();
+
             page.ExpectsType("Page");
-            GenerationNumber = pages.GenerationNumber;
-            ObjectNumber = pages.ObjectNumber;
-            Parent = parent;
-            _items = new List<IPdfObject>();
+
             foreach (PdfKeyValuePair pair in page.Items)
             {
                 HandleKeyValuePair(pair);
@@ -32,16 +31,15 @@ namespace SafeRapidPdf.Document
             GenerationNumber = pages.GenerationNumber;
             ObjectNumber = pages.ObjectNumber;
             Parent = parent;
-            _items = new List<IPdfObject>();
         }
 
-        protected int GenerationNumber { get; private set; }
+        protected int GenerationNumber { get; }
 
-        protected int ObjectNumber { get; private set; }
+        protected int ObjectNumber { get;  }
 
         // excepted in root node
         [ParameterType(required: true, inheritable: false)]
-        public PdfPageTree Parent { get; private set; }
+        public PdfPageTree Parent { get; }
 
         // public PdfDate LastModified { get; private set; }
 
@@ -89,7 +87,7 @@ namespace SafeRapidPdf.Document
         // public PdfNumeric UserUnit { get; private set; }
         // public PdfDictionary VP { get; private set; }
 
-        public override IReadOnlyList<IPdfObject> Items => _items.AsReadOnly();
+        public override IReadOnlyList<IPdfObject> Items => _items;
 
         protected void HandleKeyValuePair(PdfKeyValuePair pair)
         {

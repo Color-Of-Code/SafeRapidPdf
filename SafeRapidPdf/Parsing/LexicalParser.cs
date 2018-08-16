@@ -64,9 +64,11 @@ namespace SafeRapidPdf.Parsing
         public string PeekToken2()
         {
             _peekedToken = _peekedToken ?? ReadTokenInternal();
+
             if (IsInteger(_peekedToken))
             {
                 _peekedToken2 = _peekedToken2 ?? ReadTokenInternal();
+
                 // should be "obj" or "R"
                 string token = _peekedToken2;
                 if (token == "obj" || token == "R")
@@ -80,6 +82,7 @@ namespace SafeRapidPdf.Parsing
         public string PeekToken1()
         {
             _peekedToken = _peekedToken ?? ReadTokenInternal();
+
             return _peekedToken;
         }
 
@@ -93,6 +96,51 @@ namespace SafeRapidPdf.Parsing
                 return peekedToken;
             }
             return ReadTokenInternal();
+        }
+
+        public string ReadUntilEol()
+        {
+            var sb = new StringBuilder();
+
+            while (true)
+            {
+                int c = ReadByte();
+
+                if (IsEol(c))
+                {
+                    break;
+                }
+
+                sb.Append((char)c);
+            }
+
+            return sb.ToString();
+        }
+
+        public byte[] ReadBytes(int length)
+        {
+            byte[] buffer = new byte[length];
+
+            if (_reader.Read(buffer, 0, length) != length)
+            {
+                throw new ParsingException("Could not read the full amount of bytes");
+            }
+
+            return buffer;
+        }
+
+        public char ReadChar() => (char)ReadByte();
+
+        private int ReadByte()
+        {
+            if (_byteRead != -1)
+            {
+                int result = _byteRead;
+                _byteRead = -1;
+                return result;
+            }
+
+            return _reader.ReadByte();
         }
 
         private string ReadTokenInternal()
@@ -132,48 +180,8 @@ namespace SafeRapidPdf.Parsing
                     return null;
                 throw new ParsingException("Token may not be empty");
             }
+
             return token;
-        }
-
-        public string ReadUntilEol()
-        {
-            var sb = new StringBuilder();
-            while (true)
-            {
-                int c = ReadByte();
-                if (IsEol(c))
-                    break;
-                sb.Append((char)c);
-            }
-            return sb.ToString();
-        }
-
-        public byte[] ReadBytes(int length)
-        {
-            byte[] buffer = new byte[length];
-
-            if (_reader.Read(buffer, 0, length) != length)
-            {
-                throw new ParsingException("Could not read the full amount of bytes");
-            }
-
-            return buffer;
-        }
-
-        private int ReadByte()
-        {
-            if (_byteRead != -1)
-            {
-                int result = _byteRead;
-                _byteRead = -1;
-                return result;
-            }
-            return _reader.ReadByte();
-        }
-
-        public char ReadChar()
-        {
-            return (char)ReadByte();
         }
 
         private string ParseToken(int b)
@@ -193,27 +201,30 @@ namespace SafeRapidPdf.Parsing
                 }
             }
             _byteRead = b;
+
             return token.ToString();
         }
 
         private string ParseToken()
         {
             int b = SkipWhitespaces();
+
             return ParseToken(b);
         }
 
         /// <summary>
-        /// Skip whitespaces and return the first non
-        /// whitespace char
+        /// Skip whitespaces and return the first non-whitespace char
         /// </summary>
         /// <returns></returns>
         private int SkipWhitespaces()
         {
             int c = 0;
+
             do
             {
                 c = ReadByte();
             } while (_whitespaceTable[c + 1]);
+
             return c;
         }
 
@@ -280,9 +291,14 @@ namespace SafeRapidPdf.Parsing
         {
             _positions.Push(_reader.Position);
             if (newPosition < 0)
+            {
                 _reader.Seek(newPosition, SeekOrigin.End);
+            }
             else
+            {
                 _reader.Seek(newPosition, SeekOrigin.Begin);
+            }
+
             _peekedToken = null;
             _peekedToken2 = null;
         }

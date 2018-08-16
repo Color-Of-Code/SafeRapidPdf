@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace SafeRapidPdf.Objects
 {
@@ -14,6 +13,7 @@ namespace SafeRapidPdf.Objects
             IsContainer = true;
 
             _sections = sections;
+
             // create the access table
             foreach (var section in _sections)
             {
@@ -29,11 +29,26 @@ namespace SafeRapidPdf.Objects
             }
         }
 
+        public override IReadOnlyList<IPdfObject> Items
+        {
+            get
+            {
+                var items = new IPdfObject[_sections.Count];
+
+                for (var i = 0; i < items.Length; i++)
+                {
+                    items[i] = _sections[i];
+                }
+
+                return items;
+            }
+        }
+
         /// <summary>
         /// Parse an uncompressed xref dictionary
         /// </summary>
         /// <param name="lexer"></param>
-        /// <returns></returns>
+        /// <returns>The parsed PdfXRef</returns>
         public static PdfXRef Parse(Parsing.ILexer lexer)
         {
             var sections = new List<PdfXRefSection>();
@@ -50,7 +65,7 @@ namespace SafeRapidPdf.Objects
         /// Parse the xref table out of a compressed stream
         /// </summary>
         /// <param name="xrefStream"></param>
-        /// <returns></returns>
+        /// <returns>The parsed PdfXRef</returns>
         public static PdfXRef Parse(params PdfStream[] xrefStream)
         {
             var sections = new List<PdfXRefSection>(xrefStream.Length);
@@ -70,11 +85,6 @@ namespace SafeRapidPdf.Objects
         public static string BuildKey(int objectNumber, int generationNumber)
         {
             return $"{objectNumber:0000000000}_{generationNumber:00000}";
-        }
-
-        public override IReadOnlyList<IPdfObject> Items
-        {
-            get => _sections.ToList().ConvertAll(x => x as IPdfObject).ToArray();
         }
 
         public override string ToString() => "xref";

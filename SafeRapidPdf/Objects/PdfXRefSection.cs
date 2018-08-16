@@ -32,24 +32,25 @@ namespace SafeRapidPdf.Objects
                 throw new ParsingException("A stream of type XRef is expected");
             }
 
-            // W[1 2 1] (4 columns) 
+            // W[1 2 1] (4 columns)
             // W[1 3 1] (5 columns, larger indexes)
             var w = dictionary["W"] as PdfArray;
-            var firstId = 0;
-            var size = 0;
+            int firstId = 0;
+            int size = 0;
 
             if (dictionary.TryGetValue("Index", out IPdfObject indexObject))
             {
                 var index = (PdfArray)indexObject;
-                firstId = (int)(index.Items[0] as PdfNumeric).Value;
-                size = (int)(index.Items[1] as PdfNumeric).Value;
+                firstId = ((PdfNumeric)index.Items[0]).ToInt32();
+                size = ((PdfNumeric)index.Items[1]).ToInt32();
             }
             else if (dictionary.TryGetValue("Size", out IPdfObject sizeObject))
             {
-                size = (int)((PdfNumeric)sizeObject).Value;
+                size = ((PdfNumeric)sizeObject).ToInt32();
             }
 
             int items = w.Items.Count;
+
             // for xref this shall always be 3
             if (items != 3)
             {
@@ -59,7 +60,7 @@ namespace SafeRapidPdf.Objects
             int bytesPerEntry = 0;
             for (int i = 0; i < items; i++)
             {
-                sizes[i] = (int)(w.Items[i] as PdfNumeric).Value;
+                sizes[i] = ((PdfNumeric)w.Items[i]).ToInt32();
                 bytesPerEntry += sizes[i];
             }
             var decodedXRef = pdfStream.Decode();
@@ -91,7 +92,7 @@ namespace SafeRapidPdf.Objects
             for (int i = 0; i < size; i++)
             {
                 var entry = PdfXRefEntry.Parse(firstId + i, lexer);
-                
+
                 // first entry must be free and have a gen 65535
                 // head of the linked list of free objects
 

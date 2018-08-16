@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 using SafeRapidPdf.Objects;
 
@@ -9,42 +9,70 @@ namespace SafeRapidPdf.Document
     /// Represents the document structure of a PDF document. It uses the low-
     /// level physical structure to extract the document objects.
     /// </summary>
-    public class PdfDocument : PdfBaseObject
+    public sealed class PdfDocument : PdfBaseObject
     {
         private readonly PdfFile _file;
-        private PdfCatalog _root;
+        private readonly PdfCatalog _root;
 
         public PdfDocument(PdfFile file)
             : base(PdfObjectType.Document)
         {
             _file = file;
             IsContainer = true;
-        }
 
-        public PdfCatalog Root
-        {
-            get
+            foreach (var item in _file.Items)
             {
-                if (_root == null)
+                if (item is PdfTrailer trailer)
                 {
-                    var trailers = _file.Items.OfType<PdfTrailer>();
-                    // this could happen for linearized documents
-                    // if (trailers.Count() > 1)
-                    //    throw new Exception("too many trailers found");
-                    PdfTrailer trailer = trailers.First();
-                    PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
-                    PdfDictionary dic = root.Dereference<PdfDictionary>();
-                    _root = new PdfCatalog(dic);
+                    var root = (PdfIndirectReference)trailer["Root"];
+
+                    _root = new PdfCatalog(root.Dereference<PdfDictionary>());
+
+                    break;
                 }
-                return _root;
+            }
+
+            // NOTE: Linearized documents may have multiple trailers. We use the first.
+
+            if (_root == null)
+            {
+                throw new Exception("Missing trailer");
             }
         }
 
-        public override IReadOnlyList<IPdfObject> Items
+        public PdfCatalog Root => _root;
+
+        public override IReadOnlyList<IPdfObject> Items => new[] { Root };
+
+        public IEnumerable<PdfPage> GetPages()
         {
-            get => new[] { Root };
+            return GetPages(_root.Items);
         }
 
         public override string ToString() => "Document";
+
+        private IEnumerable<PdfPage> GetPages(IReadOnlyList<IPdfObject> objects)
+        {
+            if (objects != null)
+            {
+                foreach (var o in objects)
+                {
+
+                    if (o.ObjectType == PdfObjectType.Page)
+                    {
+                        yield return (PdfPage)o;
+                    }
+
+                    if (o.IsContainer && o.Items != null)
+                    {
+                        foreach (var page in GetPages(o.Items))
+                        {
+                            yield return page;
+                        }
+                    }
+
+                }
+            }
+        }
     }
 }

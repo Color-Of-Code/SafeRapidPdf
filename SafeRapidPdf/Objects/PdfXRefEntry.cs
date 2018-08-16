@@ -1,5 +1,4 @@
-﻿using System;
-using SafeRapidPdf.Parsing;
+﻿using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -18,14 +17,14 @@ namespace SafeRapidPdf.Objects
 
         public int GenerationNumber { get; }
 
+        public char EntryType { get; }
+
+        public long Offset { get; }
+
         // 'f': free (deleted objects)
         // 'n': in use
         // 'o': in use (compressed in stream)
         public bool InUse => EntryType != 'f';
-
-        public char EntryType { get; private set; }
-
-        public long Offset { get; }
 
         public static PdfXRefEntry Parse(int objectNumber, ILexer lexer)
         {
@@ -50,6 +49,7 @@ namespace SafeRapidPdf.Objects
             }
 
             char entryType = (inuse == "f") ? 'f' : 'n';
+
             return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 
@@ -68,6 +68,7 @@ namespace SafeRapidPdf.Objects
                 }
                 result[column] = v;
             }
+
             // Meaning of types and fields within an xref stream
             // type  field
             var entryType = 'f';
@@ -83,6 +84,7 @@ namespace SafeRapidPdf.Objects
                     offset = result[1];
                     generationNumber = (int)result[2];
                     break;
+
                 // 1     1 = n (uncompressed)
                 //       2 -> byte offset in file
                 //       3 -> generation number
@@ -91,18 +93,21 @@ namespace SafeRapidPdf.Objects
                     offset = result[1];
                     generationNumber = (int)result[2];
                     break;
+
                 // 2     1 = n (compressed)
                 //       2 -> object number where the data is stored
                 //       3 -> index of object in the stream
                 case 2:
                     entryType = 'o';
-                    //TODO: access the file at that position and decode
+
+                    // TODO: access the file at that position and decode
                     offset = result[1]; // object
-                    generationNumber = (int)result[2]; //index
+                    generationNumber = (int)result[2]; // index
                     break;
                 default:
                     throw new ParsingException($"Invalid type numeric id inside xref item: {result[0]}");
             }
+
             return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 

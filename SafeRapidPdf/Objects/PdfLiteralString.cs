@@ -4,10 +4,10 @@ using System.Text;
 namespace SafeRapidPdf.Objects
 {
     /// <summary>
-    /// A  literal string is written as an arbitrary number of characters enclosed in 
-    /// parentheses. Any characters may appear in a string except  unbalanced 
-    /// parentheses and the backslash, which must be treated specially. Balanced pairs of 
-    /// parentheses within a string require no special treatment. 
+    /// A  literal string is written as an arbitrary number of characters enclosed in
+    /// parentheses. Any characters may appear in a string except  unbalanced
+    /// parentheses and the backslash, which must be treated specially. Balanced pairs of
+    /// parentheses within a string require no special treatment.
     /// </summary>
     public sealed class PdfLiteralString : PdfObject
     {
@@ -47,6 +47,7 @@ namespace SafeRapidPdf.Objects
                         case 'f':
                             sb.Append("\f");
                             break;
+
                         // \b Backspace (BS)
                         case 'b':
                             throw new NotImplementedException("Backspace char parsing");
