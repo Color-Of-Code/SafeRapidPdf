@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 using SafeRapidPdf.Objects;
 
@@ -12,42 +12,44 @@ namespace SafeRapidPdf.Document
     public sealed class PdfDocument : PdfBaseObject
     {
         private readonly PdfFile _file;
-        private PdfCatalog _root;
+        private readonly PdfCatalog _root;
 
         public PdfDocument(PdfFile file)
             : base(PdfObjectType.Document)
         {
             _file = file;
             IsContainer = true;
-        }
 
-        public PdfCatalog Root
-        {
-            get
+            foreach (var item in _file.Items)
             {
-                if (_root == null)
+                if (item is PdfTrailer trailer)
                 {
-                    var trailers = _file.Items.OfType<PdfTrailer>();
+                    var root = (PdfIndirectReference)trailer["Root"];
 
-                    // this could happen for linearized documents
-                    // if (trailers.Count() > 1)
-                    //    throw new Exception("too many trailers found");
+                    _root = new PdfCatalog(root.Dereference<PdfDictionary>());
 
-                    PdfTrailer trailer = trailers.First();
-                    PdfIndirectReference root = trailer["Root"] as PdfIndirectReference;
-                    PdfDictionary dic = root.Dereference<PdfDictionary>();
-                    _root = new PdfCatalog(dic);
+                    break;
                 }
-                return _root;
+            }
+
+            // NOTE: Linearized documents may have multiple trailers. We use the first.
+
+            if (_root == null)
+            {
+                throw new Exception("Missing trailer");
             }
         }
+
+        public PdfCatalog Root => _root;
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Root };
 
         public IEnumerable<PdfPage> GetPages()
         {
-            return GetPages(new[] { Root });
+            return GetPages(_root.Items);
         }
+
+        public override string ToString() => "Document";
 
         private IEnumerable<PdfPage> GetPages(IReadOnlyList<IPdfObject> objects)
         {
@@ -72,7 +74,5 @@ namespace SafeRapidPdf.Document
                 }
             }
         }
-
-        public override string ToString() => "Document";
     }
 }
