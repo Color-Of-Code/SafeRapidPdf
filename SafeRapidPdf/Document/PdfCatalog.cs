@@ -6,7 +6,7 @@ namespace SafeRapidPdf.Document
 {
     public sealed class PdfCatalog : PdfBaseObject
     {
-        private List<IPdfObject> _items;
+        private readonly List<IPdfObject> _items = new List<IPdfObject>();
 
         public PdfCatalog(PdfDictionary catalog)
             : base(PdfObjectType.Catalog)
@@ -14,7 +14,6 @@ namespace SafeRapidPdf.Document
             IsContainer = true;
             catalog.ExpectsType("Catalog");
 
-            _items = new List<IPdfObject>();
             foreach (PdfKeyValuePair pair in catalog.Items)
             {
                 switch (pair.Key.Text)

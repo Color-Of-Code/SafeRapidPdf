@@ -5,7 +5,7 @@ using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
 {
-    public class PdfContents : PdfBaseObject
+    public sealed class PdfContents : PdfBaseObject
     {
         public PdfContents(IPdfObject obj)
             : base(PdfObjectType.Contents)
@@ -16,7 +16,8 @@ namespace SafeRapidPdf.Document
             {
                 obj = reference.ReferencedObject.Object;
             }
-            else if (obj is PdfArray array)
+
+            if (obj is PdfArray array)
             {
                 Streams = array.Items;
             }
