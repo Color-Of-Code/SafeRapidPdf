@@ -126,7 +126,7 @@ namespace SafeRapidPdf.Objects
             progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
             watch.Stop();
 
-            var file = new PdfFile(objects.AsReadOnly())
+            var file = new PdfFile(objects)
             {
                 ParsingTime = watch.Elapsed.TotalSeconds
             };
