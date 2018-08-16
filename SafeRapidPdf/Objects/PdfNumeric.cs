@@ -1,34 +1,51 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace SafeRapidPdf.Objects
 {
     public sealed class PdfNumeric : PdfObject
     {
-        private PdfNumeric(decimal value)
+        private readonly string text;
+
+        private PdfNumeric(string text)
             : base(PdfObjectType.Numeric)
         {
-            Value = value;
+            this.text = text;
         }
 
-        public decimal Value { get; }
+        public bool IsInteger => !IsReal;
 
-        public bool IsInteger => (Value % 1) == 0;
+        public bool IsReal => text.IndexOf('.') > -1;
+
+        public static implicit operator double(PdfNumeric numeric)
+        {
+            return double.Parse(numeric.text, CultureInfo.InvariantCulture);
+        }
+
+        public static implicit operator long(PdfNumeric numeric)
+        {
+            return long.Parse(numeric.text, CultureInfo.InvariantCulture);
+        }
+
+        public static implicit operator int(PdfNumeric numeric)
+        {
+            return int.Parse(numeric.text, CultureInfo.InvariantCulture);
+        }
 
         public static PdfNumeric Parse(Parsing.ILexer lexer)
         {
-            return Parse(lexer.ReadToken());
+            return new PdfNumeric(lexer.ReadToken());
         }
 
         public static PdfNumeric Parse(string token)
         {
-            var value = decimal.Parse(token, CultureInfo.InvariantCulture);
-            return new PdfNumeric(value);
+            return new PdfNumeric(token);
         }
 
-        public override string ToString()
+        public decimal ToDecimal()
         {
-            return Value.ToString(CultureInfo.InvariantCulture);
+            return decimal.Parse(text, CultureInfo.InvariantCulture);
         }
+
+        public override string ToString() => text;
     }
 }

@@ -121,11 +121,11 @@ namespace SafeRapidPdf.Objects
                         switch (token2)
                         {
                             case "obj":
-                                obj = PdfIndirectObject.Parse(lexer, (int)num.Value);
+                                obj = PdfIndirectObject.Parse(lexer, num);
                                 break;
 
                             case "R":
-                                PdfIndirectReference ir = PdfIndirectReference.Parse(lexer, (int)num.Value);
+                                PdfIndirectReference ir = PdfIndirectReference.Parse(lexer, num);
                                 ir.Resolver = lexer.IndirectReferenceResolver;
                                 obj = ir;
                                 break;

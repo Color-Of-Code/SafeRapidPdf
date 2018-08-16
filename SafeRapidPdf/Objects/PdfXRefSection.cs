@@ -41,12 +41,12 @@ namespace SafeRapidPdf.Objects
             if (dictionary.TryGetValue("Index", out IPdfObject indexObject))
             {
                 var index = (PdfArray)indexObject;
-                firstId = (int)(index.Items[0] as PdfNumeric).Value;
-                size = (int)(index.Items[1] as PdfNumeric).Value;
+                firstId = (PdfNumeric)index.Items[0];
+                size = (PdfNumeric)index.Items[1];
             }
             else if (dictionary.TryGetValue("Size", out IPdfObject sizeObject))
             {
-                size = (int)((PdfNumeric)sizeObject).Value;
+                size = (PdfNumeric)sizeObject;
             }
 
             int items = w.Items.Count;
@@ -60,7 +60,7 @@ namespace SafeRapidPdf.Objects
             int bytesPerEntry = 0;
             for (int i = 0; i < items; i++)
             {
-                sizes[i] = (int)(w.Items[i] as PdfNumeric).Value;
+                sizes[i] = (PdfNumeric)w.Items[i];
                 bytesPerEntry += sizes[i];
             }
             var decodedXRef = pdfStream.Decode();

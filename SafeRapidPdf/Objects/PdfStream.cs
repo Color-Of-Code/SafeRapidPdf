@@ -106,9 +106,9 @@ namespace SafeRapidPdf.Objects
 
                 if (StreamDictionary.Keys.Contains("DecodeParms"))
                 {
-                    PdfDictionary parameters = StreamDictionary["DecodeParms"] as PdfDictionary;
-                    columns = (int)(parameters["Columns"] as PdfNumeric).Value;
-                    predictor = (int)(parameters["Predictor"] as PdfNumeric).Value;
+                    var parameters = (PdfDictionary)StreamDictionary["DecodeParms"];
+                    columns = (PdfNumeric)parameters["Columns"];
+                    predictor = (PdfNumeric)parameters["Predictor"];
                 }
 
                 if (columns <= 0)
@@ -157,8 +157,7 @@ namespace SafeRapidPdf.Objects
                 PdfIndirectObject lenobj = lexer.IndirectReferenceResolver
                     .GetObject(reference.ObjectNumber, reference.GenerationNumber);
 
-                PdfNumeric len = (PdfNumeric)lenobj.Object;
-                length = int.Parse(len.ToString());
+                length = (PdfNumeric)lenobj.Object;
             }
             else
             {

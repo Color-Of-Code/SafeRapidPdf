@@ -89,7 +89,7 @@ namespace SafeRapidPdf.Services
             // parse the xref there too
             var firstPageXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             var mainXRefPosition = _linearizationHeader["T"] as PdfNumeric;
-            _lexer.PushPosition((long)mainXRefPosition.Value);
+            _lexer.PushPosition((long)mainXRefPosition);
             var mainXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             _lexer.PopPosition();
 

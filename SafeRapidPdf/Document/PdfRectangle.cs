@@ -14,10 +14,10 @@ namespace SafeRapidPdf.Document
                 throw new Exception("A rectangle must have 4 values!");
             }
 
-            Llx = (box.Items[0] as PdfNumeric).Value;
-            Lly = (box.Items[1] as PdfNumeric).Value;
-            Urx = (box.Items[2] as PdfNumeric).Value;
-            Ury = (box.Items[3] as PdfNumeric).Value;
+            Llx = ((PdfNumeric)box.Items[0]).ToDecimal();
+            Lly = ((PdfNumeric)box.Items[1]).ToDecimal();
+            Urx = ((PdfNumeric)box.Items[2]).ToDecimal();
+            Ury = ((PdfNumeric)box.Items[3]).ToDecimal();
         }
 
         public decimal Llx { get; } // lower left x
