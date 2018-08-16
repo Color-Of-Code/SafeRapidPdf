@@ -9,7 +9,7 @@ namespace SafeRapidPdf.Document
     /// Represents the document structure of a PDF document. It uses the low-
     /// level physical structure to extract the document objects.
     /// </summary>
-    public class PdfDocument : PdfBaseObject
+    public sealed class PdfDocument : PdfBaseObject
     {
         private readonly PdfFile _file;
         private PdfCatalog _root;
@@ -43,6 +43,35 @@ namespace SafeRapidPdf.Document
         }
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Root };
+
+        public IEnumerable<PdfPage> GetPages()
+        {
+            return GetPages(new[] { Root });
+        }
+
+        private IEnumerable<PdfPage> GetPages(IReadOnlyList<IPdfObject> objects)
+        {
+            if (objects != null)
+            {
+                foreach (var o in objects)
+                {
+
+                    if (o.ObjectType == PdfObjectType.Page)
+                    {
+                        yield return (PdfPage)o;
+                    }
+
+                    if (o.IsContainer && o.Items != null)
+                    {
+                        foreach (var page in GetPages(o.Items))
+                        {
+                            yield return page;
+                        }
+                    }
+
+                }
+            }
+        }
 
         public override string ToString() => "Document";
     }
