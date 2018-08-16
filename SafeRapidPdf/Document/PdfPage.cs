@@ -8,18 +8,17 @@ namespace SafeRapidPdf.Document
 {
     public class PdfPage : PdfBaseObject
     {
-        protected List<IPdfObject> _items;
+        protected readonly List<IPdfObject> _items = new List<IPdfObject>();
 
         public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
-            : base(PdfObjectType.Page)
+            : this(pages, parent, PdfObjectType.Page)
         {
             IsContainer = true;
+
             var page = pages.Dereference<PdfDictionary>();
+
             page.ExpectsType("Page");
-            GenerationNumber = pages.GenerationNumber;
-            ObjectNumber = pages.ObjectNumber;
-            Parent = parent;
-            _items = new List<IPdfObject>();
+
             foreach (PdfKeyValuePair pair in page.Items)
             {
                 HandleKeyValuePair(pair);
@@ -32,7 +31,6 @@ namespace SafeRapidPdf.Document
             GenerationNumber = pages.GenerationNumber;
             ObjectNumber = pages.ObjectNumber;
             Parent = parent;
-            _items = new List<IPdfObject>();
         }
 
         protected int GenerationNumber { get; private set; }
