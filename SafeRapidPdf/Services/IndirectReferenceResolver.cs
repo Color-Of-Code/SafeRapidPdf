@@ -89,11 +89,14 @@ namespace SafeRapidPdf.Services
             // parse the xref there too
             var firstPageXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
             var mainXRefPosition = _linearizationHeader["T"] as PdfNumeric;
-            _lexer.PushPosition((long)mainXRefPosition);
+
+            _lexer.PushPosition(mainXRefPosition.ToInt64());
+
             var mainXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
+
             _lexer.PopPosition();
 
-            _xref = PdfXRef.Parse(firstPageXRef.Object as PdfStream, mainXRef.Object as PdfStream);
+            _xref = PdfXRef.Parse((PdfStream)firstPageXRef.Object as PdfStream, (PdfStream)mainXRef.Object);
         }
 
         // returns true if an xref was found false otherwise
