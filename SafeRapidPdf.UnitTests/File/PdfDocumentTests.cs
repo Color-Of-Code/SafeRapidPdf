@@ -28,6 +28,13 @@
             Assert.Null(pages[0].CropBox);
             Assert.Equal("MediaBox [0; 0; 612; 792]", pages[0].MediaBox.ToString());
             Assert.Null(pages[0].Rotate);
+
+            var mediaBox = pages[0].MediaBox.ToPixelBox();
+
+            Assert.Equal(0, mediaBox.X);
+            Assert.Equal(0, mediaBox.Y);
+            Assert.Equal(816, mediaBox.Width);
+            Assert.Equal(1056, mediaBox.Height);
         }
 
         private static string GetTestDataFilePath(string name)
