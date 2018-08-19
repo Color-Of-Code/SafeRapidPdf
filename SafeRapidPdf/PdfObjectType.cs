@@ -31,7 +31,6 @@
 
         // high level objects
         File,
-        Document,
         Structure,
 
         Catalog,
