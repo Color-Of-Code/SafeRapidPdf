@@ -10,6 +10,27 @@
     public class PdfDocumentTests
     {
         [Fact]
+        public void CanAccessThroughLoad()
+        {
+            using (var stream = File.OpenRead(GetTestDataFilePath("3.pdf"))) // "%PDF-1.5
+            {
+                var pdf = PdfDocument.Load(stream);
+
+                var pages = pdf.GetPages().ToArray();
+
+                Assert.Equal(1, pages.Length);
+
+                Assert.Equal(10, pages[0].Items.Count);
+
+                Assert.Equal("ArtBox [0.0; 0.0; 1920.0; 1080.0]", pages[0].ArtBox.ToString());
+                Assert.Equal("BleedBox [0.0; 0.0; 1920.0; 1080.0]", pages[0].BleedBox.ToString());
+                Assert.Null(pages[0].CropBox);
+                Assert.Equal("MediaBox [0.0; 0.0; 1920.0; 1080.0]", pages[0].MediaBox.ToString());
+                Assert.Null(pages[0].Rotate);
+            }
+        }
+
+        [Fact]
         public void CanExtractPages()
         {
             var file = PdfFile.Parse(GetTestDataFilePath("1.pdf"));

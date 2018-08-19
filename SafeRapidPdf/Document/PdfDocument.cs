@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
@@ -43,6 +43,11 @@ namespace SafeRapidPdf.Document
         public PdfCatalog Root => _root;
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Root };
+
+        public static PdfDocument Load(Stream stream)
+        {
+            return new PdfDocument(PdfFile.Parse(stream));
+        }
 
         public IEnumerable<PdfPage> GetPages()
         {
