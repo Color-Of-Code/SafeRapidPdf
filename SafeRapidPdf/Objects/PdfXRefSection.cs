@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
@@ -100,17 +101,18 @@ namespace SafeRapidPdf.Objects
                 {
                     if (entry.GenerationNumber != 65535)
                     {
-                        throw new ParsingException("The first xref entry must have generation number 65535");
+                        throw new ParsingException($"The first xref entry must have generation number 65535. Was {entry.GenerationNumber}");
                     }
 
                     if (entry.InUse)
                     {
-                        throw new ParsingException("The first xref entry must be free");
+                        throw new ParsingException($"The first xref entry must be free");
                     }
                 }
 
                 entries[i] = entry;
             }
+
             return new PdfXRefSection(firstId, size, entries);
         }
 
