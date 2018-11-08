@@ -8,16 +8,16 @@ namespace SafeRapidPdf.Parsing
 {
     public class Lexer
     {
-        private static bool[] _regularTable = new bool[257];
-        private static bool[] _whitespaceTable = new bool[257];
-        private static bool[] _delimiterTable = new bool[257];
+        private static readonly bool[] _regularTable = new bool[257];
+        private static readonly bool[] _whitespaceTable = new bool[257];
+        private static readonly bool[] _delimiterTable = new bool[257];
 
         private readonly long _size;
         private readonly Stream _reader;
+        private readonly Stack<long> _positions = new Stack<long>();
         private string _peekedToken;
         private string _peekedToken2;
         private int _byteRead = -1;
-        private Stack<long> _positions = new Stack<long>();
 
         static Lexer()
         {
