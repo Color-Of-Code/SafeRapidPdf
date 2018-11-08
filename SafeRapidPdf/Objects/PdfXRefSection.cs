@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using SafeRapidPdf.Parsing;
 
@@ -85,8 +86,8 @@ namespace SafeRapidPdf.Objects
 
         public static PdfXRefSection Parse(Lexer lexer)
         {
-            int firstId = int.Parse(lexer.ReadToken());
-            int size = int.Parse(lexer.ReadToken());
+            int firstId = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
+            int size = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
 
             var entries = new IPdfObject[size];
 

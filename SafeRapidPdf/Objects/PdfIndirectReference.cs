@@ -1,3 +1,4 @@
+using System.Globalization;
 using SafeRapidPdf.Services;
 
 namespace SafeRapidPdf.Objects
@@ -33,13 +34,13 @@ namespace SafeRapidPdf.Objects
 
         public static PdfIndirectReference Parse(Parsing.Lexer lexer)
         {
-            int objectNumber = int.Parse(lexer.ReadToken());
+            int objectNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
             return Parse(lexer, objectNumber);
         }
 
         public static PdfIndirectReference Parse(Parsing.Lexer lexer, int objectNumber)
         {
-            int generationNumber = int.Parse(lexer.ReadToken());
+            int generationNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
             lexer.Expects("R");
             return new PdfIndirectReference(objectNumber, generationNumber);
         }

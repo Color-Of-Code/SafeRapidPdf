@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Globalization;
 using SafeRapidPdf.Objects;
 using SafeRapidPdf.Parsing;
 
@@ -143,7 +143,7 @@ namespace SafeRapidPdf.Services
 
             if (t == "startxref")
             {
-                result = long.Parse(_lexer.ReadToken());
+                result = long.Parse(_lexer.ReadToken(), CultureInfo.InvariantCulture);
             }
 
             _lexer.PopPosition();

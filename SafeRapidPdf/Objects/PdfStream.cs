@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using ComponentAce.Compression.Libs.zlib;
@@ -161,7 +162,7 @@ namespace SafeRapidPdf.Objects
             }
             else
             {
-                length = int.Parse(lengthObject.ToString());
+                length = int.Parse(lengthObject.ToString(), CultureInfo.InvariantCulture);
             }
 
             var data = PdfData.Parse(lexer, length);

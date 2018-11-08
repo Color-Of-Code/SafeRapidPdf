@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Globalization;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
@@ -26,13 +26,13 @@ namespace SafeRapidPdf.Objects
 
         public static PdfIndirectObject Parse(Lexer lexer)
         {
-            int objectNumber = int.Parse(lexer.ReadToken());
+            int objectNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
             return Parse(lexer, objectNumber);
         }
 
         public static PdfIndirectObject Parse(Lexer lexer, int objectNumber)
         {
-            int generationNumber = int.Parse(lexer.ReadToken());
+            int generationNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
             lexer.Expects("obj");
             PdfObject obj = PdfObject.ParseAny(lexer);
             lexer.Expects("endobj");
