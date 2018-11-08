@@ -26,7 +26,6 @@ namespace SafeRapidPdf.Objects
             return new PdfArray(list);
         }
 
-
         public override string ToString() => "[...]";
     }
 }
