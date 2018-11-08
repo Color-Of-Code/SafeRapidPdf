@@ -40,62 +40,42 @@ namespace SafeRapidPdf.Objects
             if (token == null)
                 return null;
 
-            PdfObject obj = null;
             switch (token)
             {
-                // null object
-                case "null":
-                    obj = PdfNull.Null;
-                    break;
+                case "null": return PdfNull.Null;  // null object
 
                 case "true":
                 case "false":
-                    obj = PdfBoolean.Parse(token);
-                    break;
+                    return PdfBoolean.Parse(token);
 
-                case "/":
-                    obj = PdfName.Parse(lexer);
-                    break;
-
-                case "%":
-                    obj = PdfComment.Parse(lexer);
-                    break;
-
-                case "<":
-                    obj = PdfHexadecimalString.Parse(lexer);
-                    break;
-
-                case "(":
-                    obj = PdfLiteralString.Parse(lexer);
-                    break;
+                case "/": return PdfName.Parse(lexer);
+                case "%": return PdfComment.Parse(lexer);
+                case "<": return PdfHexadecimalString.Parse(lexer);
+                case "(": return PdfLiteralString.Parse(lexer);
 
                 case "xref":
-                    obj = PdfXRef.Parse(lexer);
-                    break;
+                    return PdfXRef.Parse(lexer);
 
                 case "trailer":
-                    obj = PdfTrailer.Parse(lexer);
-                    break;
+                    return PdfTrailer.Parse(lexer);
 
                 case "<<":
-                    obj = PdfDictionary.Parse(lexer);
+                    var dic = PdfDictionary.Parse(lexer);
 
                     // check for stream and combine put dictionary into stream object
                     token = lexer.PeekToken1();
+
                     if (token == "stream")
                     {
-                        obj = PdfStream.Parse(obj as PdfDictionary, lexer);
+                        return PdfStream.Parse(dic, lexer);
                     }
 
-                    break;
+                    return dic;
 
-                case "[":
-                    obj = PdfArray.Parse(lexer);
-                    break;
+                case "[": return PdfArray.Parse(lexer);
 
                 case "startxref":
-                    obj = PdfStartXRef.Parse(lexer);
-                    break;
+                    return PdfStartXRef.Parse(lexer);
 
                 case ")":
                 case ">":
@@ -121,38 +101,30 @@ namespace SafeRapidPdf.Objects
                         switch (token2)
                         {
                             case "obj":
-                                obj = PdfIndirectObject.Parse(lexer, num.ToInt32());
-                                break;
+                                return PdfIndirectObject.Parse(lexer, num.ToInt32());
 
                             case "R":
                                 PdfIndirectReference ir = PdfIndirectReference.Parse(lexer, num.ToInt32());
                                 ir.Resolver = lexer.IndirectReferenceResolver;
-                                obj = ir;
-                                break;
+
+                                return ir;
                             default:
                                 // ignore;
-                                obj = num;
-                                break;
+                                return num;
                         }
                     }
                     else
                     {
-                        obj = num;
+                        return num;
                     }
-                    break;
             }
 
-            if (obj == null)
-            {
-                throw new ParsingException("Could not read object");
-            }
-
-            return obj;
+            throw new ParsingException("Could not read object");
         }
 
         public static PdfObject ParseAny(PdfStream stream)
         {
-            var decodedBytes = stream.Decode();
+            byte[] decodedBytes = stream.Decode();
             var s = Encoding.UTF8.GetString(decodedBytes);
 
             // contents are not always pdf objects...
