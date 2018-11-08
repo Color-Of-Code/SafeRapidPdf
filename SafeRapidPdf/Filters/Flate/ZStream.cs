@@ -102,13 +102,13 @@ namespace ComponentAce.Compression.Libs.zlib
 
 		public int inflate(int f)
 		{
-			if (istate == null)
+			if (istate is null)
 				return Z_STREAM_ERROR;
 			return istate.inflate(this, f);
 		}
 		public int inflateEnd()
 		{
-			if (istate == null)
+			if (istate is null)
 				return Z_STREAM_ERROR;
 			int ret = istate.inflateEnd(this);
 			istate = null;
@@ -116,13 +116,13 @@ namespace ComponentAce.Compression.Libs.zlib
 		}
 		public int inflateSync()
 		{
-			if (istate == null)
+			if (istate is null)
 				return Z_STREAM_ERROR;
 			return istate.inflateSync(this);
 		}
 		public int inflateSetDictionary(byte[] dictionary, int dictLength)
 		{
-			if (istate == null)
+			if (istate is null)
 				return Z_STREAM_ERROR;
 			return istate.inflateSetDictionary(this, dictionary, dictLength);
 		}
@@ -138,7 +138,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		}
 		public int deflate(int flush)
 		{
-			if (dstate == null)
+			if (dstate is null)
 			{
 				return Z_STREAM_ERROR;
 			}
@@ -146,7 +146,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		}
 		public int deflateEnd()
 		{
-			if (dstate == null)
+			if (dstate is null)
 				return Z_STREAM_ERROR;
 			int ret = dstate.deflateEnd();
 			dstate = null;
@@ -154,13 +154,13 @@ namespace ComponentAce.Compression.Libs.zlib
 		}
 		public int deflateParams(int level, int strategy)
 		{
-			if (dstate == null)
+			if (dstate is null)
 				return Z_STREAM_ERROR;
 			return dstate.deflateParams(this, level, strategy);
 		}
 		public int deflateSetDictionary(byte[] dictionary, int dictLength)
 		{
-			if (dstate == null)
+			if (dstate is null)
 				return Z_STREAM_ERROR;
 			return dstate.deflateSetDictionary(this, dictionary, dictLength);
 		}

@@ -6,23 +6,20 @@ using SafeRapidPdf.Services;
 
 namespace SafeRapidPdf.Parsing
 {
-    /// <summary>
-    /// The lexer
-    /// </summary>
-    internal class LexicalParser : ILexer
+    public class Lexer
     {
-        private static bool[] _regularTable = new bool[257];
-        private static bool[] _whitespaceTable = new bool[257];
-        private static bool[] _delimiterTable = new bool[257];
+        private static readonly bool[] _regularTable = new bool[257];
+        private static readonly bool[] _whitespaceTable = new bool[257];
+        private static readonly bool[] _delimiterTable = new bool[257];
 
         private readonly long _size;
         private readonly Stream _reader;
+        private readonly Stack<long> _positions = new Stack<long>();
         private string _peekedToken;
         private string _peekedToken2;
         private int _byteRead = -1;
-        private Stack<long> _positions = new Stack<long>();
 
-        static LexicalParser()
+        static Lexer()
         {
             for (int c = 0; c < 257; c++)
             {
@@ -32,7 +29,7 @@ namespace SafeRapidPdf.Parsing
             }
         }
 
-        public LexicalParser(Stream stream, bool withoutResolver = false)
+        public Lexer(Stream stream, bool withoutResolver = false)
         {
             _reader = stream;
             _reader.Seek(0, SeekOrigin.End);

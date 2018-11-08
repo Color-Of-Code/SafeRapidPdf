@@ -32,7 +32,7 @@ namespace SafeRapidPdf
 
             // NOTE: Linearized documents may have multiple trailers. We use the first.
 
-            if (_root == null)
+            if (_root is null)
             {
                 throw new Exception("Missing trailer");
             }
@@ -58,7 +58,6 @@ namespace SafeRapidPdf
             {
                 foreach (var o in objects)
                 {
-
                     if (o.ObjectType == PdfObjectType.Page)
                     {
                         yield return (PdfPage)o;
@@ -71,7 +70,6 @@ namespace SafeRapidPdf
                             yield return page;
                         }
                     }
-
                 }
             }
         }

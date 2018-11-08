@@ -15,7 +15,7 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => _items;
 
-        public static PdfArray Parse(Parsing.ILexer lexer)
+        public static PdfArray Parse(Parsing.Lexer lexer)
         {
             var list = new List<IPdfObject>();
             PdfObject value;
@@ -25,7 +25,6 @@ namespace SafeRapidPdf.Objects
             }
             return new PdfArray(list);
         }
-
 
         public override string ToString() => "[...]";
     }

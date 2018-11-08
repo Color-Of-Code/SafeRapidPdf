@@ -42,7 +42,7 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        public static PdfDictionary Parse(ILexer lexer)
+        public static PdfDictionary Parse(Lexer lexer)
         {
             var dictionaryItems = new List<PdfKeyValuePair>();
 
@@ -86,9 +86,9 @@ namespace SafeRapidPdf.Objects
         /// Automatically dereference indirect references or returns the Pdf object
         /// after checking that it is of the expected type
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">The type of the object to resolve</typeparam>
+        /// <param name="name">The name to resolve</param>
+        /// <returns>The resolved type</returns>
         public T Resolve<T>(string name)
             where T : class
         {
@@ -100,11 +100,11 @@ namespace SafeRapidPdf.Objects
             }
             else if (value is T)
             {
-                return value as T;
+                return (T)value;
             }
             else
             {
-                throw new Exception($"Value is not of the expected type {typeof(T)}. Was {value.GetType()}'.");
+                throw new Exception($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
             }
         }
 
@@ -160,9 +160,6 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        public override string ToString()
-        {
-            return Type != null ? $"<<...>> ({Type})" : "<<...>>";
-        }
+        public override string ToString() => Type != null ? $"<<...>> ({Type})" : "<<...>>";
     }
 }

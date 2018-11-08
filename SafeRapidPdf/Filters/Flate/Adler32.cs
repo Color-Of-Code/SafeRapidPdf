@@ -58,7 +58,7 @@ namespace ComponentAce.Compression.Libs.zlib
 
 		internal long adler32(long adler, byte[] buf, int index, int len)
 		{
-			if (buf == null)
+			if (buf is null)
 			{
 				return 1L;
 			}

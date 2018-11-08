@@ -21,7 +21,7 @@ namespace SafeRapidPdf.Objects
             return double.Parse(numeric.text, CultureInfo.InvariantCulture);
         }
 
-        public static PdfNumeric Parse(Parsing.ILexer lexer)
+        public static PdfNumeric Parse(Parsing.Lexer lexer)
         {
             return new PdfNumeric(lexer.ReadToken());
         }

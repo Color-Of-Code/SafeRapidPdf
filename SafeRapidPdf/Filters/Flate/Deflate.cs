@@ -1464,7 +1464,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			//    byte[] my_version=ZLIB_VERSION;
 
 			//
-			//  if (version == null || version[0] != my_version[0]
+			//  if (version is null || version[0] != my_version[0]
 			//  || stream_size != sizeof(z_stream)) {
 			//  return Z_VERSION_ERROR;
 			//  }
@@ -1597,7 +1597,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			int length = dictLength;
 			int index = 0;
 
-			if (dictionary == null || status != INIT_STATE)
+			if (dictionary is null || status != INIT_STATE)
 				return Z_STREAM_ERROR;
 
 			strm.adler = strm._adler.adler32(strm.adler, dictionary, 0, dictLength);
@@ -1638,7 +1638,7 @@ namespace ComponentAce.Compression.Libs.zlib
 				return Z_STREAM_ERROR;
 			}
 
-			if (strm.next_out == null || (strm.next_in == null && strm.avail_in != 0) || (status == FINISH_STATE && flush != Z_FINISH))
+			if (strm.next_out is null || (strm.next_in is null && strm.avail_in != 0) || (status == FINISH_STATE && flush != Z_FINISH))
 			{
 				strm.msg = z_errmsg[Z_NEED_DICT - (Z_STREAM_ERROR)];
 				return Z_STREAM_ERROR;

@@ -35,7 +35,7 @@ namespace SafeRapidPdf.Objects
         }
 
         /// <summary>
-        /// Parsing time in seconds
+        /// Gets the parsing time in seconds
         /// </summary>
         public double ParsingTime { get; private set; }
 
@@ -75,7 +75,7 @@ namespace SafeRapidPdf.Objects
 
             var watch = Stopwatch.StartNew();
 
-            var lexer = new LexicalParser(reader);
+            var lexer = new Lexer(reader);
 
             lexer.Expects("%"); // Ensure the first byte matches the PDF marker
 
@@ -83,7 +83,7 @@ namespace SafeRapidPdf.Objects
 
             PdfComment comment = PdfComment.Parse(lexer);
 
-            if (!comment.Text.StartsWith("%PDF-"))
+            if (!comment.Text.StartsWith("%PDF-", StringComparison.Ordinal))
             {
                 throw new ParsingException("PDF header missing");
             }
@@ -96,7 +96,7 @@ namespace SafeRapidPdf.Objects
             {
                 var obj = PdfObject.ParseAny(lexer);
 
-                if (obj == null)
+                if (obj is null)
                 {
                     if (lastObjectWasOEF)
                     {
@@ -147,8 +147,9 @@ namespace SafeRapidPdf.Objects
 
         private void InsertObject(PdfIndirectObject obj)
         {
-            if (obj == null)
+            if (obj is null)
                 throw new Exception("This object must be an indirect object");
+
             string key = PdfXRef.BuildKey(obj.ObjectNumber, obj.GenerationNumber);
             _indirectObjects[key] = obj;
         }

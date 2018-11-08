@@ -19,7 +19,8 @@ namespace SafeRapidPdf.Objects
             {
                 foreach (var entryItem in section.Items)
                 {
-                    PdfXRefEntry entry = entryItem as PdfXRefEntry;
+                    var entry = (PdfXRefEntry)entryItem;
+
                     if (entry.InUse)
                     {
                         string key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
@@ -49,7 +50,7 @@ namespace SafeRapidPdf.Objects
         /// </summary>
         /// <param name="lexer"></param>
         /// <returns>The parsed PdfXRef</returns>
-        public static PdfXRef Parse(Parsing.ILexer lexer)
+        public static PdfXRef Parse(Parsing.Lexer lexer)
         {
             var sections = new List<PdfXRefSection>();
             string token = lexer.PeekToken1();

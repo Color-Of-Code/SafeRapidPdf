@@ -15,23 +15,23 @@ namespace SafeRapidPdf.UnitTests.Util
         }
 
         // used to inject a lexer into low level parsers from a string
-        public static ILexer ToLexer(this string input)
+        public static Lexer ToLexer(this string input)
         {
-            return new LexicalParser(input.ToStream(), true);
+            return new Lexer(input.ToStream(), true);
         }
 
         // used to inject a lexer into low level parsers from a byte array
-        public static ILexer ToLexer(this byte[] input)
+        public static Lexer ToLexer(this byte[] input)
         {
             var s = new MemoryStream(input);
-            return new LexicalParser(s, true);
+            return new Lexer(s, true);
         }
 
-        public static ILexer Base64ToLexer(this string input)
+        public static Lexer Base64ToLexer(this string input)
         {
             var bytes = Convert.FromBase64String(input);
             var s = new MemoryStream(bytes);
-            return new LexicalParser(s, true);
+            return new Lexer(s, true);
         }
 
         public static string ToHexString(this byte[] ba)

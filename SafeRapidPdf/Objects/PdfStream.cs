@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using ComponentAce.Compression.Libs.zlib;
@@ -124,9 +125,9 @@ namespace SafeRapidPdf.Objects
             throw new NotImplementedException("Implement Filter: " + filter.Text);
         }
 
-        public static PdfStream Parse(PdfDictionary dictionary, ILexer lexer)
+        public static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
         {
-            if (dictionary == null)
+            if (dictionary is null)
             {
                 throw new ArgumentNullException(nameof(dictionary));
             }
@@ -146,7 +147,7 @@ namespace SafeRapidPdf.Objects
 
             IPdfObject lengthObject = dictionary["Length"];
 
-            if (lengthObject == null)
+            if (lengthObject is null)
             {
                 throw new ParsingException("Stream dictionary is missing 'Length' entry");
             }
@@ -161,7 +162,7 @@ namespace SafeRapidPdf.Objects
             }
             else
             {
-                length = int.Parse(lengthObject.ToString());
+                length = int.Parse(lengthObject.ToString(), CultureInfo.InvariantCulture);
             }
 
             var data = PdfData.Parse(lexer, length);

@@ -1,4 +1,5 @@
-﻿using SafeRapidPdf.Parsing;
+﻿using System.Globalization;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -26,21 +27,21 @@ namespace SafeRapidPdf.Objects
         // 'o': in use (compressed in stream)
         public bool InUse => EntryType != 'f';
 
-        public static PdfXRefEntry Parse(int objectNumber, ILexer lexer)
+        public static PdfXRefEntry Parse(int objectNumber, Lexer lexer)
         {
             string offsetS = lexer.ReadToken();
             if (offsetS.Length != 10)
             {
                 throw new ParsingException("Expected 10 digits for offset in xref");
             }
-            long offset = long.Parse(offsetS);
+            long offset = long.Parse(offsetS, CultureInfo.InvariantCulture);
 
             string generationS = lexer.ReadToken();
             if (generationS.Length != 5)
             {
                 throw new ParsingException("Expected 5 digits for generation in xref");
             }
-            int generationNumber = int.Parse(generationS);
+            int generationNumber = int.Parse(generationS, CultureInfo.InvariantCulture);
 
             string inuse = lexer.ReadToken();
             if (inuse != "f" && inuse != "n")
