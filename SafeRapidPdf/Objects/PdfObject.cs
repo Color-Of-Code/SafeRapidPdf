@@ -37,7 +37,7 @@ namespace SafeRapidPdf.Objects
         public static PdfObject ParseAny(Lexer lexer, string endToken)
         {
             string token = lexer.ReadToken();
-            if (token == null)
+            if (token is null)
                 return null;
 
             switch (token)

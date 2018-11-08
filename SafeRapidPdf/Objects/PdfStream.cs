@@ -126,7 +126,7 @@ namespace SafeRapidPdf.Objects
 
         public static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
         {
-            if (dictionary == null)
+            if (dictionary is null)
             {
                 throw new ArgumentNullException(nameof(dictionary));
             }
@@ -146,7 +146,7 @@ namespace SafeRapidPdf.Objects
 
             IPdfObject lengthObject = dictionary["Length"];
 
-            if (lengthObject == null)
+            if (lengthObject is null)
             {
                 throw new ParsingException("Stream dictionary is missing 'Length' entry");
             }

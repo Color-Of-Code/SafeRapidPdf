@@ -96,7 +96,7 @@ namespace SafeRapidPdf.Objects
             {
                 var obj = PdfObject.ParseAny(lexer);
 
-                if (obj == null)
+                if (obj is null)
                 {
                     if (lastObjectWasOEF)
                     {
@@ -147,8 +147,9 @@ namespace SafeRapidPdf.Objects
 
         private void InsertObject(PdfIndirectObject obj)
         {
-            if (obj == null)
+            if (obj is null)
                 throw new Exception("This object must be an indirect object");
+
             string key = PdfXRef.BuildKey(obj.ObjectNumber, obj.GenerationNumber);
             _indirectObjects[key] = obj;
         }

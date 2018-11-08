@@ -107,7 +107,7 @@ namespace ComponentAce.Compression.Libs.zlib
 
 		internal int inflateReset(ZStream z)
 		{
-			if (z == null || z.istate == null)
+			if (z is null || z.istate is null)
 				return Z_STREAM_ERROR;
 
 			z.total_in = z.total_out = 0;
@@ -159,7 +159,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			int r;
 			int b;
 
-			if (z == null || z.istate == null || z.next_in == null)
+			if (z is null || z.istate is null || z.next_in is null)
 				return Z_STREAM_ERROR;
 			f = f == Z_FINISH ? Z_BUF_ERROR : Z_OK;
 			r = Z_BUF_ERROR;
@@ -377,7 +377,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		{
 			int index = 0;
 			int length = dictLength;
-			if (z == null || z.istate == null || z.istate.mode != DICT0)
+			if (z is null || z.istate is null || z.istate.mode != DICT0)
 				return Z_STREAM_ERROR;
 
 			if (z._adler.adler32(1L, dictionary, 0, dictLength) != z.adler)
@@ -407,7 +407,7 @@ namespace ComponentAce.Compression.Libs.zlib
 			long r, w; // temporaries to save total_in and total_out
 
 			// set up
-			if (z == null || z.istate == null)
+			if (z is null || z.istate is null)
 				return Z_STREAM_ERROR;
 			if (z.istate.mode != BAD)
 			{
@@ -466,7 +466,7 @@ namespace ComponentAce.Compression.Libs.zlib
 		// waiting for these length bytes.
 		internal int inflateSyncPoint(ZStream z)
 		{
-			if (z == null || z.istate == null || z.istate.blocks == null)
+			if (z is null || z.istate is null || z.istate.blocks is null)
 				return Z_STREAM_ERROR;
 			return z.istate.blocks.sync_point();
 		}

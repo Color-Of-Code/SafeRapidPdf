@@ -32,7 +32,7 @@ namespace SafeRapidPdf
 
             // NOTE: Linearized documents may have multiple trailers. We use the first.
 
-            if (_root == null)
+            if (_root is null)
             {
                 throw new Exception("Missing trailer");
             }
