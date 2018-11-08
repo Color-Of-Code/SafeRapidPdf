@@ -42,7 +42,7 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        public static PdfDictionary Parse(ILexer lexer)
+        public static PdfDictionary Parse(Lexer lexer)
         {
             var dictionaryItems = new List<PdfKeyValuePair>();
 

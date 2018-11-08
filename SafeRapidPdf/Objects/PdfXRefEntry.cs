@@ -26,7 +26,7 @@ namespace SafeRapidPdf.Objects
         // 'o': in use (compressed in stream)
         public bool InUse => EntryType != 'f';
 
-        public static PdfXRefEntry Parse(int objectNumber, ILexer lexer)
+        public static PdfXRefEntry Parse(int objectNumber, Lexer lexer)
         {
             string offsetS = lexer.ReadToken();
             if (offsetS.Length != 10)

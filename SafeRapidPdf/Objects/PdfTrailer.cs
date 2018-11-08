@@ -1,4 +1,6 @@
-﻿namespace SafeRapidPdf.Objects
+﻿using SafeRapidPdf.Parsing;
+
+namespace SafeRapidPdf.Objects
 {
     public sealed class PdfTrailer : PdfDictionary
     {
@@ -7,7 +9,7 @@
         {
         }
 
-        public static new PdfTrailer Parse(Parsing.ILexer lexer)
+        public static new PdfTrailer Parse(Lexer lexer)
         {
             lexer.Expects("<<");
             var dictionary = PdfDictionary.Parse(lexer);

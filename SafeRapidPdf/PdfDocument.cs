@@ -58,7 +58,6 @@ namespace SafeRapidPdf
             {
                 foreach (var o in objects)
                 {
-
                     if (o.ObjectType == PdfObjectType.Page)
                     {
                         yield return (PdfPage)o;
@@ -71,7 +70,6 @@ namespace SafeRapidPdf
                             yield return page;
                         }
                     }
-
                 }
             }
         }

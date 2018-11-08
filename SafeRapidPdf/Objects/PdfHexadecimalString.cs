@@ -20,7 +20,7 @@ namespace SafeRapidPdf.Objects
             //_text = sb.ToString();
         }
 
-        public static PdfHexadecimalString Parse(Parsing.ILexer lexer)
+        public static PdfHexadecimalString Parse(Parsing.Lexer lexer)
         {
             var hexString = new StringBuilder();
             string text = string.Empty;

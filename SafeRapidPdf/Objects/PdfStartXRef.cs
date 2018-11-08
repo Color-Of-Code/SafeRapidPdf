@@ -15,7 +15,7 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Numeric };
 
-        public static PdfStartXRef Parse(Parsing.ILexer lexer)
+        public static PdfStartXRef Parse(Parsing.Lexer lexer)
         {
             var n = PdfNumeric.Parse(lexer);
             return new PdfStartXRef(n);

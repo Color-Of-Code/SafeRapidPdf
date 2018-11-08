@@ -83,7 +83,7 @@ namespace SafeRapidPdf.Objects
             return new PdfXRefSection(firstId, size, entries);
         }
 
-        public static PdfXRefSection Parse(ILexer lexer)
+        public static PdfXRefSection Parse(Lexer lexer)
         {
             int firstId = int.Parse(lexer.ReadToken());
             int size = int.Parse(lexer.ReadToken());

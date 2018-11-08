@@ -29,12 +29,12 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        public static PdfObject ParseAny(ILexer lexer)
+        public static PdfObject ParseAny(Lexer lexer)
         {
             return ParseAny(lexer, string.Empty);
         }
 
-        public static PdfObject ParseAny(ILexer lexer, string endToken)
+        public static PdfObject ParseAny(Lexer lexer, string endToken)
         {
             string token = lexer.ReadToken();
             if (token == null)

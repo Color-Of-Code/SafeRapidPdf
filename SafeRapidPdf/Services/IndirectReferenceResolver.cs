@@ -7,12 +7,12 @@ namespace SafeRapidPdf.Services
 {
     internal class IndirectReferenceResolver : IIndirectReferenceResolver
     {
-        private readonly ILexer _lexer;
+        private readonly Lexer _lexer;
         private PdfXRef _xref;
         private PdfDictionary _linearizationHeader;
         private long startXRef;
 
-        public IndirectReferenceResolver(ILexer lexer)
+        public IndirectReferenceResolver(Lexer lexer)
         {
             _lexer = lexer;
 

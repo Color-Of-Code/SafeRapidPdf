@@ -124,7 +124,7 @@ namespace SafeRapidPdf.Objects
             throw new NotImplementedException("Implement Filter: " + filter.Text);
         }
 
-        public static PdfStream Parse(PdfDictionary dictionary, ILexer lexer)
+        public static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
         {
             if (dictionary == null)
             {

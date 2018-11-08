@@ -75,7 +75,7 @@ namespace SafeRapidPdf.Objects
 
             var watch = Stopwatch.StartNew();
 
-            var lexer = new LexicalParser(reader);
+            var lexer = new Lexer(reader);
 
             lexer.Expects("%"); // Ensure the first byte matches the PDF marker
 
