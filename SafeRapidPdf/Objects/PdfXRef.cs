@@ -19,7 +19,8 @@ namespace SafeRapidPdf.Objects
             {
                 foreach (var entryItem in section.Items)
                 {
-                    PdfXRefEntry entry = entryItem as PdfXRefEntry;
+                    var entry = (PdfXRefEntry)entryItem;
+
                     if (entry.InUse)
                     {
                         string key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
