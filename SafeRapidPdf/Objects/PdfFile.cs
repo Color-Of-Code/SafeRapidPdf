@@ -35,7 +35,7 @@ namespace SafeRapidPdf.Objects
         }
 
         /// <summary>
-        /// Parsing time in seconds
+        /// Gets the parsing time in seconds
         /// </summary>
         public double ParsingTime { get; private set; }
 
@@ -83,7 +83,7 @@ namespace SafeRapidPdf.Objects
 
             PdfComment comment = PdfComment.Parse(lexer);
 
-            if (!comment.Text.StartsWith("%PDF-"))
+            if (!comment.Text.StartsWith("%PDF-", StringComparison.Ordinal))
             {
                 throw new ParsingException("PDF header missing");
             }
