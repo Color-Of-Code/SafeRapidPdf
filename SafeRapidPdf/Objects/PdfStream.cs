@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using ComponentAce.Compression.Libs.zlib;
+using System.IO.Compression;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
@@ -91,37 +90,48 @@ namespace SafeRapidPdf.Objects
             // TODO: multiple filter in order can be specified
             if (filter.Text == "FlateDecode")
             {
-                var zin = new ZInputStream(new MemoryStream(Data.Data));
-                int r;
-                var output = new List<byte>(32 * 1024); // avoid too many reallocs
-                while ((r = zin.Read()) != -1)
+
+                var data = new MemoryStream(Data.Data);
+
+                // Read the ZLIB header
+                data.ReadByte(); // 104
+                data.ReadByte(); // 222
+
+                byte[] decompressed;
+
+                using (var output = new MemoryStream())
+                using (var deflatedStream = new DeflateStream(data, CompressionMode.Decompress))
                 {
-                    output.Add((byte)r);
+                    deflatedStream.CopyTo(output);
+
+                    decompressed = output.ToArray();
                 }
-                byte[] decompressed = output.ToArray();
-                zin.Close();
 
                 // set defaults
                 int predictor = 1; // no prediction
                 int columns = 1;
 
-                if (StreamDictionary.Keys.Contains("DecodeParms"))
+                if (StreamDictionary.TryGetValue("DecodeParms", out var decodeParams))
                 {
-                    var parameters = (PdfDictionary)StreamDictionary["DecodeParms"];
+                    var parameters = (PdfDictionary)decodeParams;
                     columns = ((PdfNumeric)parameters["Columns"]).ToInt32();
                     predictor = ((PdfNumeric)parameters["Predictor"]).ToInt32();
                 }
 
                 if (columns <= 0)
+                {
                     throw new NotImplementedException("The sample count must be greater than 0");
+                }
 
                 return FlateDecodeWithPredictor(predictor, columns, decompressed);
             }
+
             //else if (filter.Text == "DCTDecode")
             //{
             //    // JPEG image
             //}
             //else
+
             throw new NotImplementedException("Implement Filter: " + filter.Text);
         }
 
