@@ -2,7 +2,7 @@
 
 ## CI-Status
 
-[![Travis build status](https://img.shields.io/travis/Color-Of-Code/SafeRapidPdf/master.svg?label=master&style=flat-square)](https://travis-ci.org/Color-Of-Code/SafeRapidPdf)
+[![Action Status](https://github.com/Color-Of-Code/SafeRapidPdf/workflows/.NET%20Core/badge.svg)](https://github.com/Color-Of-Code/SafeRapidPdf/actions)
 
 ## Introduction
 
