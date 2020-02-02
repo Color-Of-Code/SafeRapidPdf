@@ -25,7 +25,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/PdfInfoTool/bin/Debug/netcoreapp3.0/PdfInfoTool.dll",
+            "program": "${workspaceRoot}/PdfInfoTool/bin/Debug/netcoreapp3.1/PdfInfoTool.dll",
             "args": [
                 "show",
                 "${workspaceRoot}/TestData/15424792.pdf",
@@ -42,7 +42,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/SafeRapidPdf.UnitTests/bin/Debug/netcoreapp3.0/SafeRapidPdf.UnitTests.dll",
+            "program": "${workspaceFolder}/SafeRapidPdf.UnitTests/bin/Debug/netcoreapp3.1/SafeRapidPdf.UnitTests.dll",
             "args": [],
             "cwd": "${workspaceFolder}/SafeRapidPdf.UnitTests",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
