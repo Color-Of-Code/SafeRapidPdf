@@ -1,10 +1,10 @@
+using System;
+using SafeRapidPdf.Objects;
+using SafeRapidPdf.UnitTests.Util;
+using Xunit;
+
 namespace SafeRapidPdf.UnitTests.File
 {
-    using System;
-    using SafeRapidPdf.Objects;
-    using SafeRapidPdf.UnitTests.Util;
-    using Xunit;
-
     public class PdfStreamTests
     {
         [Fact]
@@ -38,7 +38,7 @@ qWNgRCL+/xf6CxBgAO9WCPMNCmVuZHN0cmVhbQ1lbmRvYmo=";
             PdfStream pdfStream = xrefStream.Object as PdfStream;
             var data = pdfStream.Decode();
 
-            String hex = data.ToHexString();
+            string hex = data.ToHexString();
             // known good result:
             Assert.Equal("0100100001039d000103f2000104a3000105c400010669000110ee000114aa00010074000202c2000202c2010202c2020202c2030101d400", hex);
         }

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using System.IO;
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
@@ -17,24 +16,20 @@ namespace SafeRapidPdf.Document
                 obj = reference.ReferencedObject.Object;
             }
 
-            if (obj is PdfArray array)
-            {
-                Streams = array.Items;
-            }
-            else if (obj is PdfStream stream)
-            {
-                Streams = new[] { stream };
-            }
-            else
-            {
-                throw new Exception("Contents must be either a stream or an array of streams");
-            }
+            Streams = obj is PdfArray array
+                ? array.Items
+                : obj is PdfStream stream
+                    ? (new[] { stream })
+                    : throw new InvalidDataException("Contents must be either a stream or an array of streams");
         }
 
         public IReadOnlyList<IPdfObject> Streams { get; }
 
         public override IReadOnlyList<IPdfObject> Items => Streams;
 
-        public override string ToString() => "Contents";
+        public override string ToString()
+        {
+            return "Contents";
+        }
     }
 }

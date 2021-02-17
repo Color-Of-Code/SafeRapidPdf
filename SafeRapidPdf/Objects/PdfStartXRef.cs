@@ -21,6 +21,9 @@ namespace SafeRapidPdf.Objects
             return new PdfStartXRef(n);
         }
 
-        public override string ToString() => "startxref";
+        public override string ToString()
+        {
+            return "startxref";
+        }
     }
 }

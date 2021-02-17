@@ -94,8 +94,8 @@ namespace SafeRapidPdf.Objects
                 var data = new MemoryStream(Data.Data);
 
                 // Read the ZLIB header
-                data.ReadByte(); // 104
-                data.ReadByte(); // 222
+                _ = data.ReadByte(); // 104
+                _ = data.ReadByte(); // 222
 
                 byte[] decompressed;
 
@@ -118,12 +118,9 @@ namespace SafeRapidPdf.Objects
                     predictor = ((PdfNumeric)parameters["Predictor"]).ToInt32();
                 }
 
-                if (columns <= 0)
-                {
-                    throw new NotImplementedException("The sample count must be greater than 0");
-                }
-
-                return FlateDecodeWithPredictor(predictor, columns, decompressed);
+                return columns <= 0
+                    ? throw new NotImplementedException("The sample count must be greater than 0")
+                    : FlateDecodeWithPredictor(predictor, columns, decompressed);
             }
 
             //else if (filter.Text == "DCTDecode")
@@ -181,6 +178,9 @@ namespace SafeRapidPdf.Objects
             return new PdfStream(dictionary, data);
         }
 
-        public override string ToString() => "stream";
+        public override string ToString()
+        {
+            return "stream";
+        }
     }
 }

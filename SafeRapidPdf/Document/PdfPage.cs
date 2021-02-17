@@ -35,7 +35,7 @@ namespace SafeRapidPdf.Document
 
         protected int GenerationNumber { get; }
 
-        protected int ObjectNumber { get;  }
+        protected int ObjectNumber { get; }
 
         // excepted in root node
         [ParameterType(required: true, inheritable: false)]
@@ -141,6 +141,9 @@ namespace SafeRapidPdf.Document
             }
         }
 
-        public override string ToString() => "Page";
+        public override string ToString()
+        {
+            return "Page";
+        }
     }
 }

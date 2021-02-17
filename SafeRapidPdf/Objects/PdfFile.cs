@@ -139,10 +139,8 @@ namespace SafeRapidPdf.Objects
 
         public static PdfFile Parse(string pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
         {
-            using (Stream reader = File.Open(pdfFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                return Parse(reader, progress);
-            }
+            using Stream reader = File.Open(pdfFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return Parse(reader, progress);
         }
 
         private void InsertObject(PdfIndirectObject obj)

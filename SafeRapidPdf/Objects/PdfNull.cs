@@ -15,6 +15,9 @@
             return Null;
         }
 
-        public override string ToString() => "null";
+        public override string ToString()
+        {
+            return "null";
+        }
     }
 }

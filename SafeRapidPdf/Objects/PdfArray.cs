@@ -19,13 +19,16 @@ namespace SafeRapidPdf.Objects
         {
             var list = new List<IPdfObject>();
             PdfObject value;
-            while ((value = PdfObject.ParseAny(lexer, "]")) != null)
+            while ((value = ParseAny(lexer, "]")) != null)
             {
                 list.Add(value);
             }
             return new PdfArray(list);
         }
 
-        public override string ToString() => "[...]";
+        public override string ToString()
+        {
+            return "[...]";
+        }
     }
 }

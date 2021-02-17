@@ -112,6 +112,9 @@ namespace SafeRapidPdf.Objects
             return new PdfXRefEntry(objectNumber, generationNumber, offset, entryType);
         }
 
-        public override string ToString() => $"{Offset:0000000000} {GenerationNumber:00000} {EntryType}";
+        public override string ToString()
+        {
+            return $"{Offset:0000000000} {GenerationNumber:00000} {EntryType}";
+        }
     }
 }

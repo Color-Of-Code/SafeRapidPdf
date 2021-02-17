@@ -20,9 +20,7 @@ namespace SafeRapidPdf.Objects
         public int GenerationNumber { get; }
 
         public PdfIndirectObject ReferencedObject
-        {
-            get => Resolver.GetObject(ObjectNumber, GenerationNumber);
-        }
+            => Resolver.GetObject(ObjectNumber, GenerationNumber);
 
         internal IIndirectReferenceResolver Resolver { get; set; }
 
@@ -45,6 +43,9 @@ namespace SafeRapidPdf.Objects
             return new PdfIndirectReference(objectNumber, generationNumber);
         }
 
-        public override string ToString() => $"{ObjectNumber} {GenerationNumber} R";
+        public override string ToString()
+        {
+            return $"{ObjectNumber} {GenerationNumber} R";
+        }
     }
 }

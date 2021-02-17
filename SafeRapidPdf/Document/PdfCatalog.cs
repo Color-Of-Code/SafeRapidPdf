@@ -6,7 +6,7 @@ namespace SafeRapidPdf.Document
 {
     public sealed class PdfCatalog : PdfBaseObject
     {
-        private readonly List<IPdfObject> _items = new List<IPdfObject>();
+        private readonly List<IPdfObject> _items = new();
 
         public PdfCatalog(PdfDictionary catalog)
             : base(PdfObjectType.Catalog)
@@ -43,6 +43,9 @@ namespace SafeRapidPdf.Document
             }
         }
 
-        public override string ToString() => "/";
+        public override string ToString()
+        {
+            return "/";
+        }
     }
 }

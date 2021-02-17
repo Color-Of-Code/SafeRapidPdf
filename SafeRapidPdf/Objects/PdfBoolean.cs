@@ -4,8 +4,8 @@ namespace SafeRapidPdf.Objects
 {
     public sealed class PdfBoolean : PdfObject
     {
-        public static readonly PdfBoolean True = new PdfBoolean(true);
-        public static readonly PdfBoolean False = new PdfBoolean(false);
+        public static readonly PdfBoolean True = new(true);
+        public static readonly PdfBoolean False = new(false);
 
         private PdfBoolean(bool value)
             : base(PdfObjectType.Boolean)
@@ -17,18 +17,17 @@ namespace SafeRapidPdf.Objects
 
         public static PdfBoolean Parse(string token)
         {
-            switch (token)
+            return token switch
             {
-                case "true":
-                    return True;
-                case "false":
-                    return False;
-                default:
-                    throw new ParsingException($"Expected true or false. Was {token}.");
-            }
-
+                "true" => True,
+                "false" => False,
+                _ => throw new ParsingException($"Expected true or false. Was {token}."),
+            };
         }
 
-        public override string ToString() => Value ? "true" : "false";
+        public override string ToString()
+        {
+            return Value ? "true" : "false";
+        }
     }
 }

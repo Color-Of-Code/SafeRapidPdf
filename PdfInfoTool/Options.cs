@@ -1,8 +1,9 @@
+using CommandLine;
+
 namespace PdfInfoTool
 {
-    using CommandLine;
 
-    interface IOptions
+    internal interface IOptions
     {
         [Option('v', "verbose",
             HelpText = "Verbose message output.")]
@@ -19,7 +20,7 @@ namespace PdfInfoTool
     }
 
     [Verb("dump", HelpText = "Dump an object out.")]
-    class DumpOptions : IOptions
+    internal class DumpOptions : IOptions
     {
         public bool Verbose { get; set; }
         public bool Quiet { get; set; }
@@ -27,7 +28,7 @@ namespace PdfInfoTool
     }
 
     [Verb("show", HelpText = "Show object contents in a human readable way.")]
-    class ShowOptions : IOptions
+    internal class ShowOptions : IOptions
     {
         public bool Verbose { get; set; }
         public bool Quiet { get; set; }

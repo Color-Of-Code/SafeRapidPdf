@@ -20,6 +20,9 @@
             return new PdfComment(lexer.ReadUntilEol());
         }
 
-        public override string ToString() => $"%{_text}";
+        public override string ToString()
+        {
+            return $"%{_text}";
+        }
     }
 }

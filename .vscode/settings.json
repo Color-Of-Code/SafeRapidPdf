@@ -1,0 +1,6 @@
+{
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.defaultLaunchSolution": "SafeRapidPdf.sln",
+    "omnisharp.enableImportCompletion": true,
+    "omnisharp.organizeImportsOnFormat": true
+}

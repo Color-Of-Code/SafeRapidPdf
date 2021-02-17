@@ -1,23 +1,21 @@
+using SafeRapidPdf.Objects;
+using SafeRapidPdf.UnitTests.Util;
+using Xunit;
+
 namespace SafeRapidPdf.UnitTests.File
 {
-    using System;
-
-    using SafeRapidPdf.Objects;
-    using SafeRapidPdf.UnitTests.Util;
-    using Xunit;
-
     public class PdfXRefTests
     {
         [Fact]
         public void Parsing_Uncompressed_XRef()
         {
             var r = PdfXRef.Parse(@"0 6
-0000000000 65535 f 
-0000000016 00000 n 
-0000000051 00000 n 
-0000000109 00000 n 
-0000000281 00000 n 
-0000000385 00000 n 
+0000000000 65535 f
+0000000016 00000 n
+0000000051 00000 n
+0000000109 00000 n
+0000000281 00000 n
+0000000385 00000 n
 ".ToLexer());
             // 1 section
             Assert.Equal(1, r.Items.Count);
@@ -53,13 +51,13 @@ qWNgRCL+/xf6CxBgAO9WCPMNCmVuZHN0cmVhbQ1lbmRvYmo=";
             PdfStream pdfStream = xrefStream.Object as PdfStream;
             var data = pdfStream.Decode();
 
-            String hex = data.ToHexString();
+            string hex = data.ToHexString();
 
             // known good result:
             Assert.Equal("0100100001039d000103f2000104a3000105c400010669000110ee000114aa00010074000202c2000202c2010202c2020202c2030101d400", hex);
 
             // this yields now a decoded buffer that needs to get decoded further using PNG algos
-            // W[1 2 1] (4 columns) 
+            // W[1 2 1] (4 columns)
             // W[1 3 1] (5 columns, larger indexes)
 
             // needed to resolve the values for refs encoded with 2

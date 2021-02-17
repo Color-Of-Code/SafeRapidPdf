@@ -46,6 +46,9 @@ namespace SafeRapidPdf.Objects
             return decimal.Parse(text, CultureInfo.InvariantCulture);
         }
 
-        public override string ToString() => text;
+        public override string ToString()
+        {
+            return text;
+        }
     }
 }

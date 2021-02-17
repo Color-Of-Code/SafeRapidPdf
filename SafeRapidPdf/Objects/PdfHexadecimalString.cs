@@ -34,6 +34,9 @@ namespace SafeRapidPdf.Objects
             return new PdfHexadecimalString(hexString.ToString());
         }
 
-        public override string ToString() => _text;
+        public override string ToString()
+        {
+            return _text;
+        }
     }
 }

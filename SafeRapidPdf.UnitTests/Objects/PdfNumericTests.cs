@@ -8,7 +8,7 @@ namespace SafeRapidPdf.UnitTests.Objects
         [Fact]
         public void ToInt32Tests()
         {
-            Assert.Equal(1,    PdfNumeric.Parse("1").ToInt32());
+            Assert.Equal(1, PdfNumeric.Parse("1").ToInt32());
             Assert.Equal(1000, PdfNumeric.Parse("1000").ToInt32());
         }
 

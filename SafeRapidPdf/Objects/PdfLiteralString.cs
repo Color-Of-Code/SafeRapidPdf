@@ -93,6 +93,9 @@ namespace SafeRapidPdf.Objects
             return new PdfLiteralString(sb.ToString());
         }
 
-        public override string ToString() => _text;
+        public override string ToString()
+        {
+            return _text;
+        }
     }
 }

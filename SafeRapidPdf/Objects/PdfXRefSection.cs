@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
@@ -117,6 +116,9 @@ namespace SafeRapidPdf.Objects
             return new PdfXRefSection(firstId, size, entries);
         }
 
-        public override string ToString() => $"{FirstId} {Size}";
+        public override string ToString()
+        {
+            return $"{FirstId} {Size}";
+        }
     }
 }

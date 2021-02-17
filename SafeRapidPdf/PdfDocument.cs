@@ -50,7 +50,10 @@ namespace SafeRapidPdf
             return GetPages(_root.Items);
         }
 
-        public override string ToString() => "Document";
+        public override string ToString()
+        {
+            return "Document";
+        }
 
         private IEnumerable<PdfPage> GetPages(IReadOnlyList<IPdfObject> objects)
         {

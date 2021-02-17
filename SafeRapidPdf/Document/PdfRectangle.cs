@@ -49,6 +49,9 @@ namespace SafeRapidPdf.Document
             );
         }
 
-        public override string ToString() => $"{ObjectType} [{Llx}; {Lly}; {Urx}; {Ury}]";
+        public override string ToString()
+        {
+            return $"{ObjectType} [{Llx}; {Lly}; {Urx}; {Ury}]";
+        }
     }
 }

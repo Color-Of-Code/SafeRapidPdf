@@ -1,10 +1,9 @@
+using System;
+using SafeRapidPdf;
+using SafeRapidPdf.Objects;
 
 namespace PdfInfoTool
 {
-    using System;
-    using SafeRapidPdf;
-    using SafeRapidPdf.Objects;
-
     internal static partial class Command
     {
         internal static int RunShowAndReturnExitCode(ShowOptions opts)

@@ -96,7 +96,7 @@ namespace SafeRapidPdf.Services
 
             _lexer.PopPosition();
 
-            _xref = PdfXRef.Parse((PdfStream)firstPageXRef.Object as PdfStream, (PdfStream)mainXRef.Object);
+            _xref = PdfXRef.Parse((PdfStream)firstPageXRef.Object, (PdfStream)mainXRef.Object);
         }
 
         // returns true if an xref was found false otherwise

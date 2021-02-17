@@ -59,6 +59,9 @@ namespace SafeRapidPdf.Document
         [ParameterType(required: true, inheritable: false)]
         private List<IPdfObject> Kids { get; set; }
 
-        public override string ToString() => $"Page Tree Node ({Count} kids)";
+        public override string ToString()
+        {
+            return $"Page Tree Node ({Count} kids)";
+        }
     }
 }

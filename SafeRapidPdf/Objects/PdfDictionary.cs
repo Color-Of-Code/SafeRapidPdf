@@ -94,18 +94,11 @@ namespace SafeRapidPdf.Objects
         {
             IPdfObject value = this[name];
 
-            if (value is PdfIndirectReference reference)
-            {
-                return reference.Dereference<T>();
-            }
-            else if (value is T)
-            {
-                return (T)value;
-            }
-            else
-            {
-                throw new Exception($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
-            }
+            return value is PdfIndirectReference reference
+                ? reference.Dereference<T>()
+                : value is T t
+                    ? t
+                    : throw new Exception($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
         }
 
         public IEnumerable<string> Keys
@@ -160,6 +153,9 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        public override string ToString() => Type != null ? $"<<...>> ({Type})" : "<<...>>";
+        public override string ToString()
+        {
+            return Type != null ? $"<<...>> ({Type})" : "<<...>>";
+        }
     }
 }

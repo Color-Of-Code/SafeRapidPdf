@@ -1,13 +1,13 @@
+using System;
+
+using SafeRapidPdf.Objects;
+using SafeRapidPdf.Parsing;
+using SafeRapidPdf.UnitTests.Util;
+
+using Xunit;
+
 namespace SafeRapidPdf.UnitTests.File
 {
-    using System;
-
-    using SafeRapidPdf.Objects;
-    using SafeRapidPdf.Parsing;
-    using SafeRapidPdf.UnitTests.Util;
-
-    using Xunit;
-
     public class PdfFileTests
     {
         [Fact]

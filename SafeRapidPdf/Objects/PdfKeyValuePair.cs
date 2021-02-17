@@ -22,6 +22,9 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Value };
 
-        public override string ToString() => Key.Text;
+        public override string ToString()
+        {
+            return Key.Text;
+        }
     }
 }

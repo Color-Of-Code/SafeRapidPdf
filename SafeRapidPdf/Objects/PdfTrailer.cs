@@ -16,6 +16,9 @@ namespace SafeRapidPdf.Objects
             return new PdfTrailer(dictionary);
         }
 
-        public override string ToString() => "trailer";
+        public override string ToString()
+        {
+            return "trailer";
+        }
     }
 }

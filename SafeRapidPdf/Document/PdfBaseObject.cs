@@ -17,13 +17,8 @@ namespace SafeRapidPdf.Document
         public string Text => ToString();
 
         public virtual IReadOnlyList<IPdfObject> Items
-        {
-            get
-            {
-                if (!IsContainer)
-                    return null;
-                throw new NotImplementedException();
-            }
-        }
+            => !IsContainer
+                ? null
+                : throw new NotImplementedException();
     }
 }

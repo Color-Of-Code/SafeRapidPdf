@@ -14,17 +14,12 @@ namespace SafeRapidPdf.Objects
         }
 
         public string Name
-        {
-            get
-            {
-                // process the # encoded chars
-                return Regex.Replace(_rawName, @"#(\d\d)", x =>
+            // process the # encoded chars
+            => Regex.Replace(_rawName, @"#(\d\d)", x =>
                 {
                     byte val = Convert.ToByte(x.Groups[1].Value, 16);
                     return ((char)val).ToString();
                 });
-            }
-        }
 
         public static PdfName Parse(Parsing.Lexer lexer)
         {
@@ -32,6 +27,9 @@ namespace SafeRapidPdf.Objects
             return new PdfName(name);
         }
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

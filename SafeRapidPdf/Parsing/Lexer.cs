@@ -32,9 +32,9 @@ namespace SafeRapidPdf.Parsing
         public Lexer(Stream stream, bool withoutResolver = false)
         {
             _reader = stream;
-            _reader.Seek(0, SeekOrigin.End);
+            _ = _reader.Seek(0, SeekOrigin.End);
             _size = _reader.Position;
-            _reader.Seek(0, SeekOrigin.Begin);
+            _ = _reader.Seek(0, SeekOrigin.Begin);
 
             if (!withoutResolver)
             {
@@ -78,7 +78,7 @@ namespace SafeRapidPdf.Parsing
 
         public string PeekToken1()
         {
-            _peekedToken = _peekedToken ?? ReadTokenInternal();
+            _peekedToken ??= ReadTokenInternal();
 
             return _peekedToken;
         }
@@ -118,15 +118,15 @@ namespace SafeRapidPdf.Parsing
         {
             byte[] buffer = new byte[length];
 
-            if (_reader.Read(buffer, 0, length) != length)
-            {
-                throw new ParsingException("Could not read the full amount of bytes");
-            }
-
-            return buffer;
+            return _reader.Read(buffer, 0, length) != length
+                ? throw new ParsingException("Could not read the full amount of bytes")
+                : buffer;
         }
 
-        public char ReadChar() => (char)ReadByte();
+        public char ReadChar()
+        {
+            return (char)ReadByte();
+        }
 
         private int ReadByte()
         {
@@ -171,14 +171,11 @@ namespace SafeRapidPdf.Parsing
 
             string token = ParseToken(c);
 
-            if (string.IsNullOrEmpty(token))
-            {
-                if (ReadByte() == -1) // end of file
-                    return null;
-                throw new ParsingException("Token may not be empty");
-            }
-
-            return token;
+            return string.IsNullOrEmpty(token)
+                ? ReadByte() == -1
+                    ? null
+                    : throw new ParsingException("Token may not be empty")
+                : token;
         }
 
         private string ParseToken(int b)
@@ -227,7 +224,7 @@ namespace SafeRapidPdf.Parsing
 
         public void Putc()
         {
-            _reader.Seek(-1, SeekOrigin.Current);
+            _ = _reader.Seek(-1, SeekOrigin.Current);
         }
 
         private static bool IsInteger(string token)

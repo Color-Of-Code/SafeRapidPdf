@@ -1,13 +1,10 @@
-﻿namespace PdfInfoTool
-{
-    using System;
-    using CommandLine;
-    using SafeRapidPdf;
-    using SafeRapidPdf.Objects;
+﻿using CommandLine;
 
-    class Program
+namespace PdfInfoTool
+{
+    internal class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             return Parser.Default.ParseArguments<DumpOptions, ShowOptions>(args)
               .MapResult(

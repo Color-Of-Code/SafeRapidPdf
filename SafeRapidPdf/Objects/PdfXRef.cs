@@ -88,6 +88,9 @@ namespace SafeRapidPdf.Objects
             return $"{objectNumber:0000000000}_{generationNumber:00000}";
         }
 
-        public override string ToString() => "xref";
+        public override string ToString()
+        {
+            return "xref";
+        }
     }
 }
