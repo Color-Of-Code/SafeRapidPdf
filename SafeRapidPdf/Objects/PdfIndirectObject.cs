@@ -34,7 +34,7 @@ namespace SafeRapidPdf.Objects
         {
             int generationNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
             lexer.Expects("obj");
-            PdfObject obj = PdfObject.ParseAny(lexer);
+            PdfObject obj = ParseAny(lexer);
             lexer.Expects("endobj");
             return new PdfIndirectObject(objectNumber, generationNumber, obj);
         }

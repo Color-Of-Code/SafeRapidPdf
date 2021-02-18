@@ -20,14 +20,9 @@ namespace SafeRapidPdf.Objects
         public string Text => ToString();
 
         public virtual IReadOnlyList<IPdfObject> Items
-        {
-            get
-            {
-                if (!IsContainer)
-                    return null;
-                throw new NotImplementedException();
-            }
-        }
+            => !IsContainer
+                ? null
+                : throw new NotImplementedException();
 
         public static PdfObject ParseAny(Lexer lexer)
         {

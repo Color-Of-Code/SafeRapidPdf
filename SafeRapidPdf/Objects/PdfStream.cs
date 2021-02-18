@@ -47,7 +47,7 @@ namespace SafeRapidPdf.Objects
             for (int r = 0; r < rows; r++)
             {
                 var currentRow = new byte[columns];
-                byte rowPredictor = (byte)decompressed[r * (columns + 1)];
+                byte rowPredictor = decompressed[r * (columns + 1)];
                 if (rowPredictor != 2)
                 {
                     throw new NotImplementedException("Only up predictor is supported at the moment");
@@ -55,7 +55,7 @@ namespace SafeRapidPdf.Objects
                 for (int i = 0; i < columns; i++)
                 {
                     // the leading predictor is ignored, assuming it's always UP
-                    var inputByte = (byte)decompressed[r * (columns + 1) + i + 1];
+                    var inputByte = decompressed[(r * (columns + 1)) + i + 1];
                     currentRow[i] = (byte)(inputByte + previousRow[i]);
                     output.Add(currentRow[i]);
                 }
@@ -67,15 +67,14 @@ namespace SafeRapidPdf.Objects
         private byte[] FlateDecodeWithPredictor(int predictor, int columns, byte[] input)
         {
             // now we have to handle the predictors...
-            switch (predictor)
+            return predictor switch
             {
-                case 1:  //1 = default: no prediction
-                    return FlateDecodeWithPredictorNone(columns, input);
-                case 12: //12 = PNG prediction (on encoding, PNG Up on all rows)
-                    return FlateDecodeWithPredictorPngUp(columns, input);
-                default:
-                    throw new NotImplementedException($"Sorry at the moment predictor {predictor} is not implemented. Please make a feature request on https://github.com/jdehaan/SafeRapidPdf/issues. Ideally provide an example pdf.");
-            }
+                //1 = default: no prediction
+                1 => FlateDecodeWithPredictorNone(columns, input),
+                //12 = PNG prediction (on encoding, PNG Up on all rows)
+                12 => FlateDecodeWithPredictorPngUp(columns, input),
+                _ => throw new NotImplementedException($"Sorry at the moment predictor {predictor} is not implemented. Please make a feature request on https://github.com/jdehaan/SafeRapidPdf/issues. Ideally provide an example pdf."),
+            };
         }
 
         public byte[] Decode()

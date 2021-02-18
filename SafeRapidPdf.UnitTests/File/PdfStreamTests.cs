@@ -1,4 +1,3 @@
-using System;
 using SafeRapidPdf.Objects;
 using SafeRapidPdf.UnitTests.Util;
 using Xunit;

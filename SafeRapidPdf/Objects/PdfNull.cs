@@ -2,7 +2,7 @@
 {
     public sealed class PdfNull : PdfObject
     {
-        public static readonly PdfNull Null = new PdfNull();
+        public static readonly PdfNull Null = new();
 
         private PdfNull()
             : base(PdfObjectType.Null)

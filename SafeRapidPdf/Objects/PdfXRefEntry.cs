@@ -44,7 +44,7 @@ namespace SafeRapidPdf.Objects
             int generationNumber = int.Parse(generationS, CultureInfo.InvariantCulture);
 
             string inuse = lexer.ReadToken();
-            if (inuse != "f" && inuse != "n")
+            if (inuse is not "f" and not "n")
             {
                 throw new ParsingException($"xref flag must be 'f' or 'n'. Was {inuse}");
             }
@@ -63,8 +63,8 @@ namespace SafeRapidPdf.Objects
                 long v = 0;
                 for (int bytes = 0; bytes < sizes[column]; bytes++)
                 {
-                    var b = decodedXRef[row * bytesPerEntry + position];
-                    v = v * 256 + b;
+                    var b = decodedXRef[(row * bytesPerEntry) + position];
+                    v = (v * 256) + b;
                     position++;
                 }
                 result[column] = v;
@@ -73,8 +73,8 @@ namespace SafeRapidPdf.Objects
             // Meaning of types and fields within an xref stream
             // type  field
             var entryType = 'f';
-            long offset = 0;
-            int generationNumber = 0;
+            long offset;
+            int generationNumber;
             switch (result[0])
             {
                 // 0     0 = f

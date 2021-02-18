@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using System.IO;
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.Objects;
 
@@ -38,7 +37,7 @@ namespace SafeRapidPdf.Document
                             else if (type == "Page")
                                 Kids.Add(new PdfPage(item, this));
                             else
-                                throw new Exception("Content of Kids in a Page Tree Node must be either a Page or another Page Tree Node");
+                                throw new InvalidDataException("Content of Kids in a Page Tree Node must be either a Page or another Page Tree Node");
                         }
                         break;
                     case "Count":

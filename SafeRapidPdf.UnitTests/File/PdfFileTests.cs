@@ -1,5 +1,3 @@
-using System;
-
 using SafeRapidPdf.Objects;
 using SafeRapidPdf.Parsing;
 using SafeRapidPdf.UnitTests.Util;
@@ -22,18 +20,21 @@ trailer<</Root<</Pages<<>>>>>>
         [Fact]
         public void Parsing_TinyFile_Without_EOF_YieldsException()
         {
-            var exception = Assert.Throws<ParsingException>(() => { PdfFile.Parse(@"%PDF-
-trailer<</Root<</Pages<<>>>>>>".ToStream()); });
+            var exception = Assert.Throws<ParsingException>(() =>
+                {
+                    PdfFile.Parse(@"%PDF-
+trailer<</Root<</Pages<<>>>>>>".ToStream());
+                });
             Assert.Equal("End of file reached without EOF marker", exception.Message);
         }
 
         [Fact]
         public void Parsing_Non_Pdf_Yields_Exception()
         {
-            Assert.Throws<UnexpectedTokenException>(() =>
-            {
-                PdfFile.Parse("Not a PDF".ToStream());
-            });
+            _ = Assert.Throws<UnexpectedTokenException>(() =>
+              {
+                  PdfFile.Parse("Not a PDF".ToStream());
+              });
         }
     }
 }

@@ -17,15 +17,15 @@ namespace SafeRapidPdf.UnitTests.File
 
             var pages = pdf.GetPages().ToArray();
 
-            Assert.Equal(1, pages.Length);
+            var page = Assert.Single(pages);
 
-            Assert.Equal(10, pages[0].Items.Count);
+            Assert.Equal(10, page.Items.Count);
 
-            Assert.Equal("ArtBox [0.0; 0.0; 1920.0; 1080.0]", pages[0].ArtBox.ToString());
-            Assert.Equal("BleedBox [0.0; 0.0; 1920.0; 1080.0]", pages[0].BleedBox.ToString());
-            Assert.Null(pages[0].CropBox);
-            Assert.Equal("MediaBox [0.0; 0.0; 1920.0; 1080.0]", pages[0].MediaBox.ToString());
-            Assert.Null(pages[0].Rotate);
+            Assert.Equal("ArtBox [0.0; 0.0; 1920.0; 1080.0]", page.ArtBox.ToString());
+            Assert.Equal("BleedBox [0.0; 0.0; 1920.0; 1080.0]", page.BleedBox.ToString());
+            Assert.Null(page.CropBox);
+            Assert.Equal("MediaBox [0.0; 0.0; 1920.0; 1080.0]", page.MediaBox.ToString());
+            Assert.Null(page.Rotate);
         }
 
         [Fact]

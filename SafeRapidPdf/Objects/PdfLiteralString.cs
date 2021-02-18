@@ -36,16 +36,16 @@ namespace SafeRapidPdf.Objects
                     switch (c)
                     {
                         case 'n':
-                            sb.Append("\n");
+                            _ = sb.Append('\n');
                             break;
                         case 'r':
-                            sb.Append("\r");
+                            _ = sb.Append('\r');
                             break;
                         case 't':
-                            sb.Append("\t");
+                            _ = sb.Append('\t');
                             break;
                         case 'f':
-                            sb.Append("\f");
+                            _ = sb.Append('\f');
                             break;
 
                         // \b Backspace (BS)
@@ -55,7 +55,7 @@ namespace SafeRapidPdf.Objects
                         case '\\':
                         case ')':
                         case '(':
-                            sb.Append(c);
+                            _ = sb.Append(c);
                             break;
 
                         case '\r':
@@ -64,7 +64,7 @@ namespace SafeRapidPdf.Objects
                         default:
                             // \ddd Character code ddd (octal)
                             var octalNumber = new StringBuilder();
-                            octalNumber.Append(c);
+                            _ = octalNumber.Append(c);
                             char c2 = lexer.ReadChar();
                             if (!char.IsDigit(c2))
                             {
@@ -72,21 +72,21 @@ namespace SafeRapidPdf.Objects
                             }
                             else
                             {
-                                octalNumber.Append(c2);
+                                _ = octalNumber.Append(c2);
                                 char c3 = lexer.ReadChar();
                                 if (!char.IsDigit(c3))
                                     lexer.Putc();
                                 else
-                                    octalNumber.Append(c2);
+                                    _ = octalNumber.Append(c2);
                             }
                             int octal = Convert.ToInt32(octalNumber.ToString(), 8);
-                            sb.Append((char)octal);
+                            _ = sb.Append((char)octal);
                             break;
                     }
                 }
                 else
                 {
-                    sb.Append(c);
+                    _ = sb.Append(c);
                 }
                 c = lexer.ReadChar();
             }

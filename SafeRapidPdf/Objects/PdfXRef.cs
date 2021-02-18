@@ -5,7 +5,7 @@ namespace SafeRapidPdf.Objects
     public sealed class PdfXRef : PdfObject
     {
         private readonly IList<PdfXRefSection> _sections;
-        private readonly Dictionary<string, long> _offsets = new Dictionary<string, long>();
+        private readonly Dictionary<string, long> _offsets = new();
 
         private PdfXRef(IList<PdfXRefSection> sections)
             : base(PdfObjectType.XRef)

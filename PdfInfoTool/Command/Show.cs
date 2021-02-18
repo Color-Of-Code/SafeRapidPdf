@@ -39,7 +39,7 @@ namespace PdfInfoTool
                                         {
                                             if (contentType.Text == "XObject")
                                             {
-                                                stream.StreamDictionary.TryGetValue("Subtype", out contentType);
+                                                _ = stream.StreamDictionary.TryGetValue("Subtype", out contentType);
                                                 type = $"Stream(XObject: {contentType})";
                                             }
                                             else
@@ -56,22 +56,12 @@ namespace PdfInfoTool
                                     else if (objectType == PdfObjectType.Dictionary)
                                     {
                                         var dictionary = refObject.Object as PdfDictionary;
-                                        if (dictionary.TryGetValue("Type", out IPdfObject contentType))
-                                        {
-                                            type = contentType.ToString();
-                                        }
-                                        else
-                                        {
-                                            if (dictionary.Items.Count > 0 &&
-                                                dictionary.Items[0].Text == "Linearized")
-                                            {
-                                                type = "Linearization Parameter";
-                                            }
-                                            else
-                                            {
-                                                type = $"Dictionary(?)";
-                                            }
-                                        }
+                                        type = dictionary.TryGetValue("Type", out IPdfObject contentType)
+                                            ? contentType.ToString()
+                                            : dictionary.Items.Count > 0 &&
+                                                dictionary.Items[0].Text == "Linearized"
+                                                ? "Linearization Parameter"
+                                                : $"Dictionary(?)";
                                     }
                                     else
                                     {

@@ -11,10 +11,8 @@ namespace SafeRapidPdf.Parsing
         private static readonly bool[] _regularTable = new bool[257];
         private static readonly bool[] _whitespaceTable = new bool[257];
         private static readonly bool[] _delimiterTable = new bool[257];
-
-        private readonly long _size;
         private readonly Stream _reader;
-        private readonly Stack<long> _positions = new Stack<long>();
+        private readonly Stack<long> _positions = new();
         private string _peekedToken;
         private string _peekedToken2;
         private int _byteRead = -1;
@@ -33,7 +31,7 @@ namespace SafeRapidPdf.Parsing
         {
             _reader = stream;
             _ = _reader.Seek(0, SeekOrigin.End);
-            _size = _reader.Position;
+            Size = _reader.Position;
             _ = _reader.Seek(0, SeekOrigin.Begin);
 
             if (!withoutResolver)
@@ -44,9 +42,9 @@ namespace SafeRapidPdf.Parsing
 
         public IIndirectReferenceResolver IndirectReferenceResolver { get; private set; }
 
-        public int Percentage => (int)(_reader.Position * 100 / _size);
+        public int Percentage => (int)(_reader.Position * 100 / Size);
 
-        public long Size => _size;
+        public long Size { get; }
 
         public void Expects(string expectedToken)
         {
@@ -60,15 +58,15 @@ namespace SafeRapidPdf.Parsing
 
         public string PeekToken2()
         {
-            _peekedToken = _peekedToken ?? ReadTokenInternal();
+            _peekedToken ??= ReadTokenInternal();
 
             if (IsInteger(_peekedToken))
             {
-                _peekedToken2 = _peekedToken2 ?? ReadTokenInternal();
+                _peekedToken2 ??= ReadTokenInternal();
 
                 // should be "obj" or "R"
                 string token = _peekedToken2;
-                if (token == "obj" || token == "R")
+                if (token is "obj" or "R")
                 {
                     return token;
                 }
@@ -108,7 +106,7 @@ namespace SafeRapidPdf.Parsing
                     break;
                 }
 
-                sb.Append((char)c);
+                _ = sb.Append((char)c);
             }
 
             return sb.ToString();
@@ -183,14 +181,14 @@ namespace SafeRapidPdf.Parsing
             var token = new StringBuilder();
             if (_delimiterTable[b + 1])
             {
-                token.Append((char)b);
+                _ = token.Append((char)b);
                 b = ReadByte();
             }
             else
             {
                 while (_regularTable[b + 1])
                 {
-                    token.Append((char)b);
+                    _ = token.Append((char)b);
                     b = ReadByte();
                 }
             }
@@ -212,8 +210,7 @@ namespace SafeRapidPdf.Parsing
         /// <returns></returns>
         private int SkipWhitespaces()
         {
-            int c = 0;
-
+            int c;
             do
             {
                 c = ReadByte();
@@ -239,8 +236,8 @@ namespace SafeRapidPdf.Parsing
         /// <returns></returns>
         public static bool IsWhitespace(int b)
         {
-            return (b <= 32) && // shortcut everything > 32 => most cases
-                (b == 32 || b == 10 || b == 12 || b == 13 || b == 9 || b == 0);
+            return b is <= 32 and // shortcut everything > 32 => most cases
+                (32 or 10 or 12 or 13 or 9 or 0);
         }
 
         /// <summary>
@@ -262,12 +259,12 @@ namespace SafeRapidPdf.Parsing
         {
             // 37 40 41 47 60 62 91 93 123 125
             return
-                b == '/' ||                 // 47
-                b == '<' || b == '>' ||     // 60 62
-                b == '[' || b == ']' ||     // 91 93
-                b == '(' || b == ')' ||     // 40 41
-                b == '{' || b == '}' ||     // 123 125
-                b == '%';                   // 37
+                b is '/' or       // 47
+                '<' or '>' or     // 60 62
+                '[' or ']' or     // 91 93
+                '(' or ')' or     // 40 41
+                '{' or '}' or     // 123 125
+                '%';              // 37
         }
 
         /// <summary>
@@ -278,20 +275,15 @@ namespace SafeRapidPdf.Parsing
         public static bool IsEol(int b)
         {
             // -1 was added to catch %%EOF without CR or LF
-            return b == 10 || b == 13 || b == -1;
+            return b is 10 or 13 or (-1);
         }
 
         public void PushPosition(long newPosition)
         {
             _positions.Push(_reader.Position);
-            if (newPosition < 0)
-            {
-                _reader.Seek(newPosition, SeekOrigin.End);
-            }
-            else
-            {
-                _reader.Seek(newPosition, SeekOrigin.Begin);
-            }
+            _ = newPosition < 0
+                ? _reader.Seek(newPosition, SeekOrigin.End)
+                : _reader.Seek(newPosition, SeekOrigin.Begin);
 
             _peekedToken = null;
             _peekedToken2 = null;
@@ -299,7 +291,7 @@ namespace SafeRapidPdf.Parsing
 
         public void PopPosition()
         {
-            _reader.Seek(_positions.Pop(), SeekOrigin.Begin);
+            _ = _reader.Seek(_positions.Pop(), SeekOrigin.Begin);
             _peekedToken = null;
             _peekedToken2 = null;
         }

@@ -146,7 +146,7 @@ namespace SafeRapidPdf.Objects
         private void InsertObject(PdfIndirectObject obj)
         {
             if (obj is null)
-                throw new Exception("This object must be an indirect object");
+                throw new InvalidDataException("This object must be an indirect object");
 
             string key = PdfXRef.BuildKey(obj.ObjectNumber, obj.GenerationNumber);
             _indirectObjects[key] = obj;

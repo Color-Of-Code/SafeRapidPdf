@@ -15,6 +15,7 @@ dotnet_diagnostic.IDE0005.severity = suggestion # using directive is unnecessary
 dotnet_diagnostic.IDE0049.severity = suggestion # name can be simplified
 dotnet_diagnostic.IDE0055.severity = suggestion # fix formatting
 dotnet_diagnostic.CA1303.severity = none        # literal string, introduce a resource table
+dotnet_diagnostic.CA1707.severity = none        # _ in method name (common in unit tests)
 # dotnet_diagnostic.CA1062.severity = error       # check for null
 dotnet_analyzer_diagnostic.severity = warning
 

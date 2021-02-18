@@ -27,11 +27,9 @@ namespace SafeRapidPdf.Objects
         }
 
         public IPdfObject this[string name]
-        {
-            get => TryGetValue(name, out IPdfObject value)
+            => TryGetValue(name, out IPdfObject value)
                 ? value
                 : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
-        }
 
         public void ExpectsType(string name)
         {
@@ -48,11 +46,11 @@ namespace SafeRapidPdf.Objects
 
             PdfObject obj;
 
-            while ((obj = PdfObject.ParseAny(lexer, ">>")) != null)
+            while ((obj = ParseAny(lexer, ">>")) != null)
             {
                 if (obj is PdfName name)
                 {
-                    PdfObject value = PdfObject.ParseAny(lexer);
+                    PdfObject value = ParseAny(lexer);
 
                     dictionaryItems.Add(new PdfKeyValuePair(name, value));
                 }

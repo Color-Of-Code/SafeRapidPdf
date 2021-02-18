@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using System.IO;
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.Objects;
 
@@ -8,7 +7,7 @@ namespace SafeRapidPdf.Document
 {
     public class PdfPage : PdfBaseObject
     {
-        protected readonly List<IPdfObject> _items = new List<IPdfObject>();
+        protected readonly List<IPdfObject> _items = new();
 
         public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
             : this(pages, parent, PdfObjectType.Page)
@@ -127,11 +126,11 @@ namespace SafeRapidPdf.Document
                     PdfIndirectReference parent = pair.Value as PdfIndirectReference;
                     if (parent.ObjectNumber != Parent.ObjectNumber)
                     {
-                        throw new Exception("Unexpected not matching parent object number!");
+                        throw new InvalidDataException("Unexpected not matching parent object number!");
                     }
                     if (parent.GenerationNumber != Parent.GenerationNumber)
                     {
-                        throw new Exception("Unexpected not matching parent generation number!");
+                        throw new InvalidDataException("Unexpected not matching parent generation number!");
                     }
                     // ignore entry (parent is shown through the hierarchy
                     break;

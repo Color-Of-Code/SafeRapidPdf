@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using SafeRapidPdf.Document;
 using SafeRapidPdf.Objects;
@@ -12,7 +11,6 @@ namespace SafeRapidPdf
     public class PdfDocument
     {
         private readonly PdfFile _file;
-        private readonly PdfCatalog _root;
 
         public PdfDocument(PdfFile file)
         {
@@ -24,7 +22,7 @@ namespace SafeRapidPdf
                 {
                     var root = (PdfIndirectReference)trailer["Root"];
 
-                    _root = new PdfCatalog(root.Dereference<PdfDictionary>());
+                    Root = new PdfCatalog(root.Dereference<PdfDictionary>());
 
                     break;
                 }
@@ -32,13 +30,13 @@ namespace SafeRapidPdf
 
             // NOTE: Linearized documents may have multiple trailers. We use the first.
 
-            if (_root is null)
+            if (Root is null)
             {
-                throw new Exception("Missing trailer");
+                throw new InvalidDataException("Missing trailer");
             }
         }
 
-        public PdfCatalog Root => _root;
+        public PdfCatalog Root { get; }
 
         public static PdfDocument Load(Stream stream)
         {
@@ -47,7 +45,7 @@ namespace SafeRapidPdf
 
         public IEnumerable<PdfPage> GetPages()
         {
-            return GetPages(_root.Items);
+            return GetPages(Root.Items);
         }
 
         public override string ToString()

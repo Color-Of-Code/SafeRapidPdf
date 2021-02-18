@@ -8,7 +8,6 @@ namespace SafeRapidPdf.Services
     internal class IndirectReferenceResolver : IIndirectReferenceResolver
     {
         private readonly Lexer _lexer;
-        private PdfXRef _xref;
         private PdfDictionary _linearizationHeader;
         private long startXRef;
 
@@ -34,7 +33,7 @@ namespace SafeRapidPdf.Services
             _lexer.PopPosition();
         }
 
-        public PdfXRef XRef => _xref;
+        public PdfXRef XRef { get; private set; }
 
         private void TryParseLinearizationHeader()
         {
@@ -67,14 +66,14 @@ namespace SafeRapidPdf.Services
             catch
             {
                 // ignore... I know bad style
-                // in this case the linearization header is assume to not have been found
+                // in this case the linearization header is assumed to not have been found
             }
         }
 
         public PdfIndirectObject GetObject(int objectNumber, int generationNumber)
         {
             // entry from XRef
-            _lexer.PushPosition(_xref.GetOffset(objectNumber, generationNumber));
+            _lexer.PushPosition(XRef.GetOffset(objectNumber, generationNumber));
 
             // load the object if it was not yet found
             var obj = PdfIndirectObject.Parse(_lexer);
@@ -96,13 +95,13 @@ namespace SafeRapidPdf.Services
 
             _lexer.PopPosition();
 
-            _xref = PdfXRef.Parse((PdfStream)firstPageXRef.Object, (PdfStream)mainXRef.Object);
+            XRef = PdfXRef.Parse((PdfStream)firstPageXRef.Object, (PdfStream)mainXRef.Object);
         }
 
         // returns true if an xref was found false otherwise
         private void RetrieveXRef()
         {
-            _xref = null;
+            XRef = null;
 
             // only necessary if not linearized
             startXRef = RetrieveStartXRef();
@@ -117,7 +116,7 @@ namespace SafeRapidPdf.Services
             if (token == "xref")
             {
                 // we have an uncompressed xref table
-                _xref = PdfXRef.Parse(_lexer);
+                XRef = PdfXRef.Parse(_lexer);
             }
             else
             {
@@ -134,12 +133,12 @@ namespace SafeRapidPdf.Services
 
             // determine StartXRef
             long result = -1;
-            string t = null;
+            string t;
             do
             {
                 t = _lexer.ReadToken();
             }
-            while (t != null && t != "startxref");
+            while (t is not null and not "startxref");
 
             if (t == "startxref")
             {

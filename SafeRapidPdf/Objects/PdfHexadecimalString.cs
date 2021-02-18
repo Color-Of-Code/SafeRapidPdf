@@ -26,11 +26,11 @@ namespace SafeRapidPdf.Objects
             string text = string.Empty;
             while (text != ">")
             {
-                hexString.Append(text);
+                _ = hexString.Append(text);
                 text = lexer.ReadToken();
             }
             if ((hexString.Length % 2) != 0)
-                hexString.Append('0');
+                _ = hexString.Append('0');
             return new PdfHexadecimalString(hexString.ToString());
         }
 

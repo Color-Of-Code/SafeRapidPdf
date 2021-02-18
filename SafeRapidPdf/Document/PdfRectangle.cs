@@ -1,5 +1,5 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using System.IO;
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
@@ -11,7 +11,7 @@ namespace SafeRapidPdf.Document
         {
             if (box.Items.Count != 4)
             {
-                throw new Exception("A rectangle must have 4 values!");
+                throw new InvalidDataException("A rectangle must have 4 values!");
             }
 
             Llx = (PdfNumeric)box.Items[0];

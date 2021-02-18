@@ -6,5 +6,14 @@ namespace SafeRapidPdf.Parsing
     {
         public ParsingException(string message)
             : base(message) { }
+
+        public ParsingException()
+        {
+        }
+
+        public ParsingException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }
