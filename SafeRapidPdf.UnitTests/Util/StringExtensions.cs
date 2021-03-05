@@ -36,6 +36,8 @@ namespace SafeRapidPdf.UnitTests.Util
 
         public static string ToHexString(this byte[] ba)
         {
+            if (ba == null) throw new ArgumentNullException(nameof(ba));
+
             var hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
             {

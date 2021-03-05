@@ -197,13 +197,6 @@ namespace SafeRapidPdf.Parsing
             return token.ToString();
         }
 
-        private string ParseToken()
-        {
-            int b = SkipWhitespaces();
-
-            return ParseToken(b);
-        }
-
         /// <summary>
         /// Skip whitespaces and return the first non-whitespace char
         /// </summary>

@@ -9,7 +9,7 @@ namespace SafeRapidPdf.Objects
         {
         }
 
-        public static new PdfTrailer Parse(Lexer lexer)
+        internal static new PdfTrailer Parse(Lexer lexer)
         {
             lexer.Expects("<<");
             var dictionary = PdfDictionary.Parse(lexer);

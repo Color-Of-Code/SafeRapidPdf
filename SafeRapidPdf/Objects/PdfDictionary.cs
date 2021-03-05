@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
+using System.IO;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
@@ -96,7 +95,7 @@ namespace SafeRapidPdf.Objects
                 ? reference.Dereference<T>()
                 : value is T t
                     ? t
-                    : throw new Exception($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
+                    : throw new InvalidDataException($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
         }
 
         public IEnumerable<string> Keys

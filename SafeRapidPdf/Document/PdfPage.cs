@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.Objects;
@@ -12,6 +13,8 @@ namespace SafeRapidPdf.Document
         public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
             : this(pages, parent, PdfObjectType.Page)
         {
+            if (pages == null) throw new ArgumentNullException(nameof(pages));
+
             IsContainer = true;
 
             var page = pages.Dereference<PdfDictionary>();

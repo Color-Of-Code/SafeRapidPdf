@@ -24,12 +24,12 @@ namespace SafeRapidPdf.Objects
                 ? null
                 : throw new NotImplementedException();
 
-        public static PdfObject ParseAny(Lexer lexer)
+        internal static PdfObject ParseAny(Lexer lexer)
         {
             return ParseAny(lexer, string.Empty);
         }
 
-        public static PdfObject ParseAny(Lexer lexer, string endToken)
+        internal static PdfObject ParseAny(Lexer lexer, string endToken)
         {
             string token = lexer.ReadToken();
             if (token is null)
@@ -117,7 +117,7 @@ namespace SafeRapidPdf.Objects
             throw new ParsingException("Could not read object");
         }
 
-        public static PdfObject ParseAny(PdfStream stream)
+        internal static PdfObject ParseAny(PdfStream stream)
         {
             byte[] decodedBytes = stream.Decode();
             var s = Encoding.UTF8.GetString(decodedBytes);

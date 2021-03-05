@@ -32,7 +32,7 @@ namespace SafeRapidPdf.Objects
             }
         }
 
-        private byte[] FlateDecodeWithPredictorNone(int columns, byte[] decompressed)
+        private byte[] FlateDecodeWithPredictorNone(int _, byte[] decompressed)
         {
             return decompressed;
         }
@@ -131,7 +131,7 @@ namespace SafeRapidPdf.Objects
             throw new NotImplementedException("Implement Filter: " + filter.Text);
         }
 
-        public static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
+        internal static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
         {
             if (dictionary is null)
             {
@@ -158,7 +158,7 @@ namespace SafeRapidPdf.Objects
                 throw new ParsingException("Stream dictionary is missing 'Length' entry");
             }
 
-            int length = 0;
+            int length;
             if (lengthObject is PdfIndirectReference reference)
             {
                 PdfIndirectObject lenobj = lexer.IndirectReferenceResolver

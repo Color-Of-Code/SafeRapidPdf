@@ -24,7 +24,7 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => _entries;
 
-        public static PdfXRefSection Parse(PdfStream pdfStream)
+        internal static PdfXRefSection Parse(PdfStream pdfStream)
         {
             var dictionary = pdfStream.StreamDictionary;
             var type = dictionary["Type"] as PdfName;
@@ -83,7 +83,7 @@ namespace SafeRapidPdf.Objects
             return new PdfXRefSection(firstId, size, entries);
         }
 
-        public static PdfXRefSection Parse(Lexer lexer)
+        internal static PdfXRefSection Parse(Lexer lexer)
         {
             int firstId = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
             int size = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
