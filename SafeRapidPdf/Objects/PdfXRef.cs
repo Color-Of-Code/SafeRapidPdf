@@ -69,6 +69,11 @@ namespace SafeRapidPdf.Objects
         /// <returns>The parsed PdfXRef</returns>
         public static PdfXRef Parse(params PdfStream[] xrefStream)
         {
+            if (xrefStream is null)
+            {
+                throw new System.ArgumentNullException(nameof(xrefStream));
+            }
+
             var sections = new List<PdfXRefSection>(xrefStream.Length);
             foreach (var pdfStream in xrefStream)
             {

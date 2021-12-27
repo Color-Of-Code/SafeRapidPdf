@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SafeRapidPdf.Parsing;
 
@@ -21,6 +22,11 @@ namespace SafeRapidPdf.Objects
         protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
             : base(type)
         {
+            if (dictionary is null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
             IsContainer = true;
             _dictionary = dictionary._dictionary;
         }
@@ -41,6 +47,11 @@ namespace SafeRapidPdf.Objects
 
         public static PdfDictionary Parse(Lexer lexer)
         {
+            if (lexer is null)
+            {
+                throw new ArgumentNullException(nameof(lexer));
+            }
+
             var dictionaryItems = new List<PdfKeyValuePair>();
 
             PdfObject obj;

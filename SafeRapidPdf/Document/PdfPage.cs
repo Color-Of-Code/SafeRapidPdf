@@ -30,6 +30,11 @@ namespace SafeRapidPdf.Document
         protected PdfPage(PdfIndirectReference pages, PdfPageTree parent, PdfObjectType type)
             : base(type)
         {
+            if (pages is null)
+            {
+                throw new ArgumentNullException(nameof(pages));
+            }
+
             GenerationNumber = pages.GenerationNumber;
             ObjectNumber = pages.ObjectNumber;
             Parent = parent;
@@ -93,6 +98,11 @@ namespace SafeRapidPdf.Document
 
         protected void HandleKeyValuePair(PdfKeyValuePair pair)
         {
+            if (pair is null)
+            {
+                throw new ArgumentNullException(nameof(pair));
+            }
+
             switch (pair.Key.Text)
             {
                 case "Type": // skip type Page

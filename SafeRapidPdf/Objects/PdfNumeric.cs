@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace SafeRapidPdf.Objects
 {
@@ -14,11 +15,13 @@ namespace SafeRapidPdf.Objects
 
         public bool IsInteger => !IsReal;
 
-        public bool IsReal => text.IndexOf('.') > -1;
+        public bool IsReal => text.IndexOf('.', StringComparison.InvariantCultureIgnoreCase) > -1;
 
         public static implicit operator double(PdfNumeric numeric)
         {
-            return double.Parse(numeric.text, CultureInfo.InvariantCulture);
+            return numeric is null
+                ? default
+                : double.Parse(numeric.text, CultureInfo.InvariantCulture);
         }
 
         internal static PdfNumeric Parse(Parsing.Lexer lexer)

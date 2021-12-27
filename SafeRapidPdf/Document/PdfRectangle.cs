@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using SafeRapidPdf.Objects;
 
@@ -9,6 +10,11 @@ namespace SafeRapidPdf.Document
         protected PdfRectangle(PdfObjectType type, PdfArray box)
             : base(type)
         {
+            if (box is null)
+            {
+                throw new ArgumentNullException(nameof(box));
+            }
+
             if (box.Items.Count != 4)
             {
                 throw new InvalidDataException("A rectangle must have 4 values!");

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -15,8 +17,13 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => _items;
 
-        public static PdfArray Parse(Parsing.Lexer lexer)
+        public static PdfArray Parse(Lexer lexer)
         {
+            if (lexer is null)
+            {
+                throw new ArgumentNullException(nameof(lexer));
+            }
+
             var list = new List<IPdfObject>();
             PdfObject value;
             while ((value = ParseAny(lexer, "]")) != null)

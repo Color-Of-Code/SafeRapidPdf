@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using SafeRapidPdf.Objects;
 
@@ -11,6 +12,11 @@ namespace SafeRapidPdf.Document
         public PdfCatalog(PdfDictionary catalog)
             : base(PdfObjectType.Catalog)
         {
+            if (catalog is null)
+            {
+                throw new ArgumentNullException(nameof(catalog));
+            }
+
             IsContainer = true;
             catalog.ExpectsType("Catalog");
 

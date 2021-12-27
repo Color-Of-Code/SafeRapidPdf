@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects
 {
@@ -15,8 +17,13 @@ namespace SafeRapidPdf.Objects
 
         public override IReadOnlyList<IPdfObject> Items => new[] { Numeric };
 
-        public static PdfStartXRef Parse(Parsing.Lexer lexer)
+        public static PdfStartXRef Parse(Lexer lexer)
         {
+            if (lexer is null)
+            {
+                throw new ArgumentNullException(nameof(lexer));
+            }
+
             var n = PdfNumeric.Parse(lexer);
             return new PdfStartXRef(n);
         }
