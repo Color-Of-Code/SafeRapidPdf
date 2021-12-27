@@ -72,7 +72,7 @@ namespace SafeRapidPdf.Objects
 
             // Meaning of types and fields within an xref stream
             // type  field
-            var entryType = 'f';
+            char entryType;
             long offset;
             int generationNumber;
             switch (result[0])
