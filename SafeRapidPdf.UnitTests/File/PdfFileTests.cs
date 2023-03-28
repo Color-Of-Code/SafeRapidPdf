@@ -1,3 +1,4 @@
+using System;
 using SafeRapidPdf.Objects;
 using SafeRapidPdf.Parsing;
 using SafeRapidPdf.UnitTests.Util;
@@ -8,32 +9,47 @@ namespace SafeRapidPdf.UnitTests.File
 {
     public class PdfFileTests
     {
-        [Fact]
-        public void Parsing_TinyFile()
+        [Theory]
+        [InlineData(
+            """
+            %PDF-
+            trailer<</Root<</Pages<<>>>>>>
+            %%EOF
+            """
+        )]
+        public void Parsing_TinyFile(string pdf)
         {
-            var r = PdfFile.Parse(@"%PDF-
-trailer<</Root<</Pages<<>>>>>>
-%%EOF".ToStream());
+            var r = PdfFile.Parse(pdf.ToStream());
             Assert.True(r.Items.Count == 3);
         }
 
-        [Fact]
-        public void Parsing_TinyFile_Without_EOF_YieldsException()
+        [Theory]
+        [InlineData(
+            """
+            %PDF-
+            trailer<</Root<</Pages<<>>>>>>
+            """
+        )]
+        public void Parsing_TinyFile_Without_EOF_YieldsException(string pdf)
         {
             var exception = Assert.Throws<ParsingException>(() =>
                 {
-                    PdfFile.Parse(@"%PDF-
-trailer<</Root<</Pages<<>>>>>>".ToStream());
+                    PdfFile.Parse(pdf.ToStream());
                 });
             Assert.Equal("End of file reached without EOF marker", exception.Message);
         }
 
-        [Fact]
-        public void Parsing_Non_Pdf_Yields_Exception()
+        [Theory]
+        [InlineData(
+            """
+            "Not a PDF"
+            """
+        )]
+        public void Parsing_Non_Pdf_Yields_Exception(string pdf)
         {
             _ = Assert.Throws<UnexpectedTokenException>(() =>
               {
-                  PdfFile.Parse("Not a PDF".ToStream());
+                  PdfFile.Parse(pdf.ToStream());
               });
         }
     }

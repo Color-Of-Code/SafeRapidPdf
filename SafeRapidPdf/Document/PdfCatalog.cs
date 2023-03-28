@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document
@@ -20,7 +20,7 @@ namespace SafeRapidPdf.Document
             IsContainer = true;
             catalog.ExpectsType("Catalog");
 
-            foreach (PdfKeyValuePair pair in catalog.Items)
+            foreach (PdfKeyValuePair pair in catalog.Items.Cast<PdfKeyValuePair>())
             {
                 switch (pair.Key.Text)
                 {
