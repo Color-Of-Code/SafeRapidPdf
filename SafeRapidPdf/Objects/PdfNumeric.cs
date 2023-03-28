@@ -49,6 +49,11 @@ public sealed class PdfNumeric : PdfObject
         return decimal.Parse(text, CultureInfo.InvariantCulture);
     }
 
+    public double ToDouble()
+    {
+        return double.Parse(text, CultureInfo.InvariantCulture);
+    }
+
     public override string ToString()
     {
         return text;

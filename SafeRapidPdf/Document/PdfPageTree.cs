@@ -48,14 +48,14 @@ public sealed class PdfPageTree : PdfPage
                     break;
                 case "Count":
                     Count = new PdfCount(pair.Value as PdfNumeric);
-                    _items.Add(Count);
+                    Add(Count);
                     break;
                 default:
                     HandleKeyValuePair(pair);
                     break;
             }
         }
-        _items.AddRange(Kids);
+        AddRange(Kids);
     }
 
     [ParameterType(required: true, inheritable: false)]

@@ -165,6 +165,8 @@ public class Lexer
                     return ">>";
                 _byteRead = b;
                 return ">";
+            default:
+                break;
         }
 
         string token = ParseToken(c);

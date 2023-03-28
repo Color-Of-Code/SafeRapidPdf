@@ -1,6 +1,5 @@
 {
     "omnisharp.enableRoslynAnalyzers": true,
-    "omnisharp.defaultLaunchSolution": "SafeRapidPdf.sln",
-    "omnisharp.enableImportCompletion": true,
-    "omnisharp.organizeImportsOnFormat": true
+    "csharp.maxProjectFileCountForDiagnosticAnalysis": 10000,
+    "omnisharp.analyzeOpenDocumentsOnly": false
 }

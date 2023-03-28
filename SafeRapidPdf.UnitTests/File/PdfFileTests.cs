@@ -11,10 +11,10 @@ public class PdfFileTests
     [Theory]
     [InlineData(
         """
-            %PDF-
-            trailer<</Root<</Pages<<>>>>>>
-            %%EOF
-            """
+        %PDF-
+        trailer<</Root<</Pages<<>>>>>>
+        %%EOF
+        """
     )]
     public void Parsing_TinyFile(string pdf)
     {
@@ -25,15 +25,15 @@ public class PdfFileTests
     [Theory]
     [InlineData(
         """
-            %PDF-
-            trailer<</Root<</Pages<<>>>>>>
-            """
+        %PDF-
+        trailer<</Root<</Pages<<>>>>>>
+        """
     )]
     public void Parsing_TinyFile_Without_EOF_YieldsException(string pdf)
     {
         var exception = Assert.Throws<ParsingException>(() =>
             {
-                PdfFile.Parse(pdf.ToStream());
+                _ = PdfFile.Parse(pdf.ToStream());
             });
         Assert.Equal("End of file reached without EOF marker", exception.Message);
     }
@@ -41,14 +41,14 @@ public class PdfFileTests
     [Theory]
     [InlineData(
         """
-            "Not a PDF"
-            """
+        Not a PDF
+        """
     )]
     public void Parsing_Non_Pdf_Yields_Exception(string pdf)
     {
         _ = Assert.Throws<UnexpectedTokenException>(() =>
           {
-              PdfFile.Parse(pdf.ToStream());
+              _ = PdfFile.Parse(pdf.ToStream());
           });
     }
 }

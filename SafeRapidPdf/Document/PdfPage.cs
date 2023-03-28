@@ -8,7 +8,7 @@ namespace SafeRapidPdf.Document;
 
 public class PdfPage : PdfBaseObject
 {
-    protected readonly List<IPdfObject> _items = new();
+    private readonly List<IPdfObject> _items = new();
 
     public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
         : this(pages, parent, PdfObjectType.Page)
@@ -38,6 +38,17 @@ public class PdfPage : PdfBaseObject
         GenerationNumber = pages.GenerationNumber;
         ObjectNumber = pages.ObjectNumber;
         Parent = parent;
+    }
+
+    protected void Add(IPdfObject item)
+    {
+        _items.Add(item);
+    }
+
+
+    protected void AddRange(IEnumerable<IPdfObject> collection)
+    {
+        _items.AddRange(collection);
     }
 
     protected int GenerationNumber { get; }

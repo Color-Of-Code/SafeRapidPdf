@@ -120,7 +120,7 @@ public abstract class PdfObject : IPdfObject
     internal static PdfObject ParseAny(PdfStream stream)
     {
         byte[] decodedBytes = stream.Decode();
-        var s = Encoding.UTF8.GetString(decodedBytes);
+        _ = Encoding.UTF8.GetString(decodedBytes);
 
         // contents are not always pdf objects...
         // var s = new MemoryStream(decodedBytes);

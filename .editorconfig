@@ -25,5 +25,7 @@ csharp_style_namespace_declarations = file_scoped:warning
 
 dotnet_analyzer_diagnostic.severity = warning
 
+dotnet_code_quality.ca1711.allowed_suffixes = Dictionary|Stream
+
 [*.AssemblyInfo.cs]
 generated_code = true

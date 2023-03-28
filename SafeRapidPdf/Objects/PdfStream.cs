@@ -151,12 +151,8 @@ public sealed class PdfStream : PdfObject
             throw new ParsingException($@"Stream must end with either \r\n or \n. Was '{eol}'");
         }
 
-        IPdfObject lengthObject = dictionary["Length"];
-
-        if (lengthObject is null)
-        {
-            throw new ParsingException("Stream dictionary is missing 'Length' entry");
-        }
+        IPdfObject lengthObject = dictionary["Length"] ??
+                                  throw new ParsingException("Stream dictionary is missing 'Length' entry");
 
         int length;
         if (lengthObject is PdfIndirectReference reference)
