@@ -2,40 +2,39 @@ using System;
 using System.Collections.Generic;
 using SafeRapidPdf.Parsing;
 
-namespace SafeRapidPdf.Objects
+namespace SafeRapidPdf.Objects;
+
+public sealed class PdfArray : PdfObject
 {
-    public sealed class PdfArray : PdfObject
+    private readonly List<IPdfObject> _items;
+
+    private PdfArray(List<IPdfObject> items)
+        : base(PdfObjectType.Array)
     {
-        private readonly List<IPdfObject> _items;
+        IsContainer = true;
+        _items = items;
+    }
 
-        private PdfArray(List<IPdfObject> items)
-            : base(PdfObjectType.Array)
+    public override IReadOnlyList<IPdfObject> Items => _items;
+
+    public static PdfArray Parse(Lexer lexer)
+    {
+        if (lexer is null)
         {
-            IsContainer = true;
-            _items = items;
+            throw new ArgumentNullException(nameof(lexer));
         }
 
-        public override IReadOnlyList<IPdfObject> Items => _items;
-
-        public static PdfArray Parse(Lexer lexer)
+        var list = new List<IPdfObject>();
+        PdfObject value;
+        while ((value = ParseAny(lexer, "]")) != null)
         {
-            if (lexer is null)
-            {
-                throw new ArgumentNullException(nameof(lexer));
-            }
-
-            var list = new List<IPdfObject>();
-            PdfObject value;
-            while ((value = ParseAny(lexer, "]")) != null)
-            {
-                list.Add(value);
-            }
-            return new PdfArray(list);
+            list.Add(value);
         }
+        return new PdfArray(list);
+    }
 
-        public override string ToString()
-        {
-            return "[...]";
-        }
+    public override string ToString()
+    {
+        return "[...]";
     }
 }

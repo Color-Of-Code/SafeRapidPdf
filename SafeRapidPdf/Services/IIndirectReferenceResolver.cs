@@ -1,11 +1,10 @@
 ﻿using SafeRapidPdf.Objects;
 
-namespace SafeRapidPdf.Services
-{
-    public interface IIndirectReferenceResolver
-    {
-        PdfXRef XRef { get; }
+namespace SafeRapidPdf.Services;
 
-        PdfIndirectObject GetObject(int objectNumber, int generationNumber);
-    }
+public interface IIndirectReferenceResolver
+{
+    PdfXRef XRef { get; }
+
+    PdfIndirectObject GetObject(int objectNumber, int generationNumber);
 }

@@ -1,12 +1,11 @@
 ﻿using SafeRapidPdf.Document;
 
-namespace SafeRapidPdf.Logical
+namespace SafeRapidPdf.Logical;
+
+public class PdfStructure : PdfBaseObject
 {
-    public class PdfStructure : PdfBaseObject
+    public PdfStructure()
+        : base(PdfObjectType.Structure)
     {
-        public PdfStructure()
-            : base(PdfObjectType.Structure)
-        {
-        }
     }
 }

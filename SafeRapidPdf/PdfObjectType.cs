@@ -1,52 +1,51 @@
-﻿namespace SafeRapidPdf
+﻿namespace SafeRapidPdf;
+
+public enum PdfObjectType
 {
-    public enum PdfObjectType
-    {
-        // low level objects
-        Null,
-        Boolean,
-        Comment,
-        Numeric,
-        HexadecimalString,
-        LiteralString,
-        Name,
-        Data,
+    // low level objects
+    Null,
+    Boolean,
+    Comment,
+    Numeric,
+    HexadecimalString,
+    LiteralString,
+    Name,
+    Data,
 
-        IndirectObject,
-        IndirectReference,
+    IndirectObject,
+    IndirectReference,
 
-        Array,
-        Dictionary,
-        KeyValuePair,
+    Array,
+    Dictionary,
+    KeyValuePair,
 
-        Stream,
+    Stream,
 
-        XRef,
-        XRefSection,
-        XRefEntry,
+    XRef,
+    XRefSection,
+    XRefEntry,
 
-        Trailer,
+    Trailer,
 
-        StartXRef,
+    StartXRef,
 
-        // high level objects
-        File,
-        Structure,
+    // high level objects
+    File,
+    Structure,
 
-        Catalog,
-        PageTree,
-        Page,
+    Catalog,
+    PageTree,
+    Page,
 
-        ArtBox,
-        BleedBox,
-        CropBox,
-        MediaBox,
-        TrimBox,
+    ArtBox,
+    BleedBox,
+    CropBox,
+    MediaBox,
+    TrimBox,
 
-        Rotate,
+    Rotate,
 
-        Count,
+    Count,
 
-        Contents
-    }
+    Contents
 }

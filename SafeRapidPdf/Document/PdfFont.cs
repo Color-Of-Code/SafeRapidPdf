@@ -1,6 +1,5 @@
-﻿namespace SafeRapidPdf.Document
+﻿namespace SafeRapidPdf.Document;
+
+public class PdfFont
 {
-    public class PdfFont
-    {
-    }
 }

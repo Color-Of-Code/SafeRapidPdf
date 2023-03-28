@@ -1,101 +1,100 @@
 ﻿using System.Collections.Generic;
 
-namespace SafeRapidPdf.Objects
+namespace SafeRapidPdf.Objects;
+
+public sealed class PdfXRef : PdfObject
 {
-    public sealed class PdfXRef : PdfObject
+    private readonly IList<PdfXRefSection> _sections;
+    private readonly Dictionary<string, long> _offsets = new();
+
+    private PdfXRef(IList<PdfXRefSection> sections)
+        : base(PdfObjectType.XRef)
     {
-        private readonly IList<PdfXRefSection> _sections;
-        private readonly Dictionary<string, long> _offsets = new();
+        IsContainer = true;
 
-        private PdfXRef(IList<PdfXRefSection> sections)
-            : base(PdfObjectType.XRef)
+        _sections = sections;
+
+        // create the access table
+        foreach (var section in _sections)
         {
-            IsContainer = true;
-
-            _sections = sections;
-
-            // create the access table
-            foreach (var section in _sections)
+            foreach (var entryItem in section.Items)
             {
-                foreach (var entryItem in section.Items)
-                {
-                    var entry = (PdfXRefEntry)entryItem;
+                var entry = (PdfXRefEntry)entryItem;
 
-                    if (entry.InUse)
-                    {
-                        string key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
-                        _offsets.Add(key, entry.Offset);
-                    }
+                if (entry.InUse)
+                {
+                    string key = BuildKey(entry.ObjectNumber, entry.GenerationNumber);
+                    _offsets.Add(key, entry.Offset);
                 }
             }
         }
+    }
 
-        public override IReadOnlyList<IPdfObject> Items
+    public override IReadOnlyList<IPdfObject> Items
+    {
+        get
         {
-            get
+            var items = new IPdfObject[_sections.Count];
+
+            for (var i = 0; i < items.Length; i++)
             {
-                var items = new IPdfObject[_sections.Count];
-
-                for (var i = 0; i < items.Length; i++)
-                {
-                    items[i] = _sections[i];
-                }
-
-                return items;
-            }
-        }
-
-        /// <summary>
-        /// Parse an uncompressed xref dictionary
-        /// </summary>
-        /// <param name="lexer"></param>
-        /// <returns>The parsed PdfXRef</returns>
-        internal static PdfXRef Parse(Parsing.Lexer lexer)
-        {
-            var sections = new List<PdfXRefSection>();
-            string token = lexer.PeekToken1();
-            while (token != null && char.IsDigit(token[0]))
-            {
-                sections.Add(PdfXRefSection.Parse(lexer));
-                token = lexer.PeekToken1();
-            }
-            return new PdfXRef(sections);
-        }
-
-        /// <summary>
-        /// Parse the xref table out of a compressed stream
-        /// </summary>
-        /// <param name="xrefStream"></param>
-        /// <returns>The parsed PdfXRef</returns>
-        public static PdfXRef Parse(params PdfStream[] xrefStream)
-        {
-            if (xrefStream is null)
-            {
-                throw new System.ArgumentNullException(nameof(xrefStream));
+                items[i] = _sections[i];
             }
 
-            var sections = new List<PdfXRefSection>(xrefStream.Length);
-            foreach (var pdfStream in xrefStream)
-            {
-                sections.Add(PdfXRefSection.Parse(pdfStream));
-            }
-            return new PdfXRef(sections);
+            return items;
+        }
+    }
+
+    /// <summary>
+    /// Parse an uncompressed xref dictionary
+    /// </summary>
+    /// <param name="lexer"></param>
+    /// <returns>The parsed PdfXRef</returns>
+    internal static PdfXRef Parse(Parsing.Lexer lexer)
+    {
+        var sections = new List<PdfXRefSection>();
+        string token = lexer.PeekToken1();
+        while (token != null && char.IsDigit(token[0]))
+        {
+            sections.Add(PdfXRefSection.Parse(lexer));
+            token = lexer.PeekToken1();
+        }
+        return new PdfXRef(sections);
+    }
+
+    /// <summary>
+    /// Parse the xref table out of a compressed stream
+    /// </summary>
+    /// <param name="xrefStream"></param>
+    /// <returns>The parsed PdfXRef</returns>
+    public static PdfXRef Parse(params PdfStream[] xrefStream)
+    {
+        if (xrefStream is null)
+        {
+            throw new System.ArgumentNullException(nameof(xrefStream));
         }
 
-        public long GetOffset(int objectNumber, int generationNumber)
+        var sections = new List<PdfXRefSection>(xrefStream.Length);
+        foreach (var pdfStream in xrefStream)
         {
-            string key = BuildKey(objectNumber, generationNumber);
-            return _offsets[key];
+            sections.Add(PdfXRefSection.Parse(pdfStream));
         }
+        return new PdfXRef(sections);
+    }
 
-        public static string BuildKey(int objectNumber, int generationNumber)
-        {
-            return $"{objectNumber:0000000000}_{generationNumber:00000}";
-        }
+    public long GetOffset(int objectNumber, int generationNumber)
+    {
+        string key = BuildKey(objectNumber, generationNumber);
+        return _offsets[key];
+    }
 
-        public override string ToString()
-        {
-            return "xref";
-        }
+    public static string BuildKey(int objectNumber, int generationNumber)
+    {
+        return $"{objectNumber:0000000000}_{generationNumber:00000}";
+    }
+
+    public override string ToString()
+    {
+        return "xref";
     }
 }

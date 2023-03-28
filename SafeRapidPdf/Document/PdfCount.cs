@@ -2,26 +2,25 @@
 using System;
 using SafeRapidPdf.Objects;
 
-namespace SafeRapidPdf.Document
+namespace SafeRapidPdf.Document;
+
+public sealed class PdfCount : PdfBaseObject
 {
-    public sealed class PdfCount : PdfBaseObject
+    public PdfCount(PdfNumeric count)
+        : base(PdfObjectType.Count)
     {
-        public PdfCount(PdfNumeric count)
-            : base(PdfObjectType.Count)
+        if (count is null)
         {
-            if (count is null)
-            {
-                throw new ArgumentNullException(nameof(count));
-            }
-
-            Value = count.ToInt32();
+            throw new ArgumentNullException(nameof(count));
         }
 
-        public int Value { get; }
+        Value = count.ToInt32();
+    }
 
-        public override string ToString()
-        {
-            return $"Count : {Value}";
-        }
+    public int Value { get; }
+
+    public override string ToString()
+    {
+        return $"Count : {Value}";
     }
 }

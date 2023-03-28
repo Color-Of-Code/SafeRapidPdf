@@ -3,167 +3,166 @@ using System.Collections.Generic;
 using System.IO;
 using SafeRapidPdf.Parsing;
 
-namespace SafeRapidPdf.Objects
+namespace SafeRapidPdf.Objects;
+
+/// <summary>
+/// A PDF Dictionary type, a collection of named objects
+/// </summary>
+public class PdfDictionary : PdfObject
 {
-    /// <summary>
-    /// A PDF Dictionary type, a collection of named objects
-    /// </summary>
-    public class PdfDictionary : PdfObject
+    private readonly IList<PdfKeyValuePair> _dictionary;
+
+    private PdfDictionary(IList<PdfKeyValuePair> dictionary)
+        : base(PdfObjectType.Dictionary)
     {
-        private readonly IList<PdfKeyValuePair> _dictionary;
+        IsContainer = true;
+        _dictionary = dictionary;
+    }
 
-        private PdfDictionary(IList<PdfKeyValuePair> dictionary)
-            : base(PdfObjectType.Dictionary)
+    protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
+        : base(type)
+    {
+        if (dictionary is null)
         {
-            IsContainer = true;
-            _dictionary = dictionary;
+            throw new ArgumentNullException(nameof(dictionary));
         }
 
-        protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
-            : base(type)
-        {
-            if (dictionary is null)
-            {
-                throw new ArgumentNullException(nameof(dictionary));
-            }
+        IsContainer = true;
+        _dictionary = dictionary._dictionary;
+    }
 
-            IsContainer = true;
-            _dictionary = dictionary._dictionary;
+    public IPdfObject this[string name]
+        => TryGetValue(name, out IPdfObject value)
+            ? value
+            : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
+
+    public void ExpectsType(string name)
+    {
+        PdfName type = this["Type"] as PdfName;
+        if (type.Name != name)
+        {
+            throw new ParsingException($"Expected {name}, but got {type.Name}");
+        }
+    }
+
+    public static PdfDictionary Parse(Lexer lexer)
+    {
+        if (lexer is null)
+        {
+            throw new ArgumentNullException(nameof(lexer));
         }
 
-        public IPdfObject this[string name]
-            => TryGetValue(name, out IPdfObject value)
-                ? value
-                : throw new KeyNotFoundException(name + " was not found in PdfDictionary");
+        var dictionaryItems = new List<PdfKeyValuePair>();
 
-        public void ExpectsType(string name)
+        PdfObject obj;
+
+        while ((obj = ParseAny(lexer, ">>")) != null)
         {
-            PdfName type = this["Type"] as PdfName;
-            if (type.Name != name)
+            if (obj is PdfName name)
             {
-                throw new ParsingException($"Expected {name}, but got {type.Name}");
+                PdfObject value = ParseAny(lexer);
+
+                dictionaryItems.Add(new PdfKeyValuePair(name, value));
+            }
+            else
+            {
+                throw new ParsingException("The first item of a pair inside a dictionary must be a PDF name object");
             }
         }
 
-        public static PdfDictionary Parse(Lexer lexer)
+        return new PdfDictionary(dictionaryItems);
+    }
+
+    public bool TryGetValue(string key, out IPdfObject value)
+    {
+        foreach (PdfKeyValuePair pair in _dictionary)
         {
-            if (lexer is null)
+            if (pair.Key.Text == key)
             {
-                throw new ArgumentNullException(nameof(lexer));
+                value = pair.Value;
+
+                return true;
             }
-
-            var dictionaryItems = new List<PdfKeyValuePair>();
-
-            PdfObject obj;
-
-            while ((obj = ParseAny(lexer, ">>")) != null)
-            {
-                if (obj is PdfName name)
-                {
-                    PdfObject value = ParseAny(lexer);
-
-                    dictionaryItems.Add(new PdfKeyValuePair(name, value));
-                }
-                else
-                {
-                    throw new ParsingException("The first item of a pair inside a dictionary must be a PDF name object");
-                }
-            }
-
-            return new PdfDictionary(dictionaryItems);
         }
 
-        public bool TryGetValue(string key, out IPdfObject value)
+        value = null;
+
+        return false;
+    }
+
+    /// <summary>
+    /// Automatically dereference indirect references or returns the Pdf object
+    /// after checking that it is of the expected type
+    /// </summary>
+    /// <typeparam name="T">The type of the object to resolve</typeparam>
+    /// <param name="name">The name to resolve</param>
+    /// <returns>The resolved type</returns>
+    public T Resolve<T>(string name)
+        where T : class
+    {
+        IPdfObject value = this[name];
+
+        return value is PdfIndirectReference reference
+            ? reference.Dereference<T>()
+            : value is T t
+                ? t
+                : throw new InvalidDataException($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
+    }
+
+    public IEnumerable<string> Keys
+    {
+        get
         {
             foreach (PdfKeyValuePair pair in _dictionary)
             {
-                if (pair.Key.Text == key)
-                {
-                    value = pair.Value;
-
-                    return true;
-                }
+                yield return pair.Key.Text;
             }
-
-            value = null;
-
-            return false;
         }
+    }
 
-        /// <summary>
-        /// Automatically dereference indirect references or returns the Pdf object
-        /// after checking that it is of the expected type
-        /// </summary>
-        /// <typeparam name="T">The type of the object to resolve</typeparam>
-        /// <param name="name">The name to resolve</param>
-        /// <returns>The resolved type</returns>
-        public T Resolve<T>(string name)
-            where T : class
+    public IEnumerable<IPdfObject> Values
+    {
+        get
         {
-            IPdfObject value = this[name];
-
-            return value is PdfIndirectReference reference
-                ? reference.Dereference<T>()
-                : value is T t
-                    ? t
-                    : throw new InvalidDataException($"Expected type '{typeof(T)}' resolving '{name}'. Was {value.GetType()}'.");
-        }
-
-        public IEnumerable<string> Keys
-        {
-            get
+            foreach (PdfKeyValuePair pair in _dictionary)
             {
-                foreach (PdfKeyValuePair pair in _dictionary)
-                {
-                    yield return pair.Key.Text;
-                }
+                yield return pair.Value;
             }
         }
+    }
 
-        public IEnumerable<IPdfObject> Values
+    public override IReadOnlyList<IPdfObject> Items
+    {
+        get
         {
-            get
+            var result = new IPdfObject[_dictionary.Count];
+
+            for (int i = 0; i < result.Length; i++)
             {
-                foreach (PdfKeyValuePair pair in _dictionary)
-                {
-                    yield return pair.Value;
-                }
+                result[i] = _dictionary[i];
             }
-        }
 
-        public override IReadOnlyList<IPdfObject> Items
+            return result;
+        }
+    }
+
+    public string Type
+    {
+        get
         {
-            get
+            if (TryGetValue("Type", out IPdfObject typeObject))
             {
-                var result = new IPdfObject[_dictionary.Count];
+                PdfName type = (PdfName)typeObject;
 
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = _dictionary[i];
-                }
-
-                return result;
+                return type.Name;
             }
+
+            return null;
         }
+    }
 
-        public string Type
-        {
-            get
-            {
-                if (TryGetValue("Type", out IPdfObject typeObject))
-                {
-                    PdfName type = (PdfName)typeObject;
-
-                    return type.Name;
-                }
-
-                return null;
-            }
-        }
-
-        public override string ToString()
-        {
-            return Type != null ? $"<<...>> ({Type})" : "<<...>>";
-        }
+    public override string ToString()
+    {
+        return Type != null ? $"<<...>> ({Type})" : "<<...>>";
     }
 }

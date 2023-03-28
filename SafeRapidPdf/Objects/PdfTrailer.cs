@@ -1,24 +1,23 @@
 ﻿using SafeRapidPdf.Parsing;
 
-namespace SafeRapidPdf.Objects
+namespace SafeRapidPdf.Objects;
+
+public sealed class PdfTrailer : PdfDictionary
 {
-    public sealed class PdfTrailer : PdfDictionary
+    private PdfTrailer(PdfDictionary dictionary)
+        : base(dictionary, PdfObjectType.Trailer)
     {
-        private PdfTrailer(PdfDictionary dictionary)
-            : base(dictionary, PdfObjectType.Trailer)
-        {
-        }
+    }
 
-        internal static new PdfTrailer Parse(Lexer lexer)
-        {
-            lexer.Expects("<<");
-            var dictionary = PdfDictionary.Parse(lexer);
-            return new PdfTrailer(dictionary);
-        }
+    internal static new PdfTrailer Parse(Lexer lexer)
+    {
+        lexer.Expects("<<");
+        var dictionary = PdfDictionary.Parse(lexer);
+        return new PdfTrailer(dictionary);
+    }
 
-        public override string ToString()
-        {
-            return "trailer";
-        }
+    public override string ToString()
+    {
+        return "trailer";
     }
 }

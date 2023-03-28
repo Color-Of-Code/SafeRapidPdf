@@ -1,15 +1,14 @@
 ﻿using SafeRapidPdf.Objects;
 
-namespace SafeRapidPdf.Filters
+namespace SafeRapidPdf.Filters;
+
+public interface IFilter
 {
-    public interface IFilter
-    {
-        /// <summary>
-        /// Decodes the input buffer and returns a decoded output buffer
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        byte[] Decode(byte[] input, PdfDictionary options);
-    }
+    /// <summary>
+    /// Decodes the input buffer and returns a decoded output buffer
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    byte[] Decode(byte[] input, PdfDictionary options);
 }

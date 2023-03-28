@@ -1,24 +1,23 @@
-﻿namespace SafeRapidPdf.Objects
+﻿namespace SafeRapidPdf.Objects;
+
+public sealed class PdfData : PdfObject
 {
-    public sealed class PdfData : PdfObject
+    private PdfData(byte[] data)
+        : base(PdfObjectType.Data)
     {
-        private PdfData(byte[] data)
-            : base(PdfObjectType.Data)
-        {
-            Data = data;
-        }
+        Data = data;
+    }
 
-        public byte[] Data { get; }
+    public byte[] Data { get; }
 
-        internal static PdfData Parse(Parsing.Lexer lexer, int length)
-        {
-            byte[] data = lexer.ReadBytes(length);
-            return new PdfData(data);
-        }
+    internal static PdfData Parse(Parsing.Lexer lexer, int length)
+    {
+        byte[] data = lexer.ReadBytes(length);
+        return new PdfData(data);
+    }
 
-        public override string ToString()
-        {
-            return "Raw data";
-        }
+    public override string ToString()
+    {
+        return "Raw data";
     }
 }

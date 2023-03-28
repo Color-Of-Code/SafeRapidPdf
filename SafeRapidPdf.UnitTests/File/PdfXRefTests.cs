@@ -2,44 +2,48 @@ using SafeRapidPdf.Objects;
 using SafeRapidPdf.UnitTests.Util;
 using Xunit;
 
-namespace SafeRapidPdf.UnitTests.File
+namespace SafeRapidPdf.UnitTests.File;
+
+public class PdfXRefTests
 {
-    public class PdfXRefTests
+    [Theory]
+    [InlineData(
+        """
+            0 6
+            0000000000 65535 f
+            0000000016 00000 n
+            0000000051 00000 n
+            0000000109 00000 n
+            0000000281 00000 n
+            0000000385 00000 n
+            """
+    )]
+    public void Parsing_Uncompressed_XRef(string xref)
     {
-        [Fact]
-        public void Parsing_Uncompressed_XRef()
-        {
-            var r = PdfXRef.Parse(@"0 6
-0000000000 65535 f
-0000000016 00000 n
-0000000051 00000 n
-0000000109 00000 n
-0000000281 00000 n
-0000000385 00000 n
-".ToLexer());
-            // 1 section
-            Assert.Equal(1, r.Items.Count);
-            var s = r.Items[0] as PdfXRefSection;
-            // 6 entries
-            Assert.Equal(6, s.Items.Count);
-        }
+        var r = PdfXRef.Parse(xref.ToLexer());
+        // 1 section
+        Assert.Equal(1, r.Items.Count);
+        var s = r.Items[0] as PdfXRefSection;
+        // 6 entries
+        Assert.Equal(6, s.Items.Count);
+    }
 
-        [Fact]
-        public void Parsing_CompressedXRef()
-        {
-            //703 0 obj
-            //<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
+    [Fact]
+    public void Parsing_CompressedXRef()
+    {
+        //703 0 obj
+        //<</Linearized 1/L 6239811/O 705/E 139504/N 24/T 6238003/H [468 457]>>
 
-            /* 43 0 obj
+        /* 43 0 obj
 << /Linearized   1.0   % Version
- /L   54567 % File length
- /H   [ 475 598 ]  % Primary hint stream offset and length (part 5)
- /O   45    % Object number of first page’s page object (part 6)
- /E   5437  % Offset of end of first page
- /N   11    % Number of pages in document
- /T   52786 % Offset of first entry in main cross-reference table (part 11)
+/L   54567 % File length
+/H   [ 475 598 ]  % Primary hint stream offset and length (part 5)
+/O   45    % Object number of first page’s page object (part 6)
+/E   5437  % Offset of end of first page
+/N   11    % Number of pages in document
+/T   52786 % Offset of first entry in main cross-reference table (part 11)
 */
-            var base64XrefStream =
+        var base64XrefStream =
 @"NzExIDAgb2JqDTw8L0RlY29kZVBhcm1zPDwvQ29sdW1ucyA0L1ByZWRpY3RvciAxMj4+L0ZpbHRl
 ci9GbGF0ZURlY29kZS9JRFs8ODgyNkQ3RkI0OUQ2RDVBMDM5QTY1MTU0RjMwOUMyQUI+PDk5RjA0
 OTNGQjk3MjI1NEY4N0I5MzA3NTYxNzRDRjk5Pl0vSW5kZXhbNzAzIDE0XS9JbmZvIDcwMiAwIFIv
@@ -47,29 +51,29 @@ TGVuZ3RoIDU4L1ByZXYgNjIzODAwNC9Sb290IDcwNCAwIFIvU2l6ZSA3MTcvVHlwZS9YUmVmL1db
 MSAyIDFdPj5zdHJlYW0NCmjeYmJkEGBgYmDuBRIMoUCCcSOIUAQRS4EEVyuQYNkDJN6cYmBiZPID
 qWNgRCL+/xf6CxBgAO9WCPMNCmVuZHN0cmVhbQ1lbmRvYmo=";
 
-            var xrefStream = PdfObject.ParseAny(base64XrefStream.Base64ToLexer()) as PdfIndirectObject;
-            PdfStream pdfStream = xrefStream.Object as PdfStream;
-            var data = pdfStream.Decode();
+        var xrefStream = PdfObject.ParseAny(base64XrefStream.Base64ToLexer()) as PdfIndirectObject;
+        PdfStream pdfStream = xrefStream.Object as PdfStream;
+        var data = pdfStream.Decode();
 
-            string hex = data.ToHexString();
+        string hex = data.ToHexString();
 
-            // known good result:
-            Assert.Equal("0100100001039d000103f2000104a3000105c400010669000110ee000114aa00010074000202c2000202c2010202c2020202c2030101d400", hex);
+        // known good result:
+        Assert.Equal("0100100001039d000103f2000104a3000105c400010669000110ee000114aa00010074000202c2000202c2010202c2020202c2030101d400", hex);
 
-            // this yields now a decoded buffer that needs to get decoded further using PNG algos
-            // W[1 2 1] (4 columns)
-            // W[1 3 1] (5 columns, larger indexes)
+        // this yields now a decoded buffer that needs to get decoded further using PNG algos
+        // W[1 2 1] (4 columns)
+        // W[1 3 1] (5 columns, larger indexes)
 
-            // needed to resolve the values for refs encoded with 2
-            var base64Object706 = @"NzA2IDAgb2JqDTw8L0ZpbHRlci9GbGF0ZURlY29kZS9GaXJzdCAzMC9MZW5ndGggMTkzL04gNC9U
+        // needed to resolve the values for refs encoded with 2
+        var base64Object706 = @"NzA2IDAgb2JqDTw8L0ZpbHRlci9GbGF0ZURlY29kZS9GaXJzdCAzMC9MZW5ndGggMTkzL04gNC9U
 eXBlL09ialN0bT4+c3RyZWFtDQpo3kSOwQ6CMBBEf2W/wG0BARPSRFAJBwKxHkwIh1qrUcES6EH/
 3gIaTzO78zKZgDpAIKAuUOpZ9YC6rtUlUD+EKMJEN7rnnZBqPAZ/YgnsrQ8n3nrGcPsyKTfCjFTK
 6dQwJ2WvJVemwnKzw6wVVxXXeCxOdyWNhbN2hMkMM1ZhliSxGNQZAhKO37pCrjrRC3PTT4wbIR+/
 DRZZTYjtKUq4iGZQ1uRAka+/J8+BLIiDh3en/itRd3PO2EeAAQDI4UbhDQplbmRzdHJlYW0NZW5k
 b2JqDQ==";
 
-            // this contains the rest of the refs
-            var base64Object559 = @"NTU5IDAgb2JqDTw8L0RlY29kZVBhcm1zPDwvQ29sdW1ucyA1L1ByZWRpY3RvciAxMj4+L0ZpbHRl
+        // this contains the rest of the refs
+        var base64Object559 = @"NTU5IDAgb2JqDTw8L0RlY29kZVBhcm1zPDwvQ29sdW1ucyA1L1ByZWRpY3RvciAxMj4+L0ZpbHRl
 ci9GbGF0ZURlY29kZS9JRFs8ODgyNkQ3RkI0OUQ2RDVBMDM5QTY1MTU0RjMwOUMyQUI+PDk5RjA0
 OTNGQjk3MjI1NEY4N0I5MzA3NTYxNzRDRjk5Pl0vSW5mbyA3MDIgMCBSL0xlbmd0aCAxNTQ2L1Jv
 b3QgNzA0IDAgUi9TaXplIDcwMy9UeXBlL1hSZWYvV1sxIDMgMV0+PnN0cmVhbQ0KaN7sl2lsVVUQ
@@ -101,12 +105,12 @@ fpf57RaOj7wNmAn56E8elU09kV1mUrqdQ95XdqlG2N6e+99havl/kZUMmnk7tGKHkmXDG76BCjFM
 v4Asj2RrD1urbw83V2mPCb+7mQ8B9VnAtDf0rOm+u2natZNTHwfZk6eCYSfIt7yrA24d4HMQi2Aa
 xG7AGy+gHwOqNygG6eigNCJZru8rszzCz4voPFWfT+NpPDmadSc9Paa07fofmeP/CTAAUeNQwA0K
 ZW5kc3RyZWFtDWVuZG9iag0=";
-            xrefStream = PdfObject.ParseAny(base64Object559.Base64ToLexer()) as PdfIndirectObject;
-            pdfStream = xrefStream.Object as PdfStream;
-            data = pdfStream.Decode();
+        xrefStream = PdfObject.ParseAny(base64Object559.Base64ToLexer()) as PdfIndirectObject;
+        pdfStream = xrefStream.Object as PdfStream;
+        data = pdfStream.Decode();
 
-            hex = data.ToHexString();
-            var expectedResult =
+        hex = data.ToHexString();
+        var expectedResult =
 "0000000000010220f0000102219d00010221e80001022266000102231300010234c0000102361100" +
 "0102372e00010237aa00010266f20001026781000102aee4000102af5b000102d2ee000102e2f600" +
 "0102e748000102e7f7000102ed20000103b343000103b42f000103b4de000103b62c000106859600" +
@@ -195,8 +199,7 @@ ZW5kc3RyZWFtDWVuZG9iag0=";
 "0200022959020002295a020002295b020002295c020002295d020002295e020002295f0200022960" +
 "0200022961020002296202000229630200022a000200022a010200022a020200022a030200022a04" +
 "0200022b000200022b010200022d000200022d010200022d020200022d030200022e00";
-            Assert.Equal(expectedResult, hex);
-        }
-
+        Assert.Equal(expectedResult, hex);
     }
+
 }

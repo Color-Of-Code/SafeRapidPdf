@@ -3,55 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using SafeRapidPdf.Objects;
 
-namespace SafeRapidPdf.Document
+namespace SafeRapidPdf.Document;
+
+public sealed class PdfCatalog : PdfBaseObject
 {
-    public sealed class PdfCatalog : PdfBaseObject
+    private readonly List<IPdfObject> _items = new();
+
+    public PdfCatalog(PdfDictionary catalog)
+        : base(PdfObjectType.Catalog)
     {
-        private readonly List<IPdfObject> _items = new();
-
-        public PdfCatalog(PdfDictionary catalog)
-            : base(PdfObjectType.Catalog)
+        if (catalog is null)
         {
-            if (catalog is null)
-            {
-                throw new ArgumentNullException(nameof(catalog));
-            }
-
-            IsContainer = true;
-            catalog.ExpectsType("Catalog");
-
-            foreach (PdfKeyValuePair pair in catalog.Items.Cast<PdfKeyValuePair>())
-            {
-                switch (pair.Key.Text)
-                {
-                    case "Type": // skip Type Catalog
-                        break;
-                    case "Pages":
-                        Pages = new PdfPageTree(catalog["Pages"] as PdfIndirectReference);
-                        break;
-                    default:
-                        _items.Add(pair);
-                        break;
-                }
-            }
+            throw new ArgumentNullException(nameof(catalog));
         }
 
-        public PdfPageTree Pages { get; }
+        IsContainer = true;
+        catalog.ExpectsType("Catalog");
 
-        public override IReadOnlyList<IPdfObject> Items
+        foreach (PdfKeyValuePair pair in catalog.Items.Cast<PdfKeyValuePair>())
         {
-            get
+            switch (pair.Key.Text)
             {
-                var list = new List<IPdfObject>(_items.Count + 1);
-                list.AddRange(_items);
-                list.Add(Pages);
-                return list;
+                case "Type": // skip Type Catalog
+                    break;
+                case "Pages":
+                    Pages = new PdfPageTree(catalog["Pages"] as PdfIndirectReference);
+                    break;
+                default:
+                    _items.Add(pair);
+                    break;
             }
         }
+    }
 
-        public override string ToString()
+    public PdfPageTree Pages { get; }
+
+    public override IReadOnlyList<IPdfObject> Items
+    {
+        get
         {
-            return "/";
+            var list = new List<IPdfObject>(_items.Count + 1);
+            list.AddRange(_items);
+            list.Add(Pages);
+            return list;
         }
+    }
+
+    public override string ToString()
+    {
+        return "/";
     }
 }

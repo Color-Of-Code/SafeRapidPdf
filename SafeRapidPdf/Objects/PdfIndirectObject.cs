@@ -2,46 +2,45 @@ using System.Collections.Generic;
 using System.Globalization;
 using SafeRapidPdf.Parsing;
 
-namespace SafeRapidPdf.Objects
+namespace SafeRapidPdf.Objects;
+
+public sealed class PdfIndirectObject : PdfObject
 {
-    public sealed class PdfIndirectObject : PdfObject
+    private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
+        : base(PdfObjectType.IndirectObject)
     {
-        private PdfIndirectObject(int objectNumber, int generationNumber, IPdfObject obj)
-            : base(PdfObjectType.IndirectObject)
-        {
-            IsContainer = true;
+        IsContainer = true;
 
-            ObjectNumber = objectNumber;
-            GenerationNumber = generationNumber;
-            Object = obj;
-        }
+        ObjectNumber = objectNumber;
+        GenerationNumber = generationNumber;
+        Object = obj;
+    }
 
-        public int ObjectNumber { get; }
+    public int ObjectNumber { get; }
 
-        public int GenerationNumber { get; }
+    public int GenerationNumber { get; }
 
-        public IPdfObject Object { get; }
+    public IPdfObject Object { get; }
 
-        public override IReadOnlyList<IPdfObject> Items => new[] { Object };
+    public override IReadOnlyList<IPdfObject> Items => new[] { Object };
 
-        internal static PdfIndirectObject Parse(Lexer lexer)
-        {
-            int objectNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
-            return Parse(lexer, objectNumber);
-        }
+    internal static PdfIndirectObject Parse(Lexer lexer)
+    {
+        int objectNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
+        return Parse(lexer, objectNumber);
+    }
 
-        internal static PdfIndirectObject Parse(Lexer lexer, int objectNumber)
-        {
-            int generationNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
-            lexer.Expects("obj");
-            PdfObject obj = ParseAny(lexer);
-            lexer.Expects("endobj");
-            return new PdfIndirectObject(objectNumber, generationNumber, obj);
-        }
+    internal static PdfIndirectObject Parse(Lexer lexer, int objectNumber)
+    {
+        int generationNumber = int.Parse(lexer.ReadToken(), CultureInfo.InvariantCulture);
+        lexer.Expects("obj");
+        PdfObject obj = ParseAny(lexer);
+        lexer.Expects("endobj");
+        return new PdfIndirectObject(objectNumber, generationNumber, obj);
+    }
 
-        public override string ToString()
-        {
-            return $"{ObjectNumber} {GenerationNumber} obj";
-        }
+    public override string ToString()
+    {
+        return $"{ObjectNumber} {GenerationNumber} obj";
     }
 }

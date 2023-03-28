@@ -1,6 +1,5 @@
-﻿namespace SafeRapidPdf.Document
+﻿namespace SafeRapidPdf.Document;
+
+public class PdfNameTree
 {
-    public class PdfNameTree
-    {
-    }
 }
