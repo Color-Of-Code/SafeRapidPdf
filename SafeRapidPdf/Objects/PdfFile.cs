@@ -126,15 +126,12 @@ public class PdfFile : IPdfObject, IIndirectReferenceResolver
         progress?.Invoke(null, new ProgressChangedEventArgs(100, null));
         watch.Stop();
 
-        var file = new PdfFile(objects)
+        return new PdfFile(objects)
         {
-            ParsingTime = watch.Elapsed.TotalSeconds
+            ParsingTime = watch.Elapsed.TotalSeconds,
+            // copy over xref
+            XRef = lexer.IndirectReferenceResolver.XRef
         };
-
-        // copy over xref
-        file.XRef = lexer.IndirectReferenceResolver.XRef;
-
-        return file;
     }
 
     public static PdfFile Parse(string pdfFilePath, EventHandler<ProgressChangedEventArgs> progress = null)
