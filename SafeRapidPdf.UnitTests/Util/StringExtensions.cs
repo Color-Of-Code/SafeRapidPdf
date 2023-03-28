@@ -41,7 +41,7 @@ public static class StringExtensions
         var hex = new StringBuilder(ba.Length * 2);
         foreach (byte b in ba)
         {
-            _ = hex.AppendFormat("{0:x2}", b);
+            _ = hex.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "{0:x2}", b);
         }
         return hex.ToString();
     }

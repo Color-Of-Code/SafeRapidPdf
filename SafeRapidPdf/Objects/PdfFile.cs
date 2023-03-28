@@ -39,7 +39,7 @@ public class PdfFile : IPdfObject, IIndirectReferenceResolver
     /// </summary>
     public double ParsingTime { get; private set; }
 
-    public string Version => Items.First().ToString();
+    public string Version => Items[0].ToString();
 
     public IReadOnlyList<IPdfObject> Items { get; private set; }
 

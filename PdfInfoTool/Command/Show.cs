@@ -21,7 +21,7 @@ internal static partial class Command
                 {
                     var xrefEntry = entry as PdfXRefEntry;
                     var o = xrefEntry.ObjectNumber;
-                    var obj = o.ToString("D5");
+                    var obj = o.ToString("D5", System.Globalization.CultureInfo.InvariantCulture);
                     if (opts.Verbose)
                     {
                         var type = "ref ObjStm";
