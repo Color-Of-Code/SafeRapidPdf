@@ -26,7 +26,7 @@ This library is not intended for following purposes:
 - generating a PDF
 
 ## File structure
- 
+
 This library attempts to provide a quick and yet reliable parser for PDF files. It focusses
 on an integral parsing of the whole PDF into its primitive objects.
 
@@ -61,6 +61,18 @@ extracted such as the position and size of text and graphics for example.
 - A python library with similar goals: [pdf-parser](https://blog.didierstevens.com/programs/pdf-tools/)
 
 It is recommended to read the specification of the PDF language 1.7 for a deeper insight.
+
+## Testing
+
+Unit tests are written in XUnit and code coverage is done thanks to Coverlet
+
+```bash
+# for vscode integrated report
+dotnet test --collect:"XPlat Code Coverage"
+
+# msbuild report
+dotnet test /p:CollectCoverage=true
+```
 
 ## Authors
 

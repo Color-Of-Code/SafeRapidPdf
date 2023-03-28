@@ -16,4 +16,4 @@ jobs:
     - name: Build with dotnet
       run: |
         dotnet build
-        dotnet test *.UnitTests
+        dotnet test /p:CollectCoverage=true
