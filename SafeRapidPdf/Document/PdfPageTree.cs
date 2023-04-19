@@ -15,10 +15,7 @@ public sealed class PdfPageTree : PdfPage
     public PdfPageTree(PdfIndirectReference pages, PdfPageTree parent)
         : base(pages, parent, PdfObjectType.PageTree)
     {
-        if (pages is null)
-        {
-            throw new ArgumentNullException(nameof(pages));
-        }
+        ArgumentNullException.ThrowIfNull(pages);
 
         IsContainer = true;
         var pageTree = pages.Dereference<PdfDictionary>();

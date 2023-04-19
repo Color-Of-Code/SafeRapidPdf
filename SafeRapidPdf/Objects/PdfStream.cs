@@ -132,10 +132,7 @@ public sealed class PdfStream : PdfObject
 
     internal static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
     {
-        if (dictionary is null)
-        {
-            throw new ArgumentNullException(nameof(dictionary));
-        }
+        ArgumentNullException.ThrowIfNull(dictionary);
 
         lexer.Expects("stream");
         char eol = lexer.ReadChar();

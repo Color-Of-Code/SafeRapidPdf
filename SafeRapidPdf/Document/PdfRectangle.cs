@@ -10,10 +10,7 @@ public abstract class PdfRectangle : PdfBaseObject
     protected PdfRectangle(PdfObjectType type, PdfArray box)
         : base(type)
     {
-        if (box is null)
-        {
-            throw new ArgumentNullException(nameof(box));
-        }
+        ArgumentNullException.ThrowIfNull(box);
 
         if (box.Items.Count != 4)
         {

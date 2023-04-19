@@ -12,7 +12,7 @@ public class PdfPage : PdfBaseObject
     public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
         : this(pages, parent, PdfObjectType.Page)
     {
-        if (pages == null) throw new ArgumentNullException(nameof(pages));
+        ArgumentNullException.ThrowIfNull(pages);
 
         IsContainer = true;
 
@@ -29,10 +29,7 @@ public class PdfPage : PdfBaseObject
     protected PdfPage(PdfIndirectReference pages, PdfPageTree parent, PdfObjectType type)
         : base(type)
     {
-        if (pages is null)
-        {
-            throw new ArgumentNullException(nameof(pages));
-        }
+        ArgumentNullException.ThrowIfNull(pages);
 
         GenerationNumber = pages.GenerationNumber;
         ObjectNumber = pages.ObjectNumber;
@@ -108,10 +105,7 @@ public class PdfPage : PdfBaseObject
 
     protected void HandleKeyValuePair(PdfKeyValuePair pair)
     {
-        if (pair is null)
-        {
-            throw new ArgumentNullException(nameof(pair));
-        }
+        ArgumentNullException.ThrowIfNull(pair);
 
         switch (pair.Key.Text)
         {
