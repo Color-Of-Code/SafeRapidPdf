@@ -1,5 +1,3 @@
-﻿
-using System;
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document;

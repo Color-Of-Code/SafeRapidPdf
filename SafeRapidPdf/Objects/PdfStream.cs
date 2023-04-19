@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;

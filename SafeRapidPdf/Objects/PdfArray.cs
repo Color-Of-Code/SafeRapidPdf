@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;

@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace SafeRapidPdf.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]

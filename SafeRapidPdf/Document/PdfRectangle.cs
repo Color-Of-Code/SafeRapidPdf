@@ -1,6 +1,6 @@
-﻿using System;
 using System.Drawing;
 using System.IO;
+
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document;

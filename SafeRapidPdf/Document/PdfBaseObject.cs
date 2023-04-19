@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace SafeRapidPdf.Document;
 
 public abstract class PdfBaseObject : IPdfObject

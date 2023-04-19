@@ -1,6 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document;
