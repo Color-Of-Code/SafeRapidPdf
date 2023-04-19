@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace SafeRapidPdf.Objects;
 
@@ -54,7 +54,7 @@ public sealed class PdfXRef : PdfObject
     {
         var sections = new List<PdfXRefSection>();
         string token = lexer.PeekToken1();
-        while (token != null && char.IsDigit(token[0]))
+        while (token != null && char.IsAsciiDigit(token[0]))
         {
             sections.Add(PdfXRefSection.Parse(lexer));
             token = lexer.PeekToken1();

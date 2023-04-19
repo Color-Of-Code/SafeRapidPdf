@@ -65,7 +65,7 @@ public sealed class PdfLiteralString : PdfObject
                         var octalNumber = new StringBuilder();
                         _ = octalNumber.Append(c);
                         char c2 = lexer.ReadChar();
-                        if (!char.IsDigit(c2))
+                        if (!char.IsAsciiDigit(c2))
                         {
                             lexer.Putc();
                         }
@@ -73,7 +73,7 @@ public sealed class PdfLiteralString : PdfObject
                         {
                             _ = octalNumber.Append(c2);
                             char c3 = lexer.ReadChar();
-                            if (!char.IsDigit(c3))
+                            if (!char.IsAsciiDigit(c3))
                                 lexer.Putc();
                             else
                                 _ = octalNumber.Append(c2);
