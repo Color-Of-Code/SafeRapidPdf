@@ -112,27 +112,27 @@ public class PdfPage : PdfBaseObject
             case "Type": // skip type Page
                 break;
             case "ArtBox":
-                ArtBox = new PdfArtBox(pair.Value as PdfArray);
+                ArtBox = new PdfArtBox((PdfArray)pair.Value);
                 _items.Add(ArtBox);
                 break;
             case "BleedBox":
-                BleedBox = new PdfBleedBox(pair.Value as PdfArray);
+                BleedBox = new PdfBleedBox((PdfArray)pair.Value);
                 _items.Add(BleedBox);
                 break;
             case "CropBox":
-                CropBox = new PdfCropBox(pair.Value as PdfArray);
+                CropBox = new PdfCropBox((PdfArray)pair.Value);
                 _items.Add(CropBox);
                 break;
             case "MediaBox":
-                MediaBox = new PdfMediaBox(pair.Value as PdfArray);
+                MediaBox = new PdfMediaBox((PdfArray)pair.Value);
                 _items.Add(MediaBox);
                 break;
             case "TrimBox":
-                TrimBox = new PdfTrimBox(pair.Value as PdfArray);
+                TrimBox = new PdfTrimBox((PdfArray)pair.Value);
                 _items.Add(TrimBox);
                 break;
             case "Rotate":
-                Rotate = new PdfRotate(pair.Value as PdfNumeric);
+                Rotate = new PdfRotate((PdfNumeric)pair.Value);
                 _items.Add(Rotate);
                 break;
             case "Contents":
@@ -140,7 +140,7 @@ public class PdfPage : PdfBaseObject
                 _items.Add(Contents);
                 break;
             case "Parent":
-                PdfIndirectReference parent = pair.Value as PdfIndirectReference;
+                var parent = (PdfIndirectReference)pair.Value;
                 if (parent.ObjectNumber != Parent.ObjectNumber)
                 {
                     throw new InvalidDataException("Unexpected not matching parent object number!");

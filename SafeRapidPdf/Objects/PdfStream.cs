@@ -78,7 +78,7 @@ public sealed class PdfStream : PdfObject
 
     public byte[] Decode()
     {
-        if (!StreamDictionary.TryGetValue("Filter", out IPdfObject filter))
+        if (!StreamDictionary.TryGetValue("Filter", out IPdfObject? filter))
         {
             // filter is optional
             // no filter provided= return the data as-is

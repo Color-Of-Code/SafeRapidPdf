@@ -51,10 +51,10 @@ internal class IndirectReferenceResolver : IIndirectReferenceResolver
 
             if (o.ObjectType == PdfObjectType.IndirectObject)
             {
-                var d = (o as PdfIndirectObject).Object;
+                var d = ((PdfIndirectObject)o).Object;
                 if (d.ObjectType == PdfObjectType.Dictionary)
                 {
-                    var dict = d as PdfDictionary;
+                    var dict = (PdfDictionary)d;
                     var linearizedVersion = dict["Linearized"].Text;
                     if (!string.IsNullOrWhiteSpace(linearizedVersion))
                     {
@@ -86,12 +86,12 @@ internal class IndirectReferenceResolver : IIndirectReferenceResolver
         // if we get here we can read the next object as the first xref
         // use the linearized header to jump to the main table /T offset
         // parse the xref there too
-        var firstPageXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
-        var mainXRefPosition = _linearizationHeader["T"] as PdfNumeric;
+        var firstPageXRef = (PdfIndirectObject)PdfObject.ParseAny(_lexer);
+        var mainXRefPosition = (PdfNumeric)_linearizationHeader["T"];
 
         _lexer.PushPosition(mainXRefPosition.ToInt64());
 
-        var mainXRef = PdfObject.ParseAny(_lexer) as PdfIndirectObject;
+        var mainXRef = (PdfIndirectObject)PdfObject.ParseAny(_lexer);
 
         _lexer.PopPosition();
 

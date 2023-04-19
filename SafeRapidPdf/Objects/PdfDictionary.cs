@@ -34,7 +34,7 @@ public class PdfDictionary : PdfObject
 
     public void ExpectsType(string name)
     {
-        PdfName type = this["Type"] as PdfName;
+        var type = (PdfName)this["Type"];
         if (type.Name != name)
         {
             throw new ParsingException($"Expected {name}, but got {type.Name}");

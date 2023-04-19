@@ -43,7 +43,7 @@ public sealed class PdfPageTree : PdfPage
                     }
                     break;
                 case "Count":
-                    Count = new PdfCount(pair.Value as PdfNumeric);
+                    Count = new PdfCount((PdfNumeric)pair.Value);
                     Add(Count);
                     break;
                 default:
