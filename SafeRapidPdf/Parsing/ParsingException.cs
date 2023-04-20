@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace SafeRapidPdf.Parsing;
 
 public class ParsingException : Exception

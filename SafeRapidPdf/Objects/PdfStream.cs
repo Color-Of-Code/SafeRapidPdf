@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;
@@ -79,7 +78,7 @@ public sealed class PdfStream : PdfObject
 
     public byte[] Decode()
     {
-        if (!StreamDictionary.TryGetValue("Filter", out IPdfObject filter))
+        if (!StreamDictionary.TryGetValue("Filter", out IPdfObject? filter))
         {
             // filter is optional
             // no filter provided= return the data as-is
@@ -133,10 +132,7 @@ public sealed class PdfStream : PdfObject
 
     internal static PdfStream Parse(PdfDictionary dictionary, Lexer lexer)
     {
-        if (dictionary is null)
-        {
-            throw new ArgumentNullException(nameof(dictionary));
-        }
+        ArgumentNullException.ThrowIfNull(dictionary);
 
         lexer.Expects("stream");
         char eol = lexer.ReadChar();

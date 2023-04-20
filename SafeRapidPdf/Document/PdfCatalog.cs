@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document;
@@ -12,10 +11,7 @@ public sealed class PdfCatalog : PdfBaseObject
     public PdfCatalog(PdfDictionary catalog)
         : base(PdfObjectType.Catalog)
     {
-        if (catalog is null)
-        {
-            throw new ArgumentNullException(nameof(catalog));
-        }
+        ArgumentNullException.ThrowIfNull(catalog);
 
         IsContainer = true;
         catalog.ExpectsType("Catalog");
@@ -27,7 +23,7 @@ public sealed class PdfCatalog : PdfBaseObject
                 case "Type": // skip Type Catalog
                     break;
                 case "Pages":
-                    Pages = new PdfPageTree(catalog["Pages"] as PdfIndirectReference);
+                    Pages = new PdfPageTree((PdfIndirectReference)catalog["Pages"]);
                     break;
                 default:
                     _items.Add(pair);

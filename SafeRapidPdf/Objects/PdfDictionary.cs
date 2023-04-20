@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.IO;
+
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;
@@ -22,10 +21,7 @@ public class PdfDictionary : PdfObject
     protected PdfDictionary(PdfDictionary dictionary, PdfObjectType type)
         : base(type)
     {
-        if (dictionary is null)
-        {
-            throw new ArgumentNullException(nameof(dictionary));
-        }
+        ArgumentNullException.ThrowIfNull(dictionary);
 
         IsContainer = true;
         _dictionary = dictionary._dictionary;
@@ -38,7 +34,7 @@ public class PdfDictionary : PdfObject
 
     public void ExpectsType(string name)
     {
-        PdfName type = this["Type"] as PdfName;
+        var type = (PdfName)this["Type"];
         if (type.Name != name)
         {
             throw new ParsingException($"Expected {name}, but got {type.Name}");
@@ -47,10 +43,7 @@ public class PdfDictionary : PdfObject
 
     public static PdfDictionary Parse(Lexer lexer)
     {
-        if (lexer is null)
-        {
-            throw new ArgumentNullException(nameof(lexer));
-        }
+        ArgumentNullException.ThrowIfNull(lexer);
 
         var dictionaryItems = new List<PdfKeyValuePair>();
 

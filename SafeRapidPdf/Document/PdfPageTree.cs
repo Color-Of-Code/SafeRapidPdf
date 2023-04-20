@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.IO;
+
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.Objects;
 
@@ -16,10 +15,7 @@ public sealed class PdfPageTree : PdfPage
     public PdfPageTree(PdfIndirectReference pages, PdfPageTree parent)
         : base(pages, parent, PdfObjectType.PageTree)
     {
-        if (pages is null)
-        {
-            throw new ArgumentNullException(nameof(pages));
-        }
+        ArgumentNullException.ThrowIfNull(pages);
 
         IsContainer = true;
         var pageTree = pages.Dereference<PdfDictionary>();
@@ -47,7 +43,7 @@ public sealed class PdfPageTree : PdfPage
                     }
                     break;
                 case "Count":
-                    Count = new PdfCount(pair.Value as PdfNumeric);
+                    Count = new PdfCount((PdfNumeric)pair.Value);
                     Add(Count);
                     break;
                 default:

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;
@@ -19,10 +17,7 @@ public sealed class PdfArray : PdfObject
 
     public static PdfArray Parse(Lexer lexer)
     {
-        if (lexer is null)
-        {
-            throw new ArgumentNullException(nameof(lexer));
-        }
+        ArgumentNullException.ThrowIfNull(lexer);
 
         var list = new List<IPdfObject>();
         PdfObject value;

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
 using System.Globalization;
+
 using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;
@@ -27,7 +27,7 @@ public sealed class PdfXRefSection : PdfObject
     internal static PdfXRefSection Parse(PdfStream pdfStream)
     {
         var dictionary = pdfStream.StreamDictionary;
-        var type = dictionary["Type"] as PdfName;
+        var type = (PdfName)dictionary["Type"];
         if (type.Name != "XRef")
         {
             throw new ParsingException("A stream of type XRef is expected");
@@ -35,7 +35,7 @@ public sealed class PdfXRefSection : PdfObject
 
         // W[1 2 1] (4 columns)
         // W[1 3 1] (5 columns, larger indexes)
-        var w = dictionary["W"] as PdfArray;
+        var w = (PdfArray)dictionary["W"];
         int firstId = 0;
         int size = 0;
 

@@ -1,6 +1,6 @@
-﻿using System;
 using System.Drawing;
 using System.IO;
+
 using SafeRapidPdf.Objects;
 
 namespace SafeRapidPdf.Document;
@@ -10,10 +10,7 @@ public abstract class PdfRectangle : PdfBaseObject
     protected PdfRectangle(PdfObjectType type, PdfArray box)
         : base(type)
     {
-        if (box is null)
-        {
-            throw new ArgumentNullException(nameof(box));
-        }
+        ArgumentNullException.ThrowIfNull(box);
 
         if (box.Items.Count != 4)
         {
