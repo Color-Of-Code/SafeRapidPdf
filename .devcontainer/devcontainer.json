@@ -20,9 +20,9 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"aliasadidev.nugetpackagemanagergui",
 				"eamodio.gitlens",
 				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit",
 				"EditorConfig.EditorConfig",
 				"formulahendry.dotnet-test-explorer",
 				"ryanluker.vscode-coverage-gutters",
