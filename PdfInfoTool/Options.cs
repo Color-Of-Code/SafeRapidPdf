@@ -27,6 +27,14 @@ internal sealed class DumpOptions : IOptions
     public bool Verbose { get; set; }
     public bool Quiet { get; set; }
     public string FileName { get; set; }
+
+    [Option('x', "hex",
+        HelpText = "Dump decoded stream data as a hex string (for use in unit tests).")]
+    public bool Hex { get; set; }
+
+    [Option('b', "binary",
+        HelpText = "Write decoded stream data as raw bytes to stdout (for piping to other tools).")]
+    public bool Binary { get; set; }
 }
 
 [Verb("show", HelpText = "Show object contents in a human readable way.")]
