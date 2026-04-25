@@ -4,14 +4,9 @@ using SafeRapidPdf.Parsing;
 
 namespace SafeRapidPdf.Objects;
 
-public abstract class PdfObject : IPdfObject
+public abstract class PdfObject(PdfObjectType type) : IPdfObject
 {
-    protected PdfObject(PdfObjectType type)
-    {
-        ObjectType = type;
-    }
-
-    public PdfObjectType ObjectType { get; }
+    public PdfObjectType ObjectType { get; } = type;
 
     public bool IsContainer { get; protected set; }
 
@@ -20,7 +15,7 @@ public abstract class PdfObject : IPdfObject
     public virtual IReadOnlyList<IPdfObject> Items
         => !IsContainer
             ? null
-            : throw new NotImplementedException();
+            : throw new InvalidOperationException("Subclass must override Items when IsContainer is true.");
 
     internal static PdfObject ParseAny(Lexer lexer)
     {

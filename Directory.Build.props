@@ -1,5 +1,11 @@
 <Project>
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- Required for IDE0005 (remove unnecessary usings) to fire during build -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CA1819: public byte[] property is intentional public API surface -->
+    <!-- CA1720: 'Object' property name is public API, renaming would be breaking -->
+    <!-- CS1591: XML doc comments not required; GenerateDocumentationFile only needed for IDE0005 -->
+    <NoWarn>CA1819;CA1720;CS1591</NoWarn>
   </PropertyGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 
 using SafeRapidPdf.Services;
@@ -270,7 +269,7 @@ public class Lexer
     public static bool IsEol(int b)
     {
         // -1 was added to catch %%EOF without CR or LF
-        return b is 10 or 13 or (-1);
+        return b is 10 or 13 or -1;
     }
 
     public void PushPosition(long newPosition)

@@ -1,13 +1,8 @@
 namespace SafeRapidPdf.Document;
 
-public abstract class PdfBaseObject : IPdfObject
+public abstract class PdfBaseObject(PdfObjectType type) : IPdfObject
 {
-    protected PdfBaseObject(PdfObjectType type)
-    {
-        ObjectType = type;
-    }
-
-    public PdfObjectType ObjectType { get; }
+    public PdfObjectType ObjectType { get; } = type;
 
     public bool IsContainer { get; protected set; }
 
@@ -16,5 +11,5 @@ public abstract class PdfBaseObject : IPdfObject
     public virtual IReadOnlyList<IPdfObject> Items
         => !IsContainer
             ? null
-            : throw new NotImplementedException();
+            : throw new InvalidOperationException("Subclass must override Items when IsContainer is true.");
 }

@@ -13,7 +13,7 @@ public sealed class PdfStartXRef : PdfObject
 
     public PdfNumeric Numeric { get; }
 
-    public override IReadOnlyList<IPdfObject> Items => new[] { Numeric };
+    public override IReadOnlyList<IPdfObject> Items => [Numeric];
 
     public static PdfStartXRef Parse(Lexer lexer)
     {

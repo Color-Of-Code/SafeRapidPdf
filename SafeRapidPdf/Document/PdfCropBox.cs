@@ -5,10 +5,6 @@ namespace SafeRapidPdf.Document;
 /// <summary>
 /// visible region of default user space
 /// </summary>
-public sealed class PdfCropBox : PdfRectangle
+public sealed class PdfCropBox(PdfArray box) : PdfRectangle(PdfObjectType.CropBox, box)
 {
-    public PdfCropBox(PdfArray box)
-        : base(PdfObjectType.CropBox, box)
-    {
-    }
 }

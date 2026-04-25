@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.Objects;
@@ -21,7 +22,7 @@ public sealed class PdfPageTree : PdfPage
         var pageTree = pages.Dereference<PdfDictionary>();
         pageTree.ExpectsType("Pages");
 
-        foreach (PdfKeyValuePair pair in pageTree.Items)
+        foreach (PdfKeyValuePair pair in pageTree.Items.Cast<PdfKeyValuePair>())
         {
             switch (pair.Key.Text)
             {
@@ -29,8 +30,8 @@ public sealed class PdfPageTree : PdfPage
                     break;
                 case "Kids":
                     var kids = (PdfArray)pair.Value;
-                    Kids = new List<IPdfObject>();
-                    foreach (PdfIndirectReference item in kids.Items)
+                    Kids = [];
+                    foreach (PdfIndirectReference item in kids.Items.Cast<PdfIndirectReference>())
                     {
                         var dic = item.Dereference<PdfDictionary>();
                         string type = dic["Type"].Text;

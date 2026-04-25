@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using SafeRapidPdf.Document;
 using SafeRapidPdf.Objects;
 
@@ -53,7 +52,7 @@ public class PdfDocument
         return "Document";
     }
 
-    private IEnumerable<PdfPage> GetPages(IReadOnlyList<IPdfObject> objects)
+    private static IEnumerable<PdfPage> GetPages(IReadOnlyList<IPdfObject> objects)
     {
         if (objects != null)
         {

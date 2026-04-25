@@ -63,11 +63,13 @@ internal class IndirectReferenceResolver : IIndirectReferenceResolver
                 }
             }
         }
+#pragma warning disable CA1031 // Intentional: linearization header parsing errors are non-fatal
         catch
         {
             // ignore... I know bad style
             // in this case the linearization header is assumed to not have been found
         }
+#pragma warning restore CA1031
     }
 
     public PdfIndirectObject GetObject(int objectNumber, int generationNumber)

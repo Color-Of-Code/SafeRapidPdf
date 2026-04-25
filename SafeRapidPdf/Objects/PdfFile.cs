@@ -22,7 +22,7 @@ public class PdfFile : IPdfObject, IIndirectReferenceResolver
         Items = objects;
 
         // build up the fast object lookup dictionary
-        _indirectObjects = new Dictionary<string, PdfIndirectObject>();
+        _indirectObjects = [];
 
         foreach (var obj in Items.OfType<PdfIndirectObject>())
         {

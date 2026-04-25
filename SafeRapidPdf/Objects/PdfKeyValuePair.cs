@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace SafeRapidPdf.Objects;
 
 /// <summary>
@@ -20,7 +19,7 @@ public sealed class PdfKeyValuePair : PdfObject
 
     public PdfObject Value { get; }
 
-    public override IReadOnlyList<IPdfObject> Items => new[] { Value };
+    public override IReadOnlyList<IPdfObject> Items => [Value];
 
     public override string ToString()
     {

@@ -6,10 +6,6 @@ namespace SafeRapidPdf.Document;
 /// region to which the contents of the page should be clipped
 /// when output in a production environment
 /// </summary>
-public sealed class PdfBleedBox : PdfRectangle
+public sealed class PdfBleedBox(PdfArray box) : PdfRectangle(PdfObjectType.BleedBox, box)
 {
-    public PdfBleedBox(PdfArray box)
-        : base(PdfObjectType.BleedBox, box)
-    {
-    }
 }

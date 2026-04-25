@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 
 using SafeRapidPdf.Attributes;
 using SafeRapidPdf.Objects;
@@ -7,7 +8,7 @@ namespace SafeRapidPdf.Document;
 
 public class PdfPage : PdfBaseObject
 {
-    private readonly List<IPdfObject> _items = new();
+    private readonly List<IPdfObject> _items = [];
 
     public PdfPage(PdfIndirectReference pages, PdfPageTree parent)
         : this(pages, parent, PdfObjectType.Page)
@@ -20,7 +21,7 @@ public class PdfPage : PdfBaseObject
 
         page.ExpectsType("Page");
 
-        foreach (PdfKeyValuePair pair in page.Items)
+        foreach (PdfKeyValuePair pair in page.Items.Cast<PdfKeyValuePair>())
         {
             HandleKeyValuePair(pair);
         }

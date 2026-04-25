@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 
 namespace SafeRapidPdf.Objects;
 
 public sealed class PdfXRef : PdfObject
 {
     private readonly IList<PdfXRefSection> _sections;
-    private readonly Dictionary<string, long> _offsets = new();
+    private readonly Dictionary<string, long> _offsets = [];
 
     private PdfXRef(IList<PdfXRefSection> sections)
         : base(PdfObjectType.XRef)
@@ -69,10 +68,7 @@ public sealed class PdfXRef : PdfObject
     /// <returns>The parsed PdfXRef</returns>
     public static PdfXRef Parse(params PdfStream[] xrefStream)
     {
-        if (xrefStream is null)
-        {
-            throw new System.ArgumentNullException(nameof(xrefStream));
-        }
+        ArgumentNullException.ThrowIfNull(xrefStream);
 
         var sections = new List<PdfXRefSection>(xrefStream.Length);
         foreach (var pdfStream in xrefStream)

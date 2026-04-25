@@ -6,7 +6,7 @@ namespace SafeRapidPdf.Document;
 
 public sealed class PdfCatalog : PdfBaseObject
 {
-    private readonly List<IPdfObject> _items = new();
+    private readonly List<IPdfObject> _items = [];
 
     public PdfCatalog(PdfDictionary catalog)
         : base(PdfObjectType.Catalog)

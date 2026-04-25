@@ -11,7 +11,7 @@ insert_final_newline = true
 [*.cs]
 dotnet_diagnostic.IDE0008.severity = none       # use explicit type instead of var
 dotnet_diagnostic.IDE0011.severity = none       # add braces to 'if' statement
-dotnet_diagnostic.IDE0005.severity = suggestion # using directive is unnecessary
+dotnet_diagnostic.IDE0005.severity = error      # using directive is unnecessary
 dotnet_diagnostic.IDE0049.severity = suggestion # name can be simplified
 dotnet_diagnostic.IDE0055.severity = suggestion # fix formatting
 dotnet_diagnostic.IDE0130.severity = error      # namespace match directory structure

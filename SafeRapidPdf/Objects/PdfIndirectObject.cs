@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Globalization;
 using SafeRapidPdf.Parsing;
 
@@ -22,7 +21,7 @@ public sealed class PdfIndirectObject : PdfObject
 
     public IPdfObject Object { get; }
 
-    public override IReadOnlyList<IPdfObject> Items => new[] { Object };
+    public override IReadOnlyList<IPdfObject> Items => [Object];
 
     internal static PdfIndirectObject Parse(Lexer lexer)
     {

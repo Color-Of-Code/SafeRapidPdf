@@ -21,24 +21,16 @@ public sealed class PdfStream : PdfObject
     public PdfData Data { get; }
 
     public override IReadOnlyList<IPdfObject> Items
-    {
-        get
-        {
-            var list = new List<IPdfObject>(StreamDictionary.Items.Count + 1);
-            list.AddRange(StreamDictionary.Items);
-            list.Add(Data);
-            return list;
-        }
-    }
+        => [..StreamDictionary.Items, Data];
 
-    private byte[] FlateDecodeWithPredictorNone(int _, byte[] decompressed)
+    private static byte[] FlateDecodeWithPredictorNone(int _, byte[] decompressed)
     {
         return decompressed;
     }
 
-    private byte[] FlateDecodeWithPredictorPngUp(int columns, byte[] decompressed)
+    private static byte[] FlateDecodeWithPredictorPngUp(int columns, byte[] decompressed)
     {
-        var output = new List<byte>(32 * 1024);
+        List<byte> output = new(32 * 1024);
         var previousRow = new byte[columns];
         for (int i = 0; i < columns; i++)
             previousRow[i] = 0;
@@ -60,10 +52,10 @@ public sealed class PdfStream : PdfObject
             }
             previousRow = currentRow;
         }
-        return output.ToArray();
+        return [..output];
     }
 
-    private byte[] FlateDecodeWithPredictor(int predictor, int columns, byte[] input)
+    private static byte[] FlateDecodeWithPredictor(int predictor, int columns, byte[] input)
     {
         // now we have to handle the predictors...
         return predictor switch
@@ -78,7 +70,7 @@ public sealed class PdfStream : PdfObject
 
     public byte[] Decode()
     {
-        if (!StreamDictionary.TryGetValue("Filter", out IPdfObject? filter))
+        if (!StreamDictionary.TryGetValue("Filter", out IPdfObject filter))
         {
             // filter is optional
             // no filter provided= return the data as-is
