@@ -19,7 +19,7 @@ public class PdfFileTests
     public void Parsing_TinyFile(string pdf)
     {
         var r = PdfFile.Parse(pdf.ToStream());
-        Assert.True(r.Items.Count == 3);
+        Assert.Equal(3, r.Items.Count);
     }
 
     [Theory]

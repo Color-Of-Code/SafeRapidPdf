@@ -22,8 +22,7 @@ public class PdfXRefTests
     {
         var r = PdfXRef.Parse(xref.ToLexer());
         // 1 section
-        Assert.Equal(1, r.Items.Count);
-        var s = r.Items[0] as PdfXRefSection;
+        var s = Assert.Single(r.Items) as PdfXRefSection;
         // 6 entries
         Assert.Equal(6, s.Items.Count);
     }
@@ -65,7 +64,7 @@ qWNgRCL+/xf6CxBgAO9WCPMNCmVuZHN0cmVhbQ1lbmRvYmo=";
         // W[1 3 1] (5 columns, larger indexes)
 
         // needed to resolve the values for refs encoded with 2
-        var base64Object706 = @"NzA2IDAgb2JqDTw8L0ZpbHRlci9GbGF0ZURlY29kZS9GaXJzdCAzMC9MZW5ndGggMTkzL04gNC9U
+        _ = @"NzA2IDAgb2JqDTw8L0ZpbHRlci9GbGF0ZURlY29kZS9GaXJzdCAzMC9MZW5ndGggMTkzL04gNC9U
 eXBlL09ialN0bT4+c3RyZWFtDQpo3kSOwQ6CMBBEf2W/wG0BARPSRFAJBwKxHkwIh1qrUcES6EH/
 3gIaTzO78zKZgDpAIKAuUOpZ9YC6rtUlUD+EKMJEN7rnnZBqPAZ/YgnsrQ8n3nrGcPsyKTfCjFTK
 6dQwJ2WvJVemwnKzw6wVVxXXeCxOdyWNhbN2hMkMM1ZhliSxGNQZAhKO37pCrjrRC3PTT4wbIR+/

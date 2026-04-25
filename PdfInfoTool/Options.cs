@@ -20,7 +20,9 @@ internal interface IOptions
 }
 
 [Verb("dump", HelpText = "Dump an object out.")]
-internal class DumpOptions : IOptions
+#pragma warning disable CA1812 // Instantiated by CommandLineParser via reflection
+internal sealed class DumpOptions : IOptions
+#pragma warning restore CA1812
 {
     public bool Verbose { get; set; }
     public bool Quiet { get; set; }
@@ -28,7 +30,9 @@ internal class DumpOptions : IOptions
 }
 
 [Verb("show", HelpText = "Show object contents in a human readable way.")]
-internal class ShowOptions : IOptions
+#pragma warning disable CA1812 // Instantiated by CommandLineParser via reflection
+internal sealed class ShowOptions : IOptions
+#pragma warning restore CA1812
 {
     public bool Verbose { get; set; }
     public bool Quiet { get; set; }

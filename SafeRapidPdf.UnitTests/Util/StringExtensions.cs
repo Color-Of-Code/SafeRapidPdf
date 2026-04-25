@@ -6,7 +6,7 @@ using SafeRapidPdf.Parsing;
 namespace SafeRapidPdf.UnitTests.Util;
 
 
-public static class StringExtensions
+internal static class StringExtensions
 {
     public static Stream ToStream(this string input)
     {
@@ -36,7 +36,7 @@ public static class StringExtensions
 
     public static string ToHexString(this byte[] ba)
     {
-        if (ba == null) throw new ArgumentNullException(nameof(ba));
+        ArgumentNullException.ThrowIfNull(ba);
 
         var hex = new StringBuilder(ba.Length * 2);
         foreach (byte b in ba)

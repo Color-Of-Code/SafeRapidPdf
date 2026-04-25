@@ -68,10 +68,12 @@ internal static partial class Command
                                     type = objectType.ToString();
                                 }
                             }
-                            catch
+#pragma warning disable CA1031 // Intentional: swallow all parsing errors for this CLI diagnostic tool
+                            catch (Exception)
                             {
                                 type = $"Not found {o} {g}";
                             }
+#pragma warning restore CA1031
                         }
 
                         Console.WriteLine($"{obj}: {entry} - {type}");
